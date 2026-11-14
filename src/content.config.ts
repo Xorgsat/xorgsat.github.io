@@ -4,7 +4,7 @@ import { glob } from 'astro/loaders';
 
 // Project Case Study Schema
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({ pattern: '*.md', base: 'src/content/projects' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -38,7 +38,7 @@ const projects = defineCollection({
 
 // Engineering Notes / Technical Articles Schema
 const engineeringNotes = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/engineering-notes' }),
+  loader: glob({ pattern: '*.md', base: 'src/content/engineering-notes' }),
   schema: z.object({
     title: z.string(),
     publishDate: z.coerce.date(),
