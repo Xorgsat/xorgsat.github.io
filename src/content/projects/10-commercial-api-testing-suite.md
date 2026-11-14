@@ -1,27 +1,41 @@
 ---
-title: 'Microservices API Validation Suite (Commercial Project)'
-description: 'Automated RESTful microservices validation layer with database state assertions and contract verification.'
-category: 'Commercial Project'
-projectType: 'Commercial Production'
+title: 'Microservices Quality Engineering & Fault Injection Framework'
+description: 'Distributed systems quality engineering demonstrating service-level gRPC testing, Protobuf contract validation, multi-service integration, and controlled resilience fault injection against Google Cloud Online Boutique.'
+category: 'API & Backend Quality'
+projectType: 'Demonstration Architecture'
 status: 'Completed'
 order: 10
 featured: false
-techStack: ['Python', 'Requests', 'Pytest', 'Allure', 'GitLab CI']
-businessProblem: 'Sanitized Case Study: Distributed enterprise microservice architecture with asynchronous messaging queues suffering from silent schema regressions.'
-engineeringFocus: 'Automated schema validation, database state reconciliation, and multi-tenant authentication token management.'
-repositoryUrl: 'https://github.com/example/sanitized-commercial-api-suite'
+techStack:
+  - 'Kubernetes'
+  - 'gRPC'
+  - 'Protobuf v3'
+  - 'Playwright'
+  - 'Python'
+  - 'pytest'
+  - 'Docker'
+  - 'Kind'
+businessProblem: 'Distributed microservice architectures frequently break due to untyped RPC contract mutations, unhandled network latency spikes, and cascade failures across dependent services under partial outages.'
+engineeringFocus: 'gRPC service-level automation, Protobuf contract enforcement, ephemeral Kubernetes (Kind) integration environments, and Chaos resilience engineering with controlled fault injection.'
+repositoryUrl: 'https://github.com/Xorgsat/Micro-Services-Automation'
 evidenceReferences:
-  - 'Production Record: 800+ API scenarios executing across staging gates'
+  - 'Contract Testing: 100% passing Protobuf v3 schema compatibility validations across 11 microservices'
+  - 'Fault Injection Scenarios: Chaos testing verifying circuit breakers and graceful frontend degradation'
 limitations:
-  - 'Source code sanitized to protect proprietary client IP and NDA boundaries'
+  - 'Requires local Docker and Kind (Kubernetes-in-Docker) or remote cluster to run full 11-microservice topology'
 ---
 
 ## Project Overview
 
-_Note: In accordance with our Professional Integrity Rules, proprietary client identifiers and internal endpoints are omitted. This case study details the engineering methodology and testing architecture._
+An advanced, production-grade distributed systems quality engineering framework demonstrating **service-level testing**, **Protobuf contract testing**, **multi-service integration**, **controlled resilience engineering & fault injection**, and **distributed diagnostics** using **Google Cloud's Online Boutique** application as the system under test.
 
-## Architectural Focus
+## Problem Statement
 
-- Architected a Python/Pytest API testing suite integrated directly into GitLab CI pipelines.
-- Constructed a centralized authentication fixture handling OAuth token generation, caching, and auto-refresh.
-- Implemented automated database tear-down routines to maintain zero residual data across staging environments.
+Microservices distributed across containers and clusters introduce failure modes that monolithic test suites cannot detect: deserialization contract mismatches across polyglot services (Go, Python, Java, C#, Node.js), cascading timeout failures when downstream caches die, and silent data drop during asynchronous message passing.
+
+## Engineering Architecture & Testing Capabilities
+
+1. **Protobuf Contract Testing:** Automates compile-time and runtime validation of `.proto` contracts across client stubs and server implementations, preventing breaking schema evolutions.
+2. **Ephemeral Kubernetes Cluster Orchestration:** Automatically provisions an isolated, multi-node Kubernetes cluster via **Kind** in CI to deploy and validate all 11 microservices in realistic cloud environments.
+3. **Controlled Resilience & Fault Injection:** Programmatically introduces artificial packet drops, connection delays, and CPU throttles into target pods to verify that circuit breakers, retries, and fallback fallbacks behave deterministically.
+4. **End-to-End User Journey Verification:** Employs Playwright (TypeScript) to execute complete cross-service purchase and checkout flows while asserting backend ledger invariants.

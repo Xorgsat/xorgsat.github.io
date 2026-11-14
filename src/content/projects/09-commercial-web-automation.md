@@ -1,27 +1,41 @@
 ---
-title: 'Enterprise Web Automation Framework (Commercial Project)'
-description: 'Production web automation architecture deployed across enterprise delivery pipelines.'
-category: 'Commercial Project'
-projectType: 'Commercial Production'
+title: 'Accessibility & Visual Quality Engineering Platform'
+description: 'Enterprise WCAG 2.2 Level AA accessibility auditing, keyboard navigation & focus inspection, pixel-level visual regression, and Python analytics reporting engine.'
+category: 'UI & E2E Automation'
+projectType: 'Demonstration Architecture'
 status: 'Completed'
 order: 9
 featured: false
-techStack: ['Selenium', 'Java', 'TestNG', 'Maven', 'Jenkins']
-businessProblem: 'Sanitized Case Study: Enterprise web platform with hundreds of disparate legacy user workflows requiring automated regression gates prior to bi-weekly production releases.'
-engineeringFocus: 'Hybrid Page Object architecture, centralized test data provisioning, and distributed grid execution across Dockerized Selenium nodes.'
-repositoryUrl: 'https://github.com/example/sanitized-commercial-web-framework'
+techStack:
+  - 'Playwright'
+  - 'TypeScript'
+  - 'axe-core'
+  - 'Python'
+  - 'pytest'
+  - 'WCAG 2.2 AA'
+  - 'GitHub Actions'
+businessProblem: 'Enterprise web applications failing digital accessibility compliance (WCAG 2.2 AA) and suffering from unmonitored layout/styling regressions across viewports and browsers.'
+engineeringFocus: 'Automated axe-core ruleset audits, keyboard navigation and focus loop assertions, cross-browser visual snapshot diffing, and automated Python compliance reporting.'
+repositoryUrl: 'https://github.com/Xorgsat/Accessebility-Automation'
 evidenceReferences:
-  - 'Production Record: 3,500+ tests integrated into Jenkins regression cycle'
+  - 'WCAG Audit: Full Level AA conformance verification across complex interactive components'
+  - 'Visual Regression: Cross-browser rendering validation across Chromium, Firefox, and WebKit'
 limitations:
-  - 'Source code sanitized to protect proprietary client IP and NDA boundaries'
+  - 'Visual golden baseline images are calibrated to headless Linux runner environments'
 ---
 
 ## Project Overview
 
-_Note: In accordance with our Professional Integrity Rules, client identifiers and proprietary code are omitted. This case study details the architectural patterns, engineering strategies, and delivery metrics implemented during this commercial engagement._
+An enterprise-grade, portfolio-quality quality engineering framework integrating **WCAG 2.2 Level AA accessibility auditing**, **keyboard navigation & focus management**, **pixel-level visual regression**, **responsive layout overflow inspection**, **cross-browser rendering validation (Chromium, Firefox, WebKit)**, and a **Python analytics reporting engine**.
 
-## Architectural Focus
+## Problem Statement
 
-- Designed and delivered a maintainable Java/TestNG automation framework supporting cross-browser execution on internal Selenium Grid infrastructure.
-- Established strict Page Object abstractions separating element locators from business assertion logic.
-- Integrated automated email and Slack notifications with attached HTML execution summaries.
+Digital accessibility is often treated as an afterthought or manual audit, creating legal compliance risks and excluding users with disabilities. Concurrently, responsive CSS regressions and broken keyboard tab orders slip past standard functional tests, eroding visual polish and brand integrity.
+
+## Engineering Architecture & Key Capabilities
+
+1. **Automated Accessibility Testing:** Embeds `@axe-core/playwright` into E2E journeys to audit color contrast, ARIA landmarks, form labels, and screen-reader accessibility rules.
+2. **Keyboard Navigation & Focus Traps:** Programmatically asserts logical focus order, visible focus rings, and proper keyboard trapping within modal dialogs and dropdown menus.
+3. **Pixel-Level Visual Regression:** Captures screenshot baselines and performs thresholded image diffing to detect CSS font rendering shifts, layout overflow, and responsive breakpoints.
+4. **Cross-Browser Verification:** Executes automated visual and functional suites identically across Chromium, Firefox, and WebKit engines in GitHub Actions CI.
+5. **Python Analytics Engine:** Aggregates audit results into comprehensive compliance scorecards and executive quality metrics.

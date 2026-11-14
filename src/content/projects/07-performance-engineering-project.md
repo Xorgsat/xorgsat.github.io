@@ -1,37 +1,48 @@
 ---
-title: 'Distributed Performance & Load Testing Architecture'
-description: 'High-throughput system load generation, p95/p99 latency analysis, and automated threshold gates.'
+title: 'QuickPizza Distributed Performance Engineering Framework'
+description: 'Production-grade workload modeling (Little’s Law), automated k6 load generation, statistical percentile gates, and Prometheus/Grafana/Tempo telemetry correlation.'
 category: 'Performance Engineering'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 7
 featured: false
-techStack: ['k6', 'JavaScript', 'Docker', 'Grafana', 'InfluxDB']
-businessProblem: 'Applications experiencing severe latency spikes and connection pool exhaustion under sudden traffic bursts because performance is only evaluated manually before major releases.'
-engineeringFocus: 'Code-as-test load modeling, virtual user ramping curves, p95/p99 threshold validation, and Grafana dashboard visualization.'
-repositoryUrl: 'https://github.com/example/performance-engineering-suite'
+techStack:
+  - 'k6'
+  - 'Python'
+  - 'Docker'
+  - 'Grafana'
+  - 'Prometheus'
+  - 'OpenTelemetry'
+  - 'Tempo'
+businessProblem: 'Applications experiencing severe latency spikes, connection pool exhaustion, and memory leaks under sudden traffic bursts without automated telemetry correlation or percentile gates in CI.'
+engineeringFocus: 'Code-as-test load modeling in k6, mathematical pacing (Little’s Law), p90/p95/p99 latency regressions, and deep Grafana/Tempo trace telemetry.'
+repositoryUrl: 'https://github.com/Xorgsat/K6-Automation'
 evidenceReferences:
-  - 'Load Test Report: 2,500 Virtual Users sustained with p95 < 280ms'
+  - 'Multi-Tier Load Profiles: Smoke, Average Load, Stress, Spike, Soak, and Breakpoint models'
+  - 'Automated Regression Engine: Statistical percentile analysis against historical baselines'
 limitations:
-  - 'Distributed load generation across multiple cloud nodes requires AWS ECS / Kubernetes'
+  - 'Requires local Docker Compose environment or Kubernetes cluster running Grafana QuickPizza and telemetry stack'
 ---
 
 ## Project Overview
 
-A modern performance testing harness engineered with k6. It enables automated performance regression testing in CI pipelines by asserting strict Service Level Objectives (SLOs) directly within test code.
+The **QuickPizza Performance Engineering Framework** is an enterprise-ready, evidence-driven performance testing system built to assess, monitor, and gate the reliability, latency profiles, throughput limits, and resource utilization of [Grafana QuickPizza](https://github.com/grafana/quickpizza).
+
+Moving far beyond trivial load scripts, this framework implements rigorous SDET and Performance Architecture principles:
+
+- **Mathematical Workload Modeling:** Little's Law, open vs. closed workload models, Poisson arrival rates, and realistic think-time distributions.
+- **Controlled Multi-Tier Execution:** Sanity smoke, steady-state load, progressive stress, sudden spike, long-term soak, and breakpoint suites.
+- **Automated Regression Engine:** Statistical percentile analysis (`p50`, `p90`, `p95`, `p99`), variance and noise thresholds, automated baseline storage, and pass/fail gate evaluation.
+- **Deep Observability:** Integration with Prometheus metrics, Grafana dashboards, OpenTelemetry traces, and Tempo distributed tracing.
 
 ## Problem Statement
 
-Traditional load testing tools (like legacy JMeter setups with heavy XML files) are difficult to version control, hard to integrate into developer pull requests, and often output unreadable raw logs instead of actionable percentile metrics.
+Traditional load testing tools are often treated as disconnected black-box scripts executed manually right before releases. They produce static summaries without correlating application-layer performance regressions against system-level saturation (CPU throttling, database lock waits, thread pool exhaustion) or distributed service hops.
 
-## Engineering Objectives
+## Engineering Architecture & Workload Profiles
 
-1. Model real-world traffic profiles: Smoke tests, Load tests, Stress tests, and Spike tests.
-2. Define programmable SLO thresholds in JavaScript (e.g. `http_req_duration: ['p(95)<300', 'p(99)<500']`).
-3. Stream real-time performance telemetry into InfluxDB and visualize response distributions via Grafana dashboards.
-
-## Testing Profiles
-
-- **Smoke Test:** 5 VUs for 1 minute to verify scripts and baseline server health.
-- **Load Test:** Ramping to 500 VUs over 5 minutes, sustained for 15 minutes to measure steady-state throughput.
-- **Spike Test:** Sudden burst from 50 to 2,000 VUs in 30 seconds to evaluate autoscaling response and circuit breaker triggers.
+1. **Smoke Profile:** Minimal concurrent users to validate test script integrity and target service endpoints.
+2. **Average-Load Profile:** Simulates standard production traffic with ramp-up, steady-state plateau, and graceful ramp-down.
+3. **Stress Profile:** Pushes system beyond normal operational boundaries to identify bottleneck breaking points.
+4. **Spike Profile:** Introduces rapid step-function traffic surges to assess auto-scaling elasticity and rate-limiting safeguards.
+5. **Soak Profile:** Sustains moderate load over extended durations to uncover slow memory leaks, thread starvation, and connection pool leaks.
