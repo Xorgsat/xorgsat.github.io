@@ -9,5 +9,5 @@ export const profile = {
   githubUrl: 'https://github.com/Xorgsat',
   linkedinUrl: 'https://www.linkedin.com/in/satyam-tiwari-a070542a6/',
   resumeUrl: '/documents/Satyam_Tiwari_Resume.pdf',
-  siteUrl: 'https://portfolio.example.com',
+  siteUrl: 'https://xorgsat.github.io',
 };

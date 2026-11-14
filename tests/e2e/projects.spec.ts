@@ -39,7 +39,7 @@ test.describe('Projects Directory & Case Studies', () => {
       .click();
 
     await expect(page).toHaveURL(/\/projects\/banking-quality-engineering/);
-    await expect(page.locator('h1')).toContainText(
+    await expect(page.locator('h1.project-title')).toContainText(
       'Banking & Financial Transaction Quality Engine'
     );
 

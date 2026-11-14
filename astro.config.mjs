@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://portfolio.example.com', // Update with owner's production domain
+  site: 'https://xorgsat.github.io',
   output: 'static',
   integrations: [sitemap()],
   build: {
