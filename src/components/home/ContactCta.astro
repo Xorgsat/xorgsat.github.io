@@ -1,5 +1,6 @@
 ---
 // src/components/home/ContactCta.astro
+import { profile } from '../../config/profile';
 ---
 
 <section class="contact-cta-section" aria-labelledby="cta-heading">
@@ -34,7 +35,7 @@
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
-          <a href="mailto:contact@example.com" class="btn btn-secondary">
+          <a href={`mailto:${profile.email}`} class="btn btn-secondary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -51,7 +52,7 @@
               ></path>
               <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
-            <span>contact@example.com</span>
+            <span>{profile.email}</span>
           </a>
         </div>
       </div>

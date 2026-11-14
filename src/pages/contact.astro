@@ -1,10 +1,7 @@
 ---
 // src/pages/contact.astro
 import BaseLayout from '@layouts/BaseLayout.astro';
-
-const contactEmail = 'contact@example.com';
-const githubUrl = 'https://github.com';
-const linkedinUrl = 'https://linkedin.com';
+import { profile } from '../config/profile';
 
 const engagementTypes = [
   {
@@ -31,8 +28,8 @@ const engagementTypes = [
 ---
 
 <BaseLayout
-  title="Contact & Professional Inquiries | Senior SDET"
-  description="Initiate a professional conversation regarding international remote SDET roles, framework architecture engagements, and quality engineering consulting."
+  title={`Contact ${profile.name} | Senior SDET & Quality Engineering Architect`}
+  description={`Initiate a professional conversation with ${profile.name} regarding international remote SDET roles, framework architecture engagements, and quality engineering consulting.`}
 >
   <div class="contact-page">
     <div class="container">
@@ -56,7 +53,7 @@ const engagementTypes = [
               Send a direct message regarding role requirements, framework architecture questions,
               or consulting inquiries.
             </p>
-            <a href={`mailto:${contactEmail}`} class="email-btn">
+            <a href={`mailto:${profile.email}`} class="email-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -74,15 +71,20 @@ const engagementTypes = [
                 ></path>
                 <polyline points="22,6 12,13 2,6"></polyline>
               </svg>
-              <span>{contactEmail}</span>
+              <span>{profile.email}</span>
             </a>
           </div>
 
           <div class="channel-card">
-            <span class="channel-kicker">Professional Profiles</span>
-            <h2 class="channel-title">Code &amp; Career Network</h2>
+            <span class="channel-kicker">Professional Profiles &amp; Resume</span>
+            <h2 class="channel-title">Code, Career Network &amp; CV</h2>
             <div class="profiles-list">
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="profile-item">
+              <a
+                href={profile.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="profile-item"
+              >
                 <div class="profile-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -102,15 +104,20 @@ const engagementTypes = [
                   </svg>
                 </div>
                 <div class="profile-details">
-                  <span class="profile-name">GitHub</span>
+                  <span class="profile-name">GitHub (Xorgsat)</span>
                   <span class="profile-sub"
-                    >Inspect framework repositories &amp; open-source work</span
+                    >Inspect framework repositories &amp; open-source implementations</span
                   >
                 </div>
                 <span class="sr-only"> (opens in new tab)</span>
               </a>
 
-              <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="profile-item">
+              <a
+                href={profile.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="profile-item"
+              >
                 <div class="profile-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -132,10 +139,45 @@ const engagementTypes = [
                   </svg>
                 </div>
                 <div class="profile-details">
-                  <span class="profile-name">LinkedIn</span>
-                  <span class="profile-sub">View professional timeline &amp; endorsements</span>
+                  <span class="profile-name">LinkedIn Profile</span>
+                  <span class="profile-sub"
+                    >View career trajectory, recommendations &amp; network</span
+                  >
                 </div>
                 <span class="sr-only"> (opens in new tab)</span>
+              </a>
+
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="profile-item"
+              >
+                <div class="profile-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                </div>
+                <div class="profile-details">
+                  <span class="profile-name">Curriculum Vitae (PDF)</span>
+                  <span class="profile-sub">Download verified engineering resume</span>
+                </div>
+                <span class="sr-only"> (opens PDF in new tab)</span>
               </a>
             </div>
           </div>

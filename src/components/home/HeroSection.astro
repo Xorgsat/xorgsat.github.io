@@ -1,6 +1,7 @@
 ---
 // src/components/home/HeroSection.astro
 import TechTag from '@components/ui/TechTag.astro';
+import { profile } from '../../config/profile';
 
 const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'Docker', 'CI/CD'];
 ---
@@ -15,11 +16,13 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
         </span>
       </div>
 
-      <h1 id="hero-heading" class="hero-title">Senior SDET &amp; Quality Engineering Architect</h1>
+      <h1 id="hero-heading" class="hero-title">
+        {profile.name} — {profile.role}
+      </h1>
 
       <p class="hero-lead">
-        <strong>8 years of experience</strong> engineering resilient, maintainable test automation systems
-        across UI, API, mobile, and CI/CD pipelines.
+        <strong>{profile.experienceYears} years of experience</strong> engineering resilient, maintainable
+        test automation systems across UI, API, mobile, and CI/CD pipelines.
       </p>
 
       <p class="hero-subtext">
@@ -53,11 +56,36 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </a>
-        <a href="/contact" class="btn btn-secondary">Get in Touch</a>
+        <a
+          href={profile.resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-secondary"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download Resume</span>
+          <span class="sr-only"> (opens PDF in new tab)</span>
+        </a>
+        <a href="/contact" class="btn btn-outline">Get in Touch</a>
       </div>
 
       <div class="hero-social-links" aria-label="Professional Profiles">
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link">
+        <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" class="social-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -74,16 +102,11 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
               d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
             ></path>
           </svg>
-          <span>GitHub</span>
+          <span>GitHub (Xorgsat)</span>
           <span class="sr-only"> (opens in new tab)</span>
         </a>
         <span class="separator" aria-hidden="true">&bull;</span>
-        <a
-          href="https://linkedin.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="social-link"
-        >
+        <a href={profile.linkedinUrl} target="_blank" rel="noopener noreferrer" class="social-link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -234,7 +257,7 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
+    padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-md);
     font-size: var(--text-base);
     font-weight: 600;
@@ -263,6 +286,18 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
   .btn-secondary:hover {
     background-color: var(--bg-subtle);
     border-color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--bg-subtle);
+    color: var(--text-primary);
     text-decoration: none;
   }
 

@@ -1,12 +1,14 @@
 ---
 // src/components/layout/SiteFooter.astro
+import { profile } from '../../config/profile';
+
 const currentYear = new Date().getFullYear();
 
-// These will be wired to the owner's verified profile config
 const professionalLinks = [
-  { label: 'GitHub', href: 'https://github.com', external: true },
-  { label: 'LinkedIn', href: 'https://linkedin.com', external: true },
-  { label: 'Email', href: 'mailto:contact@example.com', external: false },
+  { label: 'GitHub', href: profile.githubUrl, external: true },
+  { label: 'LinkedIn', href: profile.linkedinUrl, external: true },
+  { label: 'Email', href: `mailto:${profile.email}`, external: false },
+  { label: 'Resume', href: profile.resumeUrl, external: true },
 ];
 ---
 
@@ -15,7 +17,7 @@ const professionalLinks = [
     <div class="footer-primary">
       <div class="footer-brand">
         <span class="brand-badge">SDET</span>
-        <span class="brand-title">Engineering Portfolio</span>
+        <span class="brand-title">{profile.name}</span>
       </div>
       <p class="footer-tagline">
         Specialized in test automation architecture, test isolation, and robust CI/CD quality
@@ -23,7 +25,7 @@ const professionalLinks = [
       </p>
       <div class="status-indicator">
         <span class="status-dot" aria-hidden="true"></span>
-        <span class="status-text">Available for remote roles & consulting</span>
+        <span class="status-text">Available for remote roles &amp; consulting</span>
       </div>
     </div>
 
@@ -34,7 +36,7 @@ const professionalLinks = [
           <li><a href="/">Home</a></li>
           <li><a href="/projects">Projects Directory</a></li>
           <li><a href="/engineering-notes">Engineering Notes</a></li>
-          <li><a href="/about">About & Philosophy</a></li>
+          <li><a href="/about">About &amp; Philosophy</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
@@ -64,7 +66,8 @@ const professionalLinks = [
   <div class="footer-bottom">
     <div class="container footer-bottom-container">
       <p class="copyright">
-        &copy; {currentYear} Senior SDET Portfolio. Engineered with Astro 5 &amp; TypeScript.
+        &copy; {currentYear}
+        {profile.name}. Senior SDET &amp; Quality Engineering Architect.
       </p>
       <p class="accessibility-note">Targeting WCAG 2.2 Level AA accessibility standards.</p>
     </div>

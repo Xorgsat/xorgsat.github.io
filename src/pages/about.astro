@@ -2,6 +2,7 @@
 // src/pages/about.astro
 import BaseLayout from '@layouts/BaseLayout.astro';
 import TechTag from '@components/ui/TechTag.astro';
+import { profile } from '../config/profile';
 
 const coreCompetencies = [
   'Test Automation Framework Engineering',
@@ -149,10 +150,33 @@ const infrastructureTools = ['Docker', 'GitHub Actions', 'Linux', 'Allure', 'Git
           <div class="sidebar-card resume-card">
             <h3 class="sidebar-heading">Curriculum Vitae</h3>
             <p class="resume-text">
-              Interested in detailed career milestones and commercial project history?
+              Download Satyam Tiwari's verified curriculum vitae detailing career milestones and
+              commercial engagements.
             </p>
-            <a href="/contact" class="btn btn-primary">
-              <span>Request Verified Resume &rarr;</span>
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download Resume (PDF)</span>
+              <span class="sr-only"> (opens in new tab)</span>
             </a>
           </div>
         </aside>

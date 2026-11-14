@@ -1,5 +1,7 @@
 ---
 // src/components/common/JsonLd.astro
+import { profile } from '../../config/profile';
+
 interface Props {
   type?: 'Person' | 'Article';
   title?: string;
@@ -10,8 +12,8 @@ interface Props {
 
 const {
   type = 'Person',
-  title = 'Senior SDET & Quality Engineering Architect',
-  description = '8 years of experience engineering reliable automation systems across UI, API, mobile, and CI/CD pipelines.',
+  title = `${profile.name} — ${profile.role}`,
+  description = `${profile.experienceYears} years of experience engineering reliable automation systems across UI, API, mobile, and CI/CD pipelines.`,
   publishDate,
   canonicalUrl = Astro.url.href,
 } = Astro.props;
@@ -29,8 +31,9 @@ const schemaData =
         url: canonicalUrl,
         author: {
           '@type': 'Person',
-          name: 'Senior SDET Architect',
-          jobTitle: 'Senior Software Development Engineer in Test',
+          name: profile.name,
+          jobTitle: profile.role,
+          url: profile.githubUrl,
         },
       }
     : {
@@ -40,16 +43,17 @@ const schemaData =
             '@type': 'WebSite',
             '@id': `${siteUrl}/#website`,
             url: siteUrl,
-            name: 'Senior SDET Engineering Portfolio',
+            name: `${profile.name} — Senior SDET Portfolio`,
             description: description,
           },
           {
             '@type': 'Person',
             '@id': `${siteUrl}/#person`,
-            name: 'Senior SDET',
-            jobTitle: 'Senior Software Development Engineer in Test / Automation Architect',
+            name: profile.name,
+            jobTitle: profile.role,
             description: description,
             url: siteUrl,
+            sameAs: [profile.githubUrl, profile.linkedinUrl],
             knowsAbout: [
               'Software Quality Engineering',
               'Test Automation Architecture',

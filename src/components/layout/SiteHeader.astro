@@ -1,6 +1,7 @@
 ---
 // src/components/layout/SiteHeader.astro
 import ThemeToggle from './ThemeToggle.astro';
+import { profile } from '../../config/profile';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -15,9 +16,9 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <div class="container header-container">
-    <a href="/" class="brand-link" aria-label="SDET Engineering Portfolio Home">
+    <a href="/" class="brand-link" aria-label="SDET Satyam Tiwari Portfolio Home">
       <span class="brand-badge">SDET</span>
-      <span class="brand-title">Engineering Portfolio</span>
+      <span class="brand-title">{profile.name}</span>
     </a>
 
     <!-- Desktop Navigation -->
