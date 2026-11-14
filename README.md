@@ -1,5 +1,8 @@
 # Senior SDET Engineering Portfolio
 
+> **Live Portfolio:** [https://xorgsat.github.io](https://xorgsat.github.io)  
+> **Owner:** [Satyam Tiwari](https://github.com/Xorgsat) (Senior SDET & Quality Engineering Architect)
+
 A production-grade personal engineering portfolio and technical architecture showcase built for an experienced Senior Software Development Engineer in Test (SDET).
 
 Designed to demonstrate automation architecture, test isolation, framework engineering, and quality engineering strategy.
