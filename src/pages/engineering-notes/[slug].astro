@@ -30,7 +30,12 @@ function formatDate(date: Date): string {
 }
 ---
 
-<BaseLayout title={`${article.data.title} | Engineering Notes`} description={article.data.summary}>
+<BaseLayout
+  title={`${article.data.title} | Engineering Notes`}
+  description={article.data.summary}
+  schemaType="Article"
+  publishDate={article.data.publishDate}
+>
   <div class="article-page">
     <div class="container">
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">

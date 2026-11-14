@@ -1,0 +1,70 @@
+---
+// src/components/common/JsonLd.astro
+interface Props {
+  type?: 'Person' | 'Article';
+  title?: string;
+  description?: string;
+  publishDate?: Date;
+  canonicalUrl?: string;
+}
+
+const {
+  type = 'Person',
+  title = 'Senior SDET & Quality Engineering Architect',
+  description = '8 years of experience engineering reliable automation systems across UI, API, mobile, and CI/CD pipelines.',
+  publishDate,
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const siteUrl = Astro.site?.origin || 'https://portfolio.example.com';
+
+const schemaData =
+  type === 'Article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        headline: title,
+        description: description,
+        datePublished: publishDate?.toISOString(),
+        url: canonicalUrl,
+        author: {
+          '@type': 'Person',
+          name: 'Senior SDET Architect',
+          jobTitle: 'Senior Software Development Engineer in Test',
+        },
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'WebSite',
+            '@id': `${siteUrl}/#website`,
+            url: siteUrl,
+            name: 'Senior SDET Engineering Portfolio',
+            description: description,
+          },
+          {
+            '@type': 'Person',
+            '@id': `${siteUrl}/#person`,
+            name: 'Senior SDET',
+            jobTitle: 'Senior Software Development Engineer in Test / Automation Architect',
+            description: description,
+            url: siteUrl,
+            knowsAbout: [
+              'Software Quality Engineering',
+              'Test Automation Architecture',
+              'Playwright',
+              'Selenium WebDriver',
+              'Appium',
+              'TypeScript',
+              'Python',
+              'API Contract Testing',
+              'Performance Engineering',
+              'CI/CD Pipeline Automation',
+            ],
+          },
+        ],
+      };
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />

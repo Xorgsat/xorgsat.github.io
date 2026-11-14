@@ -21,6 +21,7 @@
     "test": "npm run test:validate && npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.5",
     "astro": "^5.0.0"
   },
   "devDependencies": {

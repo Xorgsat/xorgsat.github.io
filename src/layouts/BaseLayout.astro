@@ -3,12 +3,15 @@
 import '@styles/global.css';
 import SiteHeader from '@components/layout/SiteHeader.astro';
 import SiteFooter from '@components/layout/SiteFooter.astro';
+import JsonLd from '@components/common/JsonLd.astro';
 
 interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
   ogImage?: string;
+  schemaType?: 'Person' | 'Article';
+  publishDate?: Date;
 }
 
 const {
@@ -16,6 +19,8 @@ const {
   description,
   canonicalUrl = Astro.url.href,
   ogImage = '/images/og-default.png',
+  schemaType = 'Person',
+  publishDate,
 } = Astro.props;
 
 const siteTitle = `${title} | Senior SDET Engineering Portfolio`;
@@ -42,6 +47,15 @@ const siteTitle = `${title} | Senior SDET Engineering Portfolio`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={description} />
+
+    <!-- Structured Data (JSON-LD) -->
+    <JsonLd
+      type={schemaType}
+      title={siteTitle}
+      description={description}
+      publishDate={publishDate}
+      canonicalUrl={canonicalUrl}
+    />
 
     <!-- Inline Script: Prevent Flash of Incorrect Theme (FOUT) -->
     <script is:inline>
