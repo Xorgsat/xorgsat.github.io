@@ -1,34 +1,34 @@
 ---
 // src/components/home/ExperienceHighlights.astro
 import MetricCard from '@components/ui/MetricCard.astro';
+import { profile } from '../../config/profile';
 
 const metrics = [
   {
-    value: '8+ Years',
+    value: `${profile.experienceYears}+ Years`,
     label: 'QA / SDET Experience',
     context:
-      'Proven track record designing and scaling quality engineering systems for production applications.',
+      'Proven track record engineering robust quality architecture across high-velocity teams and distributed systems.',
     verified: true,
   },
   {
-    value: '12',
-    label: 'Automation Frameworks',
+    value: `${profile.metrics.frameworksCount}`,
+    label: 'Automation Frameworks Built',
     context:
-      'Engineered across Web (Playwright/Selenium), API (Requests/Rest-Assured), and Mobile (Appium).',
+      'Custom architectures built across UI (Playwright, Puppeteer, Selenium), Mobile (Appium), and API/contracts.',
     verified: true,
   },
   {
-    value: '13,000+',
+    value: profile.metrics.automatedTests,
     label: 'Automated Tests Built',
     context:
-      'Functional, integration, and performance validations integrated into continuous deployment pipelines.',
+      'Spanning 28,000 lifetime test cases handled, representing a 46.4% career automation share across 4 major frameworks.',
     verified: true,
   },
   {
-    value: '99%+',
-    label: 'Pipeline Determinism',
-    context:
-      'Eliminated flaky tests through strict state isolation, hermetic test fixtures, and explicit network waits.',
+    value: profile.metrics.regressionReduction,
+    label: 'Regression Cycle Reduction',
+    context: `Compressed 3-day manual regression runs (${profile.metrics.regressionManualTime}) down to ${profile.metrics.regressionAutomatedTime} automated (${profile.metrics.regressionSpeedup} speedup).`,
     verified: true,
   },
 ];
@@ -58,8 +58,9 @@ const metrics = [
     <div class="integrity-disclosure">
       <p>
         <strong>Note on Metrics:</strong> All figures represent aggregated experience across commercial
-        engagements and independent framework engineering. Metric definitions and environments are documented
-        in dedicated project case studies.
+        engagements and independent framework engineering. Figures strictly distinguish test cases handled
+        (~28,000 total across UI, API, Mobile, Integration, and Load) from tests automated (~13,000).
+        The 89.6% regression cycle reduction compares 24 standard working hours to 2.5 automated hours.
       </p>
     </div>
   </div>
