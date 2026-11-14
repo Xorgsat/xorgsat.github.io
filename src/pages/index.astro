@@ -1,0 +1,50 @@
+---
+// src/pages/index.astro
+const title = 'Senior SDET Engineering Portfolio';
+const description = '8 Years of QA/SDET Experience | Automation Architecture & Quality Engineering';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <main>
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
+    color-scheme: light dark;
+  }
+  body {
+    margin: 0;
+    padding: 2rem;
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2.25rem;
+    color: #38bdf8;
+  }
+  p {
+    font-size: 1.25rem;
+    color: #94a3b8;
+  }
+</style>
