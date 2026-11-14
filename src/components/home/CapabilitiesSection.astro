@@ -1,0 +1,261 @@
+---
+// src/components/home/CapabilitiesSection.astro
+import TechTag from '@components/ui/TechTag.astro';
+
+interface Capability {
+  id: string;
+  title: string;
+  description: string;
+  focusAreas: string[];
+  tech: string[];
+}
+
+const capabilities: Capability[] = [
+  {
+    id: 'arch',
+    title: 'Test Automation Architecture',
+    description:
+      'Designing scalable, multi-layer testing frameworks with strict separation of test logic, data management, and execution harnesses.',
+    focusAreas: [
+      'Page Object & Component Object Models',
+      'Hermetic test fixtures & state isolation',
+      'Config-driven test runners & reporting',
+    ],
+    tech: ['Playwright', 'Selenium', 'TypeScript', 'Python'],
+  },
+  {
+    id: 'api',
+    title: 'API & Microservices Quality',
+    description:
+      'End-to-end backend validation, RESTful API contract testing, idempotent transaction checks, and asynchronous event verification.',
+    focusAreas: [
+      'Schema validation & contract integrity',
+      'Authentication lifecycle (OAuth2, JWT)',
+      'Boundary, negative & race-condition testing',
+    ],
+    tech: ['Requests', 'SuperTest', 'Postman', 'Docker'],
+  },
+  {
+    id: 'e2e',
+    title: 'UI & Modern Browser Automation',
+    description:
+      'High-speed, deterministic browser testing with network interception, visual regression checks, and accessibility gates.',
+    focusAreas: [
+      'Flaky test elimination & smart auto-waiting',
+      'Parallelized headless execution',
+      'Axe-core WCAG 2.2 accessibility audits',
+    ],
+    tech: ['Playwright', 'Puppeteer', 'axe-core', 'TypeScript'],
+  },
+  {
+    id: 'mobile',
+    title: 'Mobile Automation Engineering',
+    description:
+      'Robust native and hybrid mobile test suites across Android and iOS emulators and physical device clouds.',
+    focusAreas: [
+      'Appium 2.x driver ecosystem',
+      'Gesture handling & deep linking validation',
+      'Cross-platform test code reuse',
+    ],
+    tech: ['Appium', 'WebDriverIO', 'Android SDK', 'iOS XCUITest'],
+  },
+  {
+    id: 'perf',
+    title: 'Performance & Load Engineering',
+    description:
+      'Benchmarking system throughput, measuring p95/p99 latency distributions, and diagnosing server bottlenecks under stress.',
+    focusAreas: [
+      'Virtual user scenario modeling',
+      'Spike, soak, and stress profile testing',
+      'Resource utilization & latency analysis',
+    ],
+    tech: ['k6', 'JMeter', 'Locust', 'Grafana'],
+  },
+  {
+    id: 'cicd',
+    title: 'CI/CD & Quality Infrastructure',
+    description:
+      'Orchestrating automated test gates in continuous deployment pipelines with actionable reporting and fast failure feedback.',
+    focusAreas: [
+      'Ephemeral containerized test execution',
+      'PR commit gates with test sharding',
+      'Allure & HTML test report publishing',
+    ],
+    tech: ['GitHub Actions', 'Docker', 'Linux', 'Allure'],
+  },
+];
+---
+
+<section class="capabilities-section" aria-labelledby="capabilities-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-kicker">Core Specialization</span>
+      <h2 id="capabilities-heading" class="section-title">Quality Engineering Capabilities</h2>
+      <p class="section-description">
+        Demonstrated expertise across modern software testing domains. Structured around
+        architectural resilience, maintainability, and delivery speed.
+      </p>
+    </div>
+
+    <div class="capabilities-grid">
+      {
+        capabilities.map((cap) => (
+          <article class="capability-card">
+            <h3 class="capability-title">{cap.title}</h3>
+            <p class="capability-description">{cap.description}</p>
+
+            <div class="capability-focus">
+              <span class="focus-heading">Engineering Focus:</span>
+              <ul class="focus-list">
+                {cap.focusAreas.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="capability-tech">
+              {cap.tech.map((t) => (
+                <TechTag label={t} variant="default" />
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .capabilities-section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-header {
+    max-width: 720px;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-kicker {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .section-title {
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .capability-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    transition:
+      border-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .capability-card:hover {
+    border-color: var(--border-default);
+  }
+
+  .capability-title {
+    font-size: var(--text-lg);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+  }
+
+  .capability-description {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+    flex-grow: 1;
+  }
+
+  .capability-focus {
+    margin-bottom: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .focus-heading {
+    display: block;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  .focus-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .focus-list li {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: var(--space-3);
+    line-height: var(--leading-normal);
+  }
+
+  .focus-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    font-weight: 700;
+  }
+
+  .capability-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: auto;
+    padding-top: var(--space-3);
+  }
+</style>

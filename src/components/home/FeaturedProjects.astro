@@ -1,0 +1,421 @@
+---
+// src/components/home/FeaturedProjects.astro
+import TechTag from '@components/ui/TechTag.astro';
+
+interface FeaturedProject {
+  title: string;
+  slug: string;
+  category: string;
+  problem: string;
+  engineeringFocus: string;
+  techStack: string[];
+  status: 'Completed' | 'In Development' | 'Planned';
+  repoUrl: string;
+}
+
+const featuredProjects: FeaturedProject[] = [
+  {
+    title: 'Advanced Playwright Architecture Framework',
+    slug: 'advanced-playwright-framework',
+    category: 'UI & E2E Automation',
+    problem:
+      'High-frequency regression suites in web apps suffer from state pollution, execution slowness, and timing flakiness.',
+    engineeringFocus:
+      'Hermetic test fixtures, isolated browser contexts, dynamic API-seeded authentication states, and parallel execution.',
+    techStack: ['Playwright', 'TypeScript', 'Docker', 'GitHub Actions', 'Axe-core'],
+    status: 'In Development',
+    repoUrl: 'https://github.com',
+  },
+  {
+    title: 'Banking & Financial Transaction Quality Engine',
+    slug: 'banking-quality-engineering',
+    category: 'Financial Workflows',
+    problem:
+      'Mission-critical financial transactions require zero tolerance for calculation drift, race conditions, or unhandled failures.',
+    engineeringFocus:
+      'Idempotent API test runners, double-entry ledger state assertions, synthetic account generation, and boundary fuzzing.',
+    techStack: ['Python', 'Requests', 'Pytest', 'PostgreSQL', 'Docker'],
+    status: 'In Development',
+    repoUrl: 'https://github.com',
+  },
+  {
+    title: 'Enterprise API Testing & Contract Architecture',
+    slug: 'api-automation-framework',
+    category: 'Backend & API Quality',
+    problem:
+      'Microservice architectures breaking unexpectedly due to silent schema drift and fragile end-to-end integration tests.',
+    engineeringFocus:
+      'Strict JSON schema validation, automated OAuth2 token refresh interceptors, contract verification, and negative path coverage.',
+    techStack: ['TypeScript', 'SuperTest', 'Zod', 'GitHub Actions'],
+    status: 'In Development',
+    repoUrl: 'https://github.com',
+  },
+  {
+    title: 'Quality Engineering CI/CD Orchestration Platform',
+    slug: 'quality-engineering-cicd-platform',
+    category: 'Test Infrastructure',
+    problem:
+      'Long-running monolithic test suites blocking developer PR merges and delaying production deployments.',
+    engineeringFocus:
+      'Containerized test sharding across matrix workers, automated retry analytics, and instant Slack/Allure release readiness reporting.',
+    techStack: ['GitHub Actions', 'Docker', 'Python', 'Allure', 'Linux'],
+    status: 'In Development',
+    repoUrl: 'https://github.com',
+  },
+];
+---
+
+<section class="featured-projects-section" aria-labelledby="featured-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="section-kicker">Architecture Case Studies</span>
+        <h2 id="featured-heading" class="section-title">Featured Engineering Projects</h2>
+        <p class="section-description">
+          Detailed case studies analyzing technical problems, architecture diagrams, testing
+          strategies, and actual execution trade-offs.
+        </p>
+      </div>
+      <div class="header-action">
+        <a href="/projects" class="btn btn-secondary">
+          <span>View All 12 Projects</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      {
+        featuredProjects.map((project) => (
+          <article class="project-card">
+            <div class="card-header">
+              <span class="project-category">{project.category}</span>
+              <span class:list={['status-pill', project.status.toLowerCase().replace(' ', '-')]}>
+                {project.status}
+              </span>
+            </div>
+
+            <h3 class="project-title">
+              <a href={`/projects/${project.slug}`}>{project.title}</a>
+            </h3>
+
+            <div class="project-detail-block">
+              <span class="detail-label">Problem Solved:</span>
+              <p class="detail-text">{project.problem}</p>
+            </div>
+
+            <div class="project-detail-block">
+              <span class="detail-label">Engineering Focus:</span>
+              <p class="detail-text highlight">{project.engineeringFocus}</p>
+            </div>
+
+            <div class="card-tech">
+              {project.techStack.map((tech) => (
+                <TechTag label={tech} variant="default" />
+              ))}
+            </div>
+
+            <div class="card-footer">
+              <a href={`/projects/${project.slug}`} class="case-study-link">
+                <span>Read Full Case Study</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repo-link"
+                title={`Inspect repository for ${project.title}`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                <span>Code</span>
+                <span class="sr-only"> (opens in new tab)</span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-projects-section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .header-left {
+    max-width: 720px;
+  }
+
+  .section-kicker {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .section-title {
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .project-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    transition:
+      border-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .project-card:hover {
+    border-color: var(--border-default);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .project-category {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-pill {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .status-pill.in-development {
+    background-color: var(--status-warning-bg);
+    color: var(--status-warning);
+    border: 1px solid color-mix(in srgb, var(--status-warning) 30%, transparent);
+  }
+
+  .status-pill.completed {
+    background-color: var(--status-success-bg);
+    color: var(--status-success);
+    border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+  }
+
+  .project-title {
+    font-size: var(--text-xl);
+    margin-top: 0;
+    margin-bottom: var(--space-4);
+    line-height: var(--leading-tight);
+  }
+
+  .project-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .project-title a:hover {
+    color: var(--accent-primary);
+  }
+
+  .project-detail-block {
+    margin-bottom: var(--space-3);
+  }
+
+  .detail-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-1);
+  }
+
+  .detail-text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-normal);
+    margin: 0;
+  }
+
+  .detail-text.highlight {
+    color: var(--text-primary);
+  }
+
+  .card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .case-study-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-decoration: none;
+  }
+
+  .case-study-link:hover {
+    text-decoration: underline;
+  }
+
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-code);
+  }
+
+  .repo-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-default);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+    transition: all var(--transition-fast);
+  }
+
+  .btn:hover {
+    background-color: var(--bg-subtle);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>

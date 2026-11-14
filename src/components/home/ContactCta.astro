@@ -1,0 +1,160 @@
+---
+// src/components/home/ContactCta.astro
+---
+
+<section class="contact-cta-section" aria-labelledby="cta-heading">
+  <div class="container">
+    <div class="cta-card">
+      <div class="cta-content">
+        <span class="cta-kicker">Professional Inquiries</span>
+        <h2 id="cta-heading" class="cta-title">
+          Looking for a Senior SDET or Quality Engineering Consultant?
+        </h2>
+        <p class="cta-description">
+          Available for international remote positions, automation framework architecture, flaky
+          test elimination, and quality infrastructure advisory.
+        </p>
+
+        <div class="cta-actions">
+          <a href="/contact" class="btn btn-primary">
+            <span>Initiate a Conversation</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="mailto:contact@example.com" class="btn btn-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>contact@example.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-cta-section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-16);
+  }
+
+  .cta-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .cta-card {
+      padding: var(--space-12);
+    }
+  }
+
+  .cta-content {
+    max-width: 720px;
+  }
+
+  .cta-kicker {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-title {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+    margin-top: 0;
+    margin-bottom: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .cta-title {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .cta-description {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
+    background-color: var(--accent-primary);
+    color: var(--text-inverse);
+    border: 1px solid var(--accent-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-subtle);
+    border-color: var(--text-secondary);
+    text-decoration: none;
+  }
+</style>

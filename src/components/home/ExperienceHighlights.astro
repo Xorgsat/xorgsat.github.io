@@ -1,0 +1,135 @@
+---
+// src/components/home/ExperienceHighlights.astro
+import MetricCard from '@components/ui/MetricCard.astro';
+
+const metrics = [
+  {
+    value: '8+ Years',
+    label: 'QA / SDET Experience',
+    context:
+      'Proven track record designing and scaling quality engineering systems for production applications.',
+    verified: true,
+  },
+  {
+    value: '12',
+    label: 'Automation Frameworks',
+    context:
+      'Engineered across Web (Playwright/Selenium), API (Requests/Rest-Assured), and Mobile (Appium).',
+    verified: true,
+  },
+  {
+    value: '13,000+',
+    label: 'Automated Tests Built',
+    context:
+      'Functional, integration, and performance validations integrated into continuous deployment pipelines.',
+    verified: true,
+  },
+  {
+    value: '99%+',
+    label: 'Pipeline Determinism',
+    context:
+      'Eliminated flaky tests through strict state isolation, hermetic test fixtures, and explicit network waits.',
+    verified: true,
+  },
+];
+---
+
+<section class="highlights-section" aria-labelledby="highlights-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-kicker">Verified Track Record</span>
+      <h2 id="highlights-heading" class="section-title">
+        Engineering Metrics &amp; Quality Impact
+      </h2>
+      <p class="section-description">
+        Evidence-based achievements across eight years of testing distributed enterprise systems,
+        microservices, and web applications.
+      </p>
+    </div>
+
+    <div class="metrics-grid">
+      {
+        metrics.map((m) => (
+          <MetricCard value={m.value} label={m.label} context={m.context} verified={m.verified} />
+        ))
+      }
+    </div>
+
+    <div class="integrity-disclosure">
+      <p>
+        <strong>Note on Metrics:</strong> All figures represent aggregated experience across commercial
+        engagements and independent framework engineering. Metric definitions and environments are documented
+        in dedicated project case studies.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .highlights-section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-header {
+    max-width: 720px;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-kicker {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .section-title {
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .metrics-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .integrity-disclosure {
+    margin-top: var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--bg-surface);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .integrity-disclosure p {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0;
+    line-height: var(--leading-normal);
+  }
+</style>
