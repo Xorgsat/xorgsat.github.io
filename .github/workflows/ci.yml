@@ -1,0 +1,83 @@
+name: SDET Portfolio Quality Gate & Verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-gate:
+    name: Code Quality, Schema Validation & Unit Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (v20)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Setup Python (3.11)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Check Code Formatting (Prettier)
+        run: npm run format:check
+
+      - name: Type Check (TypeScript & Astro Check)
+        run: npm run check
+
+      - name: Run Python Content & Schema Validator
+        run: python3 scripts/validate_content.py
+
+      - name: Run Vitest Unit Tests
+        run: npm run test:unit
+
+      - name: Build Static Production Site
+        run: npm run build
+
+      - name: Run Python Link Integrity Validator
+        run: python3 scripts/validate_links.py
+
+  e2e-testing:
+    name: Playwright E2E & WCAG 2.2 AA Accessibility Audits
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (v20)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Build Static Production Site
+        run: npm run build
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Execute Playwright E2E & Axe Accessibility Tests
+        run: npx playwright test
+
+      - name: Upload Playwright Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

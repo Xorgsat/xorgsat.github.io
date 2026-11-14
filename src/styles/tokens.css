@@ -61,16 +61,16 @@
   --bg-subtle: #f1f5f9;
 
   --text-primary: #0f172a; /* Contrast ratio 14.5:1 against white */
-  --text-secondary: #475569; /* Contrast ratio 5.9:1 against white */
-  --text-muted: #64748b; /* Contrast ratio 4.6:1 against white */
+  --text-secondary: #334155; /* Contrast ratio > 8.5:1 against white */
+  --text-muted: #475569; /* Contrast ratio > 5.4:1 against #f1f5f9 and white */
   --text-inverse: #f8fafc;
 
   --border-subtle: #e2e8f0;
   --border-default: #cbd5e1;
   --border-focus: #0284c7;
 
-  --accent-primary: #0284c7; /* High contrast sky/cobalt blue */
-  --accent-hover: #0369a1;
+  --accent-primary: #0369a1; /* High contrast sky blue: > 4.9:1 against #f1f5f9, > 7.5:1 against white */
+  --accent-hover: #075985;
   --accent-subtle: #e0f2fe;
 
   --status-success: #15803d;
