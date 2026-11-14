@@ -1,0 +1,412 @@
+---
+// src/pages/projects/[slug].astro
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TechTag from '@components/ui/TechTag.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+
+  // Helper to extract clean slug from file name id
+  function getProjectSlug(id: string): string {
+    return id.replace(/^\d+-/, '').replace(/\.md$/, '');
+  }
+
+  return projects.map((project) => ({
+    params: { slug: getProjectSlug(project.id) },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} | Case Study`} description={project.data.description}>
+  <div class="case-study-page">
+    <div class="container">
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/projects" class="back-link">&larr; Back to 12 Projects Directory</a>
+      </nav>
+
+      <header class="case-study-header">
+        <div class="header-badges">
+          <span class="project-category">{project.data.category}</span>
+          <span
+            class:list={['status-pill', project.data.status.toLowerCase().replace(/\s+/g, '-')]}
+          >
+            {project.data.status}
+          </span>
+          <span class="type-pill">{project.data.projectType}</span>
+        </div>
+
+        <h1 class="project-title">{project.data.title}</h1>
+        <p class="project-lead">{project.data.description}</p>
+
+        <div class="header-actions">
+          <a
+            href={project.data.repositoryUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path>
+            </svg>
+            <span>Inspect Repository</span>
+            <span class="sr-only"> (opens in new tab)</span>
+          </a>
+
+          {
+            project.data.liveDemoUrl && (
+              <a
+                href={project.data.liveDemoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-secondary"
+              >
+                <span>Live Interactive Demo &rarr;</span>
+              </a>
+            )
+          }
+        </div>
+      </header>
+
+      <!-- Key Metadata Panel -->
+      <section class="metadata-panel" aria-label="Project Engineering Overview">
+        <div class="meta-item">
+          <span class="meta-label">Business Problem</span>
+          <p class="meta-value">{project.data.businessProblem}</p>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Engineering Focus</span>
+          <p class="meta-value highlight">{project.data.engineeringFocus}</p>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Technology Stack</span>
+          <div class="tech-tags">
+            {project.data.techStack.map((t) => <TechTag label={t} variant="accent" />)}
+          </div>
+        </div>
+
+        {
+          project.data.evidenceReferences && project.data.evidenceReferences.length > 0 && (
+            <div class="meta-item">
+              <span class="meta-label">Execution Evidence</span>
+              <ul class="evidence-list">
+                {project.data.evidenceReferences.map((e) => (
+                  <li>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{e}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+
+        {
+          project.data.limitations && project.data.limitations.length > 0 && (
+            <div class="meta-item">
+              <span class="meta-label">Known Limitations &amp; Scope</span>
+              <ul class="limitations-list">
+                {project.data.limitations.map((lim) => (
+                  <li>{lim}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </section>
+
+      <!-- Main Case Study Content -->
+      <article class="case-study-content prose">
+        <Content />
+      </article>
+
+      <div class="case-study-footer">
+        <a href="/projects" class="btn btn-secondary">&larr; Back to All 12 Projects</a>
+        <a href="/contact" class="btn btn-primary">Discuss This Framework</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .case-study-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .breadcrumb-nav {
+    margin-bottom: var(--space-6);
+  }
+
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent-primary);
+    text-decoration: underline;
+  }
+
+  .case-study-header {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-8);
+    margin-bottom: var(--space-8);
+    max-width: 900px;
+  }
+
+  .header-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .project-category {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-pill,
+  .type-pill {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .status-pill.completed {
+    background-color: var(--status-success-bg);
+    color: var(--status-success);
+    border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+  }
+
+  .status-pill.in-development {
+    background-color: var(--status-warning-bg);
+    color: var(--status-warning);
+    border: 1px solid color-mix(in srgb, var(--status-warning) 30%, transparent);
+  }
+
+  .type-pill {
+    background-color: var(--bg-surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .project-title {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .project-title {
+      font-size: var(--text-4xl);
+    }
+  }
+
+  .project-lead {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
+    background-color: var(--accent-primary);
+    color: var(--text-inverse);
+    border: 1px solid var(--accent-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-subtle);
+    border-color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  /* Metadata Panel */
+  .metadata-panel {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    margin-bottom: var(--space-10);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .metadata-panel {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-value {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: var(--leading-normal);
+  }
+
+  .meta-value.highlight {
+    color: var(--text-primary);
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .evidence-list,
+  .limitations-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .evidence-list li {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--status-success);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .limitations-list li {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    position: relative;
+    padding-left: var(--space-3);
+  }
+
+  .limitations-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--status-warning);
+  }
+
+  /* Prose Article */
+  .case-study-content {
+    max-width: var(--max-width-prose);
+    margin-bottom: var(--space-12);
+  }
+
+  .case-study-footer {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
