@@ -3,13 +3,13 @@ title: 'E-Commerce End-to-End Automation Engine'
 description: 'Checkout funnel reliability, inventory reservation race conditions, and payment webhook state synchronization.'
 category: 'UI & E2E Automation'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 3
 featured: false
-techStack: ['Playwright', 'TypeScript', 'Node.js', 'Redis', 'Docker']
+techStack: ['Playwright', 'TypeScript', 'Node.js', 'Python', 'GitHub Actions']
 businessProblem: 'E-commerce conversion funnels are vulnerable to race conditions when concurrent users claim the last inventory item, leading to overselling or cart checkout crashes.'
 engineeringFocus: 'Checkout state machines, coupon code calculation invariants, and concurrent inventory reservation testing.'
-repositoryUrl: 'https://github.com/example/ecommerce-e2e-engine'
+repositoryUrl: 'https://github.com/Xorgsat/E-Commerce-Automation'
 evidenceReferences:
   - 'E2E Funnel Report: 35 checkout variations verified'
   - 'Inventory Concurrency: Zero overselling under simulated cart races'

@@ -3,13 +3,13 @@ title: 'Advanced Playwright Architecture & Reliability Engine'
 description: 'Production-grade browser automation framework featuring hermetic custom fixtures, network mocking, and parallel sharding.'
 category: 'UI & E2E Automation'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 5
 featured: true
 techStack: ['Playwright', 'TypeScript', 'Axe-core', 'Docker', 'GitHub Actions']
 businessProblem: 'Legacy Selenium test suites taking 90+ minutes in CI, suffering from 15%+ flaky test failure rates due to implicit waits and shared test state.'
 engineeringFocus: 'Hermetic custom fixtures, isolated browser contexts, dynamic API-seeded authentication states, and parallel execution.'
-repositoryUrl: 'https://github.com/example/advanced-playwright-framework'
+repositoryUrl: 'https://github.com/Xorgsat/Porport-Automation'
 evidenceReferences:
   - 'CI Sharding: 650 browser tests executed in 4.5 minutes across 4 shards'
   - 'Flakiness Rate: Reduced from 14.8% to 0.2%'

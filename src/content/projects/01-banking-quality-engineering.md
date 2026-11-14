@@ -3,13 +3,20 @@ title: 'Banking & Financial Transaction Quality Engine'
 description: 'Idempotent transaction testing, synthetic data generation, and double-entry ledger state assertions.'
 category: 'Enterprise Systems'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 1
 featured: true
-techStack: ['Python', 'Requests', 'Pytest', 'PostgreSQL', 'Docker', 'GitHub Actions']
+techStack:
+  - 'Python'
+  - 'TypeScript'
+  - 'Playwright'
+  - 'Pytest'
+  - 'PostgreSQL'
+  - 'Docker'
+  - 'GitHub Actions'
 businessProblem: 'Financial transaction systems cannot tolerate data drift, unhandled race conditions, or partial double-spending under concurrent loads.'
 engineeringFocus: 'Idempotent API test runners, double-entry ledger state assertions, synthetic account generation, and boundary fuzzing.'
-repositoryUrl: 'https://github.com/example/banking-quality-engine'
+repositoryUrl: 'https://github.com/Xorgsat/financial-systems-test-architecture'
 evidenceReferences:
   - 'CI Execution Run #142: 120 concurrency tests passed'
   - 'Allure Report: 100% boundary check pass rate'

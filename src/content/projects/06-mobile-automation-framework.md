@@ -1,28 +1,35 @@
 ---
-title: 'Cross-Platform Mobile Automation Framework'
-description: 'Appium 2.x automation for Android & iOS with unified Page Objects and device farm integration.'
+title: 'Finosauras Mobile Test Automation Framework'
+description: 'Production Java + Appium 2.x + TestNG automated testing architecture for Flutter mobile applications.'
 category: 'Mobile Automation'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 6
 featured: false
-techStack: ['Appium', 'TypeScript', 'WebDriverIO', 'Android Emulator', 'iOS Simulator']
-businessProblem: 'Maintaining two completely disconnected mobile automation codebases for Android (Espresso/UIAutomator) and iOS (XCUITest) duplicates engineering effort and slows down sprint delivery.'
-engineeringFocus: 'Unified cross-platform page abstraction, gesture automation (swipes, pinches, deep links), and app state management.'
-repositoryUrl: 'https://github.com/example/mobile-automation-framework'
+techStack: ['Java', 'Appium 2.x', 'TestNG', 'Maven', 'Android', 'Flutter']
+businessProblem: 'Ensuring regression stability across complex mobile fintech workflows, dynamic Flutter UI elements, and asynchronous transaction states.'
+engineeringFocus: 'Page Object patterns, Appium 2.x driver lifecycle management, TestNG test suites (smoke, regression, negative, discovery), and Maven builds.'
+repositoryUrl: 'https://github.com/Xorgsat/Java-appium-atomation'
 evidenceReferences:
-  - 'Cross-Platform Matrix: 24 shared user flows passing on both Android & iOS'
+  - 'TestNG Suites: Comprehensive Positive, Negative, E2E, and Discovery execution XMLs'
+  - 'Multi-environment configuration supporting local emulators and physical devices'
 limitations:
-  - 'iOS builds require macOS host runner with Xcode installed'
+  - 'Requires local Android SDK, Appium 2.x server, and Flutter app package'
 ---
 
 ## Project Overview
 
-A unified mobile test automation framework powered by Appium 2.x and WebDriverIO in TypeScript. It allows engineering teams to write cross-platform end-to-end mobile tests that execute seamlessly across both Android and iOS devices using a single codebase.
+A robust mobile test automation framework engineered in **Java 17+ and Appium 2.x with TestNG and Maven**, specifically designed for testing the **Finosauras Flutter mobile application**.
 
 ## Problem Statement
 
-Mobile automation is notoriously brittle due to differences in locator strategies (Resource IDs vs Accessibility IDs), slow app launch cold-starts, and OS-specific permission dialogs (Location, Push Notifications).
+Mobile automation for Flutter applications is frequently challenged by dynamic widget trees, accessibility locator mapping, device capability differences, and deep transaction flows. This framework establishes resilient Page Object abstractions and modular TestNG suites to provide rapid quality feedback.
+
+## Engineering Architecture & Suite Structure
+
+- **Java + Appium 2.x:** Modern Appium client with explicit WebDriverWait synchronization.
+- **Modular TestNG Suites:** Dedicated suites for Smoke (`testng-positive.xml`), Edge Cases (`testng-negative.xml`), Full E2E (`testng-e2e.xml`), and Diagnostic discovery (`testng-diagnostic.xml`).
+- **Build & Execution Automation:** Automated scripts with Maven (`mvn test`, `run-all-tests.cmd`) and CI/CD-ready execution reporting.
 
 ## Engineering Objectives
 

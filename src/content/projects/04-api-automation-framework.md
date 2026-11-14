@@ -3,13 +3,13 @@ title: 'Enterprise API Quality & Contract Testing Architecture'
 description: 'Reusable TypeScript API testing engine with strict Zod contract validation and token rotation lifecycle handling.'
 category: 'API & Backend Quality'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 4
 featured: true
-techStack: ['TypeScript', 'SuperTest', 'Zod', 'Jest', 'GitHub Actions']
+techStack: ['Python', 'pytest', 'Pydantic', 'JSON Schema', 'Playwright', 'GitHub Actions']
 businessProblem: 'Microservices frequently break during continuous integration because API response payloads quietly evolve without updating consumer contracts.'
 engineeringFocus: 'Strict JSON schema contract validation, automatic OAuth2/JWT refresh interceptors, and deterministic error envelope assertions.'
-repositoryUrl: 'https://github.com/example/api-quality-framework'
+repositoryUrl: 'https://github.com/Xorgsat/API-Automation'
 evidenceReferences:
   - 'Contract Suite: 18 microservice endpoints validated against schemas'
   - 'Execution Speed: 240 API tests executed in under 12 seconds'

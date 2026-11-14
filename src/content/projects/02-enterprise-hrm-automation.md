@@ -3,13 +3,13 @@ title: 'Enterprise HRM Workflow & RBAC Automation'
 description: 'Multi-role permission testing, approval hierarchy state machines, and employee lifecycle E2E automation.'
 category: 'Enterprise Systems'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 2
 featured: false
-techStack: ['Playwright', 'TypeScript', 'Docker', 'PostgreSQL', 'GitHub Actions']
+techStack: ['Python', 'Selenium 4', 'pytest', 'Ruff', 'Docker', 'GitHub Actions']
 businessProblem: 'Complex enterprise HRM platforms with nested organizational hierarchies suffer from permission leaks and state machine deadlocks during multi-stage employee reviews and leave approvals.'
 engineeringFocus: 'Role-Based Access Control (RBAC) matrix test generation, state-machine verification, and multi-actor workflow tests.'
-repositoryUrl: 'https://github.com/example/enterprise-hrm-automation'
+repositoryUrl: 'https://github.com/Xorgsat/enterprise-hrm-automation'
 evidenceReferences:
   - 'RBAC Test Matrix: 48 role/permission combinations verified'
   - 'Workflow E2E: 100% passing multi-role approval test runs'

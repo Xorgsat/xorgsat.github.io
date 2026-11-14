@@ -3,13 +3,13 @@ title: 'Quality Engineering CI/CD Orchestration Platform'
 description: 'Containerized test execution pipeline, automated matrix sharding, and real-time release readiness gates.'
 category: 'Test Infrastructure'
 projectType: 'Independent Framework'
-status: 'In Development'
+status: 'Completed'
 order: 8
 featured: true
-techStack: ['GitHub Actions', 'Docker', 'Python', 'Linux', 'Allure']
+techStack: ['GitHub Actions', 'Docker', 'Python', 'Linux', 'Playwright', 'Vitest']
 businessProblem: 'Disjointed test execution across multiple independent microservices leading to slow release cycles, invisible test results, and uncoordinated deployment blocking.'
 engineeringFocus: 'Containerized ephemeral test runners, test sharding across matrix workers, automated retry analytics, and instant Slack/Allure release readiness reporting.'
-repositoryUrl: 'https://github.com/example/qe-cicd-platform'
+repositoryUrl: 'https://github.com/Xorgsat/xorgsat.github.io'
 evidenceReferences:
   - 'Pipeline Run #890: 1,400 multi-tier tests executed in 6.2 minutes'
   - 'Allure Report Deployment: Automated GitHub Pages publishing'
