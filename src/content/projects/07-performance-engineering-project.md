@@ -5,7 +5,7 @@ category: 'Performance Engineering'
 projectType: 'Independent Framework'
 status: 'Completed'
 order: 7
-featured: false
+featured: true
 techStack:
   - 'k6'
   - 'Python'

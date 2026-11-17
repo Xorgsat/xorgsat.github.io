@@ -5,7 +5,7 @@ category: 'Test Infrastructure'
 projectType: 'Independent Framework'
 status: 'Completed'
 order: 8
-featured: true
+featured: false
 techStack: ['GitHub Actions', 'Docker', 'Python', 'Linux', 'Playwright', 'Vitest']
 businessProblem: 'Disjointed test execution across multiple independent microservices leading to slow release cycles, invisible test results, and uncoordinated deployment blocking.'
 engineeringFocus: 'Containerized ephemeral test runners, test sharding across matrix workers, automated retry analytics, and instant Slack/Allure release readiness reporting.'

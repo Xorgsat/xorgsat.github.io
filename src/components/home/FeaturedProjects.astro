@@ -1,68 +1,16 @@
 ---
 // src/components/home/FeaturedProjects.astro
 import TechTag from '@components/ui/TechTag.astro';
+import { getCollection } from 'astro:content';
 
-interface FeaturedProject {
-  title: string;
-  slug: string;
-  category: string;
-  problem: string;
-  engineeringFocus: string;
-  techStack: string[];
-  status: 'Completed' | 'In Development' | 'Planned';
-  repoUrl: string;
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+function getProjectSlug(id: string): string {
+  return id.replace(/^\d+-/, '').replace(/\.md$/, '');
 }
-
-const featuredProjects: FeaturedProject[] = [
-  {
-    title: 'Advanced Playwright Architecture Framework',
-    slug: 'advanced-playwright-framework',
-    category: 'UI & E2E Automation',
-    problem:
-      'High-frequency regression suites in web apps suffer from state pollution, execution slowness, and timing flakiness.',
-    engineeringFocus:
-      'Hermetic test fixtures, isolated browser contexts, dynamic API-seeded authentication states, and parallel execution.',
-    techStack: ['Playwright', 'TypeScript', 'Docker', 'GitHub Actions', 'Axe-core'],
-    status: 'In Development',
-    repoUrl: 'https://github.com',
-  },
-  {
-    title: 'Banking & Financial Transaction Quality Engine',
-    slug: 'banking-quality-engineering',
-    category: 'Financial Workflows',
-    problem:
-      'Mission-critical financial transactions require zero tolerance for calculation drift, race conditions, or unhandled failures.',
-    engineeringFocus:
-      'Idempotent API test runners, double-entry ledger state assertions, synthetic account generation, and boundary fuzzing.',
-    techStack: ['Python', 'Requests', 'Pytest', 'PostgreSQL', 'Docker'],
-    status: 'In Development',
-    repoUrl: 'https://github.com',
-  },
-  {
-    title: 'Enterprise API Testing & Contract Architecture',
-    slug: 'api-automation-framework',
-    category: 'Backend & API Quality',
-    problem:
-      'Microservice architectures breaking unexpectedly due to silent schema drift and fragile end-to-end integration tests.',
-    engineeringFocus:
-      'Strict JSON schema validation, automated OAuth2 token refresh interceptors, contract verification, and negative path coverage.',
-    techStack: ['TypeScript', 'SuperTest', 'Zod', 'GitHub Actions'],
-    status: 'In Development',
-    repoUrl: 'https://github.com',
-  },
-  {
-    title: 'Quality Engineering CI/CD Orchestration Platform',
-    slug: 'quality-engineering-cicd-platform',
-    category: 'Test Infrastructure',
-    problem:
-      'Long-running monolithic test suites blocking developer PR merges and delaying production deployments.',
-    engineeringFocus:
-      'Containerized test sharding across matrix workers, automated retry analytics, and instant Slack/Allure release readiness reporting.',
-    techStack: ['GitHub Actions', 'Docker', 'Python', 'Allure', 'Linux'],
-    status: 'In Development',
-    repoUrl: 'https://github.com',
-  },
-];
 ---
 
 <section class="featured-projects-section" aria-labelledby="featured-heading">
@@ -100,82 +48,87 @@ const featuredProjects: FeaturedProject[] = [
 
     <div class="projects-grid">
       {
-        featuredProjects.map((project) => (
-          <article class="project-card">
-            <div class="card-header">
-              <span class="project-category">{project.category}</span>
-              <span class:list={['status-pill', project.status.toLowerCase().replace(' ', '-')]}>
-                {project.status}
-              </span>
-            </div>
-
-            <h3 class="project-title">
-              <a href={`/projects/${project.slug}`}>{project.title}</a>
-            </h3>
-
-            <div class="project-detail-block">
-              <span class="detail-label">Problem Solved:</span>
-              <p class="detail-text">{project.problem}</p>
-            </div>
-
-            <div class="project-detail-block">
-              <span class="detail-label">Engineering Focus:</span>
-              <p class="detail-text highlight">{project.engineeringFocus}</p>
-            </div>
-
-            <div class="card-tech">
-              {project.techStack.map((tech) => (
-                <TechTag label={tech} variant="default" />
-              ))}
-            </div>
-
-            <div class="card-footer">
-              <a href={`/projects/${project.slug}`} class="case-study-link">
-                <span>Read Full Case Study</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
+        featuredProjects.map((project) => {
+          const slug = getProjectSlug(project.id);
+          return (
+            <article class="project-card">
+              <div class="card-header">
+                <span class="project-category">{project.data.category}</span>
+                <span
+                  class:list={['status-pill', project.data.status.toLowerCase().replace(' ', '-')]}
                 >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
+                  {project.data.status}
+                </span>
+              </div>
 
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="repo-link"
-                title={`Inspect repository for ${project.title}`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
+              <h3 class="project-title">
+                <a href={`/projects/${slug}`}>{project.data.title}</a>
+              </h3>
+
+              <div class="project-detail-block">
+                <span class="detail-label">Problem Solved:</span>
+                <p class="detail-text">{project.data.businessProblem}</p>
+              </div>
+
+              <div class="project-detail-block">
+                <span class="detail-label">Engineering Focus:</span>
+                <p class="detail-text highlight">{project.data.engineeringFocus}</p>
+              </div>
+
+              <div class="card-tech">
+                {project.data.techStack.map((tech) => (
+                  <TechTag label={tech} variant="default" />
+                ))}
+              </div>
+
+              <div class="card-footer">
+                <a href={`/projects/${slug}`} class="case-study-link">
+                  <span>Read Full Case Study</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+
+                <a
+                  href={project.data.repositoryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="repo-link"
+                  title={`Inspect repository for ${project.data.title}`}
                 >
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                </svg>
-                <span>Code</span>
-                <span class="sr-only"> (opens in new tab)</span>
-              </a>
-            </div>
-          </article>
-        ))
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                  </svg>
+                  <span>Code</span>
+                  <span class="sr-only"> (opens in new tab)</span>
+                </a>
+              </div>
+            </article>
+          );
+        })
       }
     </div>
   </div>
