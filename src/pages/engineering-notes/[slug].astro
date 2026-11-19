@@ -59,6 +59,33 @@ function formatDate(date: Date): string {
         </div>
       </header>
 
+      <!-- Technical Memorandum Blueprint Header -->
+      <div class="memo-blueprint-banner blueprint-frame">
+        <div class="memo-banner-bar">
+          <span class="mono text-xs text-blue">TECHNICAL MEMORANDUM &bull; SPECIFICATION SHEET</span
+          >
+          <span class="mono text-xs text-lime">REVIEWED &bull; PRODUCTION PROVEN</span>
+        </div>
+        <div class="memo-summary-grid">
+          <div class="memo-grid-item">
+            <span class="mono text-xs text-dim">DOMAIN TOPIC:</span>
+            <span class="mono text-sm bold text-text">{article.data.category}</span>
+          </div>
+          <div class="memo-grid-item">
+            <span class="mono text-xs text-dim">TARGET AUDIENCE:</span>
+            <span class="mono text-sm bold text-text">Senior / Staff Engineers</span>
+          </div>
+          <div class="memo-grid-item">
+            <span class="mono text-xs text-dim">CODE EXCERPTS:</span>
+            <span class="mono text-sm bold text-lime">Production TypeScript / Python</span>
+          </div>
+          <div class="memo-grid-item">
+            <span class="mono text-xs text-dim">CORE FOCUS:</span>
+            <span class="mono text-sm bold text-blue">Determinism &amp; Reliability</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Rendered Article Markdown -->
       <article class="article-body prose">
         <Content />
@@ -149,6 +176,44 @@ function formatDate(date: Date): string {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+  }
+
+  /* Technical Memorandum Blueprint Banner */
+  .memo-blueprint-banner {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+    overflow: hidden;
+    max-width: var(--max-width-prose);
+  }
+
+  .memo-banner-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .memo-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3) var(--space-6);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  @media (min-width: 600px) {
+    .memo-summary-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .memo-grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .article-body {

@@ -4,7 +4,7 @@ const steps = [
   {
     step: '01',
     title: 'Design Testable Systems',
-    subtitle: 'ARCHITECTURAL RESILIENCE',
+    subtitle: 'CONTRACTS & FIXTURES',
     description:
       'Collaborate early with backend and frontend engineering to establish deterministic interfaces, unique data-testid conventions, hermetic state fixtures, and explicit API contracts.',
     deliverables: [
@@ -20,33 +20,33 @@ const steps = [
     description:
       'Build decoupled, modular test harnesses using Component Object models. Shard execution across parallel worker pools with smart auto-waiting and zero arbitrary sleeps.',
     deliverables: [
-      'Playwright / Appium Harvesters',
-      'Test Sharding & Matrix',
+      'Playwright & Appium Engines',
+      'Container Sharding Matrix',
       'Event-Driven Synchronization',
     ],
   },
   {
     step: '03',
-    title: 'Measure & Improve',
+    title: 'Eliminate Flakiness',
     subtitle: 'ROOT-CAUSE REMEDIATION',
     description:
-      'Treat flaky tests as defects, not inconveniences. Track p95/p99 test execution latency, isolate non-deterministic race conditions, and monitor defect leakage into production.',
+      'Treat intermittent test failures as architecture defects, not minor quirks. Isolate non-deterministic race conditions, monitor p99 execution duration, and prevent flaky tests from ever reaching main.',
     deliverables: [
-      'Flaky Root-Cause Elimination',
-      'p99 Execution Profiling',
-      'Allure Telemetry Dashboards',
+      'Root-Cause Failure Analysis',
+      'Execution Tracing & Profiling',
+      'Flaky Quarantine Gate',
     ],
   },
   {
     step: '04',
-    title: 'Reliability by Design',
+    title: 'Enforce Quality Gates',
     subtitle: 'AUTOMATED GOVERNANCE',
     description:
-      'Enforce automated quality gates in CI/CD pipelines that block broken PRs in under 5 minutes. Audit WCAG 2.2 accessibility, performance budgets, and security posture automatically.',
+      'Enforce automated quality gates in CI/CD pipelines that block broken PRs in under 5 minutes. Audit accessibility, contract breaking changes, and performance budgets on every commit.',
     deliverables: [
-      'Immutable PR Gates',
+      'Sub-5-Minute PR Gates',
       'Axe-core WCAG 2.2 Audits',
-      'Zero-Downtime Release Confidence',
+      'Zero Production Defect Escapes',
     ],
   },
 ];
@@ -55,9 +55,9 @@ const steps = [
 <section class="methodology-section section" aria-labelledby="method-heading">
   <div class="container">
     <div class="section-header">
-      <span class="eyebrow">QUALITY ENGINEERING LIFECYCLE</span>
+      <span class="eyebrow">ENGINEERING DISCIPLINE</span>
       <h2 id="method-heading" class="display-title section-title">
-        Engineering Methodology &amp; Process<span class="accent-text">.</span>
+        How I Build Quality Into Systems<span class="accent-text">.</span>
       </h2>
       <p class="section-description">
         A structured, four-phase engineering discipline honed across eight years of building

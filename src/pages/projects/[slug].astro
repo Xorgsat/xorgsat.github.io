@@ -2,6 +2,7 @@
 // src/pages/projects/[slug].astro
 import BaseLayout from '@layouts/BaseLayout.astro';
 import TechTag from '@components/ui/TechTag.astro';
+import ProjectBlueprintSchematic from '@components/projects/ProjectBlueprintSchematic.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -85,6 +86,16 @@ const { Content } = await render(project);
           }
         </div>
       </header>
+
+      <!-- Architectural System Blueprint & Problem Schematic -->
+      <ProjectBlueprintSchematic
+        slug={Astro.params.slug as string}
+        title={project.data.title}
+        category={project.data.category}
+        projectType={project.data.projectType}
+        businessProblem={project.data.businessProblem}
+        engineeringFocus={project.data.engineeringFocus}
+      />
 
       <!-- Key Metadata Panel (Blueprint Frame) -->
       <section class="metadata-panel blueprint-frame" aria-label="Project Engineering Overview">

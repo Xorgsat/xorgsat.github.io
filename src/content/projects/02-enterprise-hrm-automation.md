@@ -6,7 +6,7 @@ projectType: 'Independent Framework'
 status: 'Completed'
 order: 2
 featured: false
-techStack: ['Python', 'Selenium 4', 'pytest', 'Ruff', 'Docker', 'GitHub Actions']
+techStack: ['Python', 'Playwright', 'pytest', 'Ruff', 'Docker', 'GitHub Actions']
 businessProblem: 'Complex enterprise HRM platforms with nested organizational hierarchies suffer from permission leaks and state machine deadlocks during multi-stage employee reviews and leave approvals.'
 engineeringFocus: 'Role-Based Access Control (RBAC) matrix test generation, state-machine verification, and multi-actor workflow tests.'
 repositoryUrl: 'https://github.com/Xorgsat/enterprise-hrm-automation'

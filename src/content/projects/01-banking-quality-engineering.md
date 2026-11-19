@@ -36,7 +36,7 @@ When processing financial transactions (fund transfers, credit allocations, and 
 ## Engineering Objectives
 
 1. Validate transaction idempotency through repeated API requests carrying identical `Idempotency-Key` headers.
-2. Assert zero-sum balance balance invariants across debit and credit accounts in the database.
+2. Assert zero-sum balance invariants across debit and credit accounts directly in the PostgreSQL database.
 3. Test concurrent transfers against the same account using multithreaded test workers.
 4. Provide automated synthetic user/account provisioning with clean teardown.
 

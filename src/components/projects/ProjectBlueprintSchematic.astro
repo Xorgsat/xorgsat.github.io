@@ -1,0 +1,1672 @@
+---
+// src/components/projects/ProjectBlueprintSchematic.astro
+interface Props {
+  slug: string;
+  title: string;
+  category: string;
+  projectType: string;
+  businessProblem: string;
+  engineeringFocus: string;
+}
+
+const { slug, title, category, projectType, businessProblem, engineeringFocus } = Astro.props;
+
+// Determine architectural domain for blueprint illustration
+function getDomain(slug: string): string {
+  if (slug.includes('banking')) return 'banking';
+  if (slug.includes('hrm')) return 'hrm';
+  if (slug.includes('ecommerce')) return 'ecommerce';
+  if (slug.includes('playwright') || slug.includes('brel')) return 'playwright';
+  if (slug.includes('performance') || slug.includes('pizza')) return 'performance';
+  if (slug.includes('mobile')) return 'mobile';
+  if (slug.includes('cicd') || slug.includes('platform')) return 'cicd';
+  return 'api';
+}
+
+const domain = getDomain(slug);
+const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
+---
+
+<div class="blueprint-schematic-component blueprint-frame" id="project-blueprint-schematic">
+  <!-- Blueprint Title Block Bar -->
+  <div class="schematic-title-block">
+    <div class="title-block-main">
+      <div class="dwg-number-badge mono">
+        <span class="dwg-label">DRAWING NO.</span>
+        <span class="dwg-code">{dwgId}</span>
+      </div>
+      <div class="dwg-meta">
+        <span class="dwg-title">{title}</span>
+        <span class="dwg-sub mono text-xs">{category} &bull; {projectType}</span>
+      </div>
+    </div>
+    <div class="title-block-status mono text-xs">
+      <span class="status-indicator-live">
+        <span class="pulse-dot"></span>
+        <span>VERIFIED ARCHITECTURE</span>
+      </span>
+      <span class="text-dim">SCALE: 1:1 // SHEET 01</span>
+    </div>
+  </div>
+
+  <!-- Perspective Mode Selector Tabs -->
+  <div class="schematic-modes" role="tablist" aria-label="Architectural Perspective Selector">
+    <button
+      type="button"
+      role="tab"
+      id="tab-mode-system"
+      class="mode-btn mono text-xs active"
+      aria-selected="true"
+      aria-controls="blueprint-canvas-region"
+      data-mode="system"
+    >
+      <span class="mode-num">01</span>
+      <span>SYSTEM ARCHITECTURE</span>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      id="tab-mode-problem"
+      class="mode-btn mono text-xs"
+      aria-selected="false"
+      aria-controls="blueprint-canvas-region"
+      data-mode="problem"
+    >
+      <span class="mode-num">02</span>
+      <span>PROBLEM &amp; FAILURE VECTORS</span>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      id="tab-mode-harness"
+      class="mode-btn mono text-xs"
+      aria-selected="false"
+      aria-controls="blueprint-canvas-region"
+      data-mode="harness"
+    >
+      <span class="mode-num">03</span>
+      <span>TEST HARNESS &amp; INVARIANTS</span>
+    </button>
+  </div>
+
+  <!-- Interactive SVG Blueprint Canvas -->
+  <div
+    class="blueprint-canvas-wrapper"
+    id="blueprint-canvas-region"
+    tabindex="0"
+    role="region"
+    aria-label={`${title} Architectural Blueprint Diagram`}
+  >
+    <div class="grid-watermark" aria-hidden="true">ENGINEERING BLUEPRINT &bull; {dwgId}</div>
+
+    <!-- BANKING / FINANCIAL SYSTEM BLUEPRINT -->
+    {
+      domain === 'banking' && (
+        <svg
+          class="blueprint-svg"
+          viewBox="0 0 940 340"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          {/* Signal Bus Backplanes */}
+          <line
+            x1="40"
+            y1="170"
+            x2="900"
+            y2="170"
+            stroke="var(--border-strong)"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+
+          {/* Connectors */}
+          <path
+            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+            stroke="var(--border-strong)"
+            stroke-width="2"
+          />
+          <path
+            d="M 180 170 L 180 270 L 580 270 L 580 215"
+            stroke="var(--blue)"
+            stroke-width="1.5"
+            stroke-dasharray="3 3"
+            class="harness-path"
+          />
+
+          {/* Node 1: Client Ingress */}
+          <g class="bp-node node-client" transform="translate(40, 115)">
+            <rect
+              width="140"
+              height="110"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              01 // CLIENT INGRESS
+            </text>
+            <text
+              x="12"
+              y="50"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Concurrent Requests
+            </text>
+            <text
+              x="12"
+              y="70"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              POST /v1/transfers
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-dim)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Idempotency-Key: UUID
+            </text>
+            <circle cx="140" cy="55" r="4" fill="var(--lime)" />
+          </g>
+
+          {/* Node 2: Problem Zone - Race Conditions */}
+          <g class="bp-node node-problem" transform="translate(260, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              class="problem-box"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              02 // CRITICAL RISK ZONE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Concurrent Transfers
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Double-Spend Risk
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Network Retry Drift
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Account Balance Race
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
+          </g>
+
+          {/* Node 3: Test Engine & Harness */}
+          <g class="bp-node node-engine" transform="translate(500, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              03 // QUALITY ENGINE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Pytest Invariant Suite
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Replay Fuzzing
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Synthetic Factory
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Multithread Workers
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
+          </g>
+
+          {/* Node 4: Invariant Assertion & DB Gate */}
+          <g class="bp-node node-gate" transform="translate(740, 115)">
+            <rect
+              width="160"
+              height="110"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              04 // LEDGER GATE
+            </text>
+            <text
+              x="12"
+              y="50"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Zero-Sum Audit
+            </text>
+            <text
+              x="12"
+              y="70"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              SUM(debit) == SUM(credit)
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="600"
+            >
+              &check; 0 Data Drift Verified
+            </text>
+          </g>
+
+          {/* Lower Test Harness Injection Overlay */}
+          <g class="bp-annotation" transform="translate(260, 260)">
+            <rect
+              width="320"
+              height="36"
+              rx="2"
+              fill="var(--surface-soft)"
+              stroke="var(--border)"
+            />
+            <text
+              x="12"
+              y="22"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="11"
+            >
+              HARNESS INJECTION: Isolated Tenant Schemas per Test Worker
+            </text>
+          </g>
+        </svg>
+      )
+    }
+
+    <!-- ENTERPRISE HRM / RBAC BLUEPRINT -->
+    {
+      domain === 'hrm' && (
+        <svg
+          class="blueprint-svg"
+          viewBox="0 0 940 340"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <line
+            x1="40"
+            y1="170"
+            x2="900"
+            y2="170"
+            stroke="var(--border-strong)"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+          <path
+            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+            stroke="var(--border-strong)"
+            stroke-width="2"
+          />
+
+          <g class="bp-node" transform="translate(40, 105)">
+            <rect
+              width="140"
+              height="130"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              01 // ACTOR ROLES
+            </text>
+            <text
+              x="12"
+              y="46"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Multi-Role Session
+            </text>
+            <text
+              x="12"
+              y="66"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Employee (Submit)
+            </text>
+            <text
+              x="12"
+              y="82"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Manager (Approve)
+            </text>
+            <text
+              x="12"
+              y="98"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; HR Admin (Audit)
+            </text>
+            <circle cx="140" cy="65" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node node-problem" transform="translate(260, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              class="problem-box"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              02 // FAILURE VECTORS
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              State Deadlocks
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Self-Approval Leak
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Direct URL Bypass
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Stale Session Reuse
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
+          </g>
+
+          <g class="bp-node node-engine" transform="translate(500, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              03 // TEST HARNESS
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              State Machine Runner
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; StorageState Switch
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; 48 RBAC Combinations
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; 0 Re-login Latency
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node" transform="translate(740, 110)">
+            <rect
+              width="160"
+              height="120"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              04 // SECURITY GATE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              HTTP 403 Forbidden
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Non-Admin direct routes
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="600"
+            >
+              &check; 68% Faster Cycle Time
+            </text>
+          </g>
+        </svg>
+      )
+    }
+
+    <!-- PLAYWRIGHT / BREL BROWSER ENGINE BLUEPRINT -->
+    {
+      domain === 'playwright' && (
+        <svg
+          class="blueprint-svg"
+          viewBox="0 0 940 340"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <line
+            x1="40"
+            y1="170"
+            x2="900"
+            y2="170"
+            stroke="var(--border-strong)"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+          <path
+            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+            stroke="var(--border-strong)"
+            stroke-width="2"
+          />
+
+          <g class="bp-node" transform="translate(40, 110)">
+            <rect
+              width="140"
+              height="120"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              01 // ORCHESTRATION
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Parallel Workers
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              6 Workers Sharded
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-dim)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Docker Ephemeral Pool
+            </text>
+            <circle cx="140" cy="60" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node node-problem" transform="translate(260, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              class="problem-box"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              02 // FLAKY TEST HAZARDS
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              UI Asynchrony
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; DOM Hydration Race
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Leaky Fragile CSS
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Hardcoded Sleep()
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
+          </g>
+
+          <g class="bp-node node-engine" transform="translate(500, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              03 // BREL ARCHITECTURE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Hermetic Test Context
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Component Objects
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Auto-Wait Primitives
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Network Mock Routing
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node" transform="translate(740, 110)">
+            <rect
+              width="160"
+              height="120"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              04 // TELEMETRY GATE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Zero Retries Policy
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Full Playwright Tracing
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="600"
+            >
+              &check; 100% Deterministic Runs
+            </text>
+          </g>
+        </svg>
+      )
+    }
+
+    <!-- PERFORMANCE / LOAD GENERATOR BLUEPRINT (k6, QuickPizza) -->
+    {
+      domain === 'performance' && (
+        <svg
+          class="blueprint-svg"
+          viewBox="0 0 940 340"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <line
+            x1="40"
+            y1="170"
+            x2="900"
+            y2="170"
+            stroke="var(--border-strong)"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+          <path
+            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+            stroke="var(--border-strong)"
+            stroke-width="2"
+          />
+
+          <g class="bp-node" transform="translate(40, 110)">
+            <rect
+              width="140"
+              height="120"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              01 // LOAD GENERATOR
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              k6 Virtual Users
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Up to 5,000 VUs
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-dim)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              Ramping Spike Profiles
+            </text>
+            <circle cx="140" cy="60" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node node-problem" transform="translate(260, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              class="problem-box"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              02 // BOTTLENECK RISKS
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Degradation Under Load
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; DB Connection Starvation
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; p99 Latency &gt; 180ms
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Cascading 504 Gateway
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
+          </g>
+
+          <g class="bp-node node-engine" transform="translate(500, 100)">
+            <rect
+              width="160"
+              height="140"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              03 // TELEMETRY MESH
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Grafana &amp; InfluxDB
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Real-time RPS Metric
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Distributed Tracing
+            </text>
+            <text
+              x="12"
+              y="104"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              &bull; Heap Memory Profiling
+            </text>
+            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
+          </g>
+
+          <g class="bp-node" transform="translate(740, 110)">
+            <rect
+              width="160"
+              height="120"
+              rx="4"
+              fill="var(--surface)"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+            />
+            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+            <text
+              x="12"
+              y="16"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="700"
+            >
+              04 // SLA GATE
+            </text>
+            <text
+              x="12"
+              y="48"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="12"
+              font-weight="600"
+            >
+              Budget Verification
+            </text>
+            <text
+              x="12"
+              y="68"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="10"
+            >
+              p95 &lt; 120ms, p99 &lt; 180ms
+            </text>
+            <text
+              x="12"
+              y="86"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="10"
+              font-weight="600"
+            >
+              &check; 0.00% Error Threshold
+            </text>
+          </g>
+        </svg>
+      )
+    }
+
+    <!-- GENERAL / API / CONTRACT TESTING BLUEPRINT (Default fallback) -->
+    {
+      domain !== 'banking' &&
+        domain !== 'hrm' &&
+        domain !== 'playwright' &&
+        domain !== 'performance' && (
+          <svg
+            class="blueprint-svg"
+            viewBox="0 0 940 340"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <line
+              x1="40"
+              y1="170"
+              x2="900"
+              y2="170"
+              stroke="var(--border-strong)"
+              stroke-width="1.5"
+              stroke-dasharray="4 4"
+            />
+            <path
+              d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+              stroke="var(--border-strong)"
+              stroke-width="2"
+            />
+
+            <g class="bp-node" transform="translate(40, 110)">
+              <rect
+                width="140"
+                height="120"
+                rx="4"
+                fill="var(--surface)"
+                stroke="var(--border-strong)"
+                stroke-width="1.5"
+              />
+              <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
+              <text
+                x="12"
+                y="16"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+              >
+                01 // INTERFACE
+              </text>
+              <text
+                x="12"
+                y="48"
+                fill="var(--text)"
+                font-family="var(--font-sans)"
+                font-size="12"
+                font-weight="600"
+              >
+                Contract Specification
+              </text>
+              <text
+                x="12"
+                y="68"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                OpenAPI 3.1 &bull; REST
+              </text>
+              <text
+                x="12"
+                y="86"
+                fill="var(--text-dim)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                Consumer Expectations
+              </text>
+              <circle cx="140" cy="60" r="4" fill="var(--lime)" />
+            </g>
+
+            <g class="bp-node node-problem" transform="translate(260, 100)">
+              <rect
+                width="160"
+                height="140"
+                rx="4"
+                fill="var(--surface)"
+                stroke="var(--border-strong)"
+                stroke-width="1.5"
+                class="problem-box"
+              />
+              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+              <text
+                x="12"
+                y="16"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+              >
+                02 // DRIFT RISKS
+              </text>
+              <text
+                x="12"
+                y="48"
+                fill="var(--text)"
+                font-family="var(--font-sans)"
+                font-size="12"
+                font-weight="600"
+              >
+                Silent Schema Drift
+              </text>
+              <text
+                x="12"
+                y="68"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Unannounced Field Renames
+              </text>
+              <text
+                x="12"
+                y="86"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Missing Nullable Checks
+              </text>
+              <text
+                x="12"
+                y="104"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Payload Breaking Changes
+              </text>
+              <circle cx="160" cy="70" r="4" fill="var(--blue)" />
+            </g>
+
+            <g class="bp-node node-engine" transform="translate(500, 100)">
+              <rect
+                width="160"
+                height="140"
+                rx="4"
+                fill="var(--surface)"
+                stroke="var(--blue)"
+                stroke-width="1.5"
+              />
+              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+              <text
+                x="12"
+                y="16"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+              >
+                03 // TEST HARNESS
+              </text>
+              <text
+                x="12"
+                y="48"
+                fill="var(--text)"
+                font-family="var(--font-sans)"
+                font-size="12"
+                font-weight="600"
+              >
+                Contract Assertions
+              </text>
+              <text
+                x="12"
+                y="68"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Schema Diff Engine
+              </text>
+              <text
+                x="12"
+                y="86"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Boundary Value Fuzzing
+              </text>
+              <text
+                x="12"
+                y="104"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                &bull; Isolated WireMock Stubs
+              </text>
+              <circle cx="160" cy="70" r="4" fill="var(--lime)" />
+            </g>
+
+            <g class="bp-node" transform="translate(740, 110)">
+              <rect
+                width="160"
+                height="120"
+                rx="4"
+                fill="var(--surface)"
+                stroke="var(--border-strong)"
+                stroke-width="1.5"
+              />
+              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
+              <text
+                x="12"
+                y="16"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+              >
+                04 // CI/CD GATE
+              </text>
+              <text
+                x="12"
+                y="48"
+                fill="var(--text)"
+                font-family="var(--font-sans)"
+                font-size="12"
+                font-weight="600"
+              >
+                Deployment Certification
+              </text>
+              <text
+                x="12"
+                y="68"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="10"
+              >
+                Automated Breaking PR Block
+              </text>
+              <text
+                x="12"
+                y="86"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="600"
+              >
+                &check; Zero Regressions in Prod
+              </text>
+            </g>
+          </svg>
+        )
+    }
+  </div>
+
+  <!-- Dynamic Technical Telemetry Callout Box -->
+  <div class="schematic-footer-telemetry" id="schematic-telemetry-text">
+    <div class="telemetry-item">
+      <span class="telemetry-label mono text-xs">PROBLEM STATEMENT &bull; RISK VECTOR:</span>
+      <p class="telemetry-desc">{businessProblem}</p>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label mono text-xs text-blue"
+        >ENGINEERING DEFENSE &bull; TEST HARNESS:</span
+      >
+      <p class="telemetry-desc">{engineeringFocus}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupBlueprintSchematic() {
+    const component = document.getElementById('project-blueprint-schematic');
+    if (!component) return;
+
+    const tabs = component.querySelectorAll<HTMLButtonElement>('.mode-btn');
+    const problemBox = component.querySelector<SVGRectElement>('.problem-box');
+    const harnessNodes = component.querySelectorAll<SVGElement>('.node-engine, .harness-path');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const mode = tab.getAttribute('data-mode');
+
+        if (mode === 'problem') {
+          if (problemBox) {
+            problemBox.style.stroke = 'var(--lime)';
+            problemBox.style.strokeWidth = '2.5px';
+          }
+          harnessNodes.forEach((el) => {
+            el.style.opacity = '0.4';
+          });
+        } else if (mode === 'harness') {
+          if (problemBox) {
+            problemBox.style.stroke = 'var(--border-strong)';
+            problemBox.style.strokeWidth = '1.5px';
+          }
+          harnessNodes.forEach((el) => {
+            el.style.opacity = '1';
+          });
+        } else {
+          // System Overview
+          if (problemBox) {
+            problemBox.style.stroke = 'var(--border-strong)';
+            problemBox.style.strokeWidth = '1.5px';
+          }
+          harnessNodes.forEach((el) => {
+            el.style.opacity = '1';
+          });
+        }
+      });
+    });
+  }
+
+  setupBlueprintSchematic();
+  document.addEventListener('astro:after-swap', setupBlueprintSchematic);
+</script>
+
+<style>
+  .blueprint-schematic-component {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .schematic-title-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    background-color: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-block-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .dwg-number-badge {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .dwg-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .dwg-code {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .dwg-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dwg-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .dwg-sub {
+    color: var(--text-muted);
+  }
+
+  .title-block-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .status-indicator-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--lime);
+  }
+
+  /* Mode Selector Tabs */
+  .schematic-modes {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--bg);
+  }
+
+  .mode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--duration-fast);
+  }
+
+  .mode-btn:hover {
+    color: var(--text);
+    background-color: var(--surface-soft);
+  }
+
+  .mode-btn.active {
+    color: var(--blue);
+    background-color: var(--surface);
+    border-bottom: 2px solid var(--blue);
+  }
+
+  .mode-num {
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  /* Canvas Wrapper */
+  .blueprint-canvas-wrapper {
+    position: relative;
+    padding: var(--space-4);
+    background-color: var(--bg);
+    overflow-x: auto;
+  }
+
+  .grid-watermark {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .blueprint-svg {
+    width: 100%;
+    min-width: 720px;
+    height: auto;
+    display: block;
+  }
+
+  /* Nodes & Transitions */
+  .bp-node rect {
+    transition: all var(--duration-fast);
+  }
+
+  .bp-node:hover rect {
+    filter: brightness(1.1);
+  }
+
+  /* Footer Telemetry Callout */
+  .schematic-footer-telemetry {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 768px) {
+    .schematic-footer-telemetry {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .telemetry-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .telemetry-label {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--lime);
+  }
+
+  .telemetry-desc {
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .text-blue {
+    color: var(--blue);
+  }
+  .text-dim {
+    color: var(--text-dim);
+  }
+</style>

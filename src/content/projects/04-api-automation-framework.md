@@ -6,7 +6,7 @@ projectType: 'Independent Framework'
 status: 'Completed'
 order: 4
 featured: true
-techStack: ['Python', 'pytest', 'Pydantic', 'JSON Schema', 'Playwright', 'GitHub Actions']
+techStack: ['TypeScript', 'Node.js', 'Zod', 'Playwright', 'Docker', 'GitHub Actions']
 businessProblem: 'Microservices frequently break during continuous integration because API response payloads quietly evolve without updating consumer contracts.'
 engineeringFocus: 'Strict JSON schema contract validation, automatic OAuth2/JWT refresh interceptors, and deterministic error envelope assertions.'
 repositoryUrl: 'https://github.com/Xorgsat/API-Automation'
