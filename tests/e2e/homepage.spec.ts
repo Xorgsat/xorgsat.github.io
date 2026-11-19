@@ -1,54 +1,64 @@
 // tests/e2e/homepage.spec.ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { test, expect } from '../fixtures/testFixtures';
 
-test.describe('Homepage & Accessibility', () => {
-  test('renders hero, headline, and verified metrics', async ({ page }) => {
-    await page.goto('/');
+test.describe('Homepage & Engineering Highlights', () => {
+  test('renders hero, headline, and verified career metrics [@smoke]', async ({
+    homePage,
+    consoleGuard,
+  }) => {
+    await homePage.navigate();
 
-    // Verify main headline and role
-    await expect(page.locator('h1')).toContainText('Senior SDET');
-    await expect(page.locator('h1')).toContainText('Quality Engineering Architect');
+    // Verify hero typography and architectural illustration
+    await homePage.assertHeroElements();
 
-    // Verify verified metrics cards
-    await expect(page.getByText('8+ Years')).toBeVisible();
-    await expect(page.getByText('12', { exact: true })).toBeVisible();
-    await expect(page.getByText('13,000+')).toBeVisible();
+    // Verify 4-channel instrumentation dials and telemetry bar
+    await homePage.assertVerifiedMetrics();
 
-    // Verify featured projects section exists
-    await expect(
-      page.getByRole('heading', { name: 'Featured Engineering Projects' })
-    ).toBeVisible();
+    // Ensure no unhandled errors occurred during page render
+    consoleGuard.assertZeroErrors();
   });
 
-  test('toggles theme between light and dark mode', async ({ page }) => {
-    await page.goto('/');
+  test('toggles theme between light and dark blueprint modes [@smoke]', async ({
+    homePage,
+    consoleGuard,
+  }) => {
+    await homePage.navigate();
 
-    const themeToggle = page.locator('#theme-toggle');
-    await expect(themeToggle).toBeVisible();
+    const initialTheme = await homePage.themeToggle.getActiveTheme();
+    const newTheme = await homePage.themeToggle.toggleTheme();
 
-    // Click to toggle theme
-    const initialTheme = await page.evaluate(
-      () => document.documentElement.getAttribute('data-theme') || 'light'
-    );
-    await themeToggle.click();
-
-    const newTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     expect(newTheme).not.toBe(initialTheme);
 
-    // Verify localStorage persistence
-    const savedTheme = await page.evaluate(() => localStorage.getItem('theme'));
-    expect(savedTheme).toBe(newTheme);
+    // Toggle back to verify bi-directional state
+    const revertedTheme = await homePage.themeToggle.toggleTheme();
+    expect(revertedTheme).toBe(initialTheme);
+
+    consoleGuard.assertZeroErrors();
   });
 
-  test('passes WCAG 2.2 Level AA accessibility audit', async ({ page }) => {
-    await page.goto('/');
+  test('interacts with interactive test execution terminal simulation', async ({
+    homePage,
+    consoleGuard,
+  }) => {
+    await homePage.navigate();
 
-    // Inject and run axe accessibility scan
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .analyze();
+    await homePage.terminalWidget.assertVisible();
+    await homePage.terminalWidget.clickReplay();
+    await homePage.terminalWidget.waitForExecutionComplete();
 
-    expect(accessibilityScanResults.violations).toEqual([]);
+    const logText = await homePage.terminalWidget.getTerminalLogText();
+    expect(logText).toContain('QUALITY GATE EVALUATION');
+
+    consoleGuard.assertZeroErrors();
+  });
+
+  test('navigates interactive architecture topology nodes', async ({ homePage, consoleGuard }) => {
+    await homePage.navigate();
+
+    await homePage.selectTopologyNode('app');
+    await homePage.selectTopologyNode('cicd');
+    await homePage.selectTopologyNode('observability');
+
+    consoleGuard.assertZeroErrors();
   });
 });

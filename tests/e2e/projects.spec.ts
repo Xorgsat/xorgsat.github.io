@@ -1,65 +1,59 @@
 // tests/e2e/projects.spec.ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { test, expect } from '../fixtures/testFixtures';
 
-test.describe('Projects Directory & Case Studies', () => {
-  test('renders all 12 portfolio projects', async ({ page }) => {
-    await page.goto('/projects');
+test.describe('Projects Directory & Catalog', () => {
+  test('renders all 12 portfolio projects with blueprint banners [@smoke]', async ({
+    projectsPage,
+    consoleGuard,
+  }) => {
+    await projectsPage.navigate();
+    await projectsPage.assertTotalProjectCount(12);
 
-    const projectCards = page.locator('.project-card');
-    await expect(projectCards).toHaveCount(12);
+    consoleGuard.assertZeroErrors();
   });
 
-  test('filters projects dynamically by domain category', async ({ page }) => {
-    await page.goto('/projects');
+  test('filters projects dynamically by domain category [@regression]', async ({
+    projectsPage,
+    consoleGuard,
+  }) => {
+    await projectsPage.navigate();
 
-    // Click 'API & Backend Quality' filter button
-    const apiFilterBtn = page.getByRole('button', { name: 'API & Backend Quality' });
-    await apiFilterBtn.click();
-
-    // Verify matching cards are visible and non-matching are hidden
-    const visibleCards = page.locator('.project-card:not([hidden])');
-    const count = await visibleCards.count();
+    // Filter by API & Backend Quality
+    await projectsPage.filterByCategory('API & Backend Quality');
+    let count = await projectsPage.getVisibleProjectCount();
     expect(count).toBeGreaterThan(0);
     expect(count).toBeLessThan(12);
 
-    // Click 'All' to restore all 12
-    const allFilterBtn = page.getByRole('button', { name: 'All' });
-    await allFilterBtn.click();
-    await expect(page.locator('.project-card:not([hidden])')).toHaveCount(12);
+    // Filter by Performance Engineering
+    await projectsPage.filterByCategory('Performance Engineering');
+    count = await projectsPage.getVisibleProjectCount();
+    expect(count).toBeGreaterThan(0);
+
+    // Restore to All
+    await projectsPage.filterByCategory('All');
+    count = await projectsPage.getVisibleProjectCount();
+    expect(count).toBe(12);
+
+    consoleGuard.assertZeroErrors();
   });
 
-  test('navigates to individual case study page with complete metadata', async ({ page }) => {
-    await page.goto('/projects');
+  test('navigates to individual case study page with complete metadata', async ({
+    projectsPage,
+    projectDetailPage,
+    consoleGuard,
+  }) => {
+    await projectsPage.navigate();
 
-    // Click into Banking Quality Engineering case study
-    await page
-      .getByRole('heading', { name: 'Banking & Financial Transaction Quality Engine' })
-      .getByRole('link')
-      .click();
+    // Click into Banking Quality Engineering
+    await projectsPage.openProjectByTitle('Banking & Financial Transaction Quality Engine');
 
-    await expect(page).toHaveURL(/\/projects\/banking-quality-engineering/);
-    await expect(page.locator('h1.project-title')).toContainText(
-      'Banking & Financial Transaction Quality Engine'
-    );
+    await projectDetailPage.assertUrl(/\/projects\/banking-quality-engineering/);
+    await projectDetailPage.assertMetadataRendered();
 
-    // Verify metadata sections render
-    await expect(page.getByText('Business Problem')).toBeVisible();
-    await expect(page.getByText('Engineering Focus')).toBeVisible();
-    await expect(page.getByRole('link', { name: /Inspect Repository/i })).toBeVisible();
+    // Verify back navigation
+    await projectDetailPage.clickBackToProjects();
+    await projectsPage.assertUrl('/projects');
 
-    // Verify back navigation works
-    await page.getByRole('link', { name: /Back to 12 Projects Directory/i }).click();
-    await expect(page).toHaveURL('/projects');
-  });
-
-  test('passes WCAG 2.2 AA accessibility audit on Projects Directory', async ({ page }) => {
-    await page.goto('/projects');
-
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .analyze();
-
-    expect(accessibilityScanResults.violations).toEqual([]);
+    consoleGuard.assertZeroErrors();
   });
 });

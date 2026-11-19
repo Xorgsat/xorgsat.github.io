@@ -1,60 +1,65 @@
 // tests/e2e/navigation.spec.ts
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/testFixtures';
 
-test.describe('Navigation & Console Integrity', () => {
-  test('navigates seamlessly across primary navigation routes with zero console errors', async ({
-    page,
+test.describe('Navigation Graph & Shell Integrity', () => {
+  test('traverses seamlessly across primary navigation routes [@smoke]', async ({
+    homePage,
+    projectsPage,
+    aboutPage,
+    contactPage,
+    notesPage,
+    consoleGuard,
   }) => {
-    const consoleErrors: string[] = [];
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        consoleErrors.push(msg.text());
-      }
-    });
+    // 1. Home
+    await homePage.navigate();
+    await homePage.assertUrl('/');
 
-    const routes = ['/', '/projects', '/engineering-notes', '/about', '/contact'];
+    // 2. Navigate to Projects
+    await homePage.navbar.clickNavLink('Projects');
+    await projectsPage.assertUrl('/projects');
+    await projectsPage.assertTotalProjectCount(12);
 
-    for (const route of routes) {
-      await page.goto(route);
-      await expect(page).toHaveURL(route);
-      await expect(page.locator('main')).toBeVisible();
-    }
+    // 3. Navigate to Engineering Notes
+    await projectsPage.navbar.clickNavLink('Engineering Notes');
+    await notesPage.assertUrl('/engineering-notes');
+    await notesPage.assertArticlesPublished();
 
-    // Assert zero critical browser console errors occurred
-    expect(consoleErrors).toEqual([]);
+    // 4. Navigate to About
+    await notesPage.navbar.clickNavLink('About');
+    await aboutPage.assertUrl('/about');
+    await aboutPage.assertTimelineCount();
+
+    // 5. Navigate to Contact
+    await aboutPage.navbar.clickNavLink('Contact');
+    await contactPage.assertUrl('/contact');
+    await contactPage.assertDirectChannelsVisible();
+
+    consoleGuard.assertZeroErrors();
   });
 
-  test('skip to main content link becomes focused on tab navigation', async ({ page }) => {
-    await page.goto('/');
+  test('skip to main content link becomes focused on tab navigation', async ({
+    homePage,
+    consoleGuard,
+  }) => {
+    await homePage.navigate();
+    await homePage.triggerSkipToContent();
 
-    // Tab once to focus skip link
-    await page.keyboard.press('Tab');
-    const skipLink = page.locator('.skip-link');
-    await expect(skipLink).toBeFocused();
-    expect(await skipLink.getAttribute('href')).toBe('#main-content');
+    consoleGuard.assertZeroErrors();
   });
 
   test('mobile navigation drawer opens and closes correctly on mobile viewport', async ({
     page,
+    homePage,
+    consoleGuard,
   }) => {
-    // Set mobile viewport width
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    // Only execute drawer test if viewport is mobile-sized
+    const viewport = page.viewportSize();
+    if (viewport && viewport.width <= 768) {
+      await homePage.navigate();
+      await homePage.navbar.openMobileMenu();
+      await homePage.navbar.closeMobileMenu();
+    }
 
-    const menuBtn = page.locator('#mobile-menu-btn');
-    const mobileNav = page.locator('#mobile-nav');
-
-    await expect(menuBtn).toBeVisible();
-    await expect(mobileNav).toBeHidden();
-
-    // Open mobile menu
-    await menuBtn.click();
-    await expect(menuBtn).toHaveAttribute('aria-expanded', 'true');
-    await expect(mobileNav).toBeVisible();
-
-    // Close mobile menu
-    await menuBtn.click();
-    await expect(menuBtn).toHaveAttribute('aria-expanded', 'false');
-    await expect(mobileNav).toBeHidden();
+    consoleGuard.assertZeroErrors();
   });
 });

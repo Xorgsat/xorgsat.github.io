@@ -69,7 +69,7 @@ jobs:
         run: npm run build
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: Execute Playwright E2E & Axe Accessibility Tests
         run: npx playwright test
