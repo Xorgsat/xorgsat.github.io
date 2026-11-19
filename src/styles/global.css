@@ -1,4 +1,4 @@
-/* Global CSS & Accessibility Resets */
+/* Global CSS & Accessibility Resets — Blueprint Engineering */
 @import './tokens.css';
 @import './typography.css';
 
@@ -12,6 +12,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
   text-size-adjust: 100%;
 }
 
@@ -20,6 +21,12 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
@@ -43,9 +50,19 @@ select {
   font: inherit;
 }
 
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: var(--bg);
+  background: var(--lime);
+}
+
 /* WCAG 2.2 AA Focus Indicators */
 :focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 2px solid var(--lime);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
@@ -55,13 +72,16 @@ select {
   position: absolute;
   top: -100px;
   left: 1rem;
-  background: var(--text-primary);
-  color: var(--text-inverse);
+  background: var(--text);
+  color: var(--bg);
   padding: var(--space-3) var(--space-4);
   z-index: 1000;
   text-decoration: none;
+  font-family: var(--font-mono);
   font-weight: 600;
-  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--lime);
   transition: top var(--transition-fast);
 }
 
@@ -71,17 +91,231 @@ select {
 
 /* Container Utility */
 .container {
-  width: 100%;
-  max-width: var(--max-width-site);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
+  width: min(calc(100% - 32px), var(--content-width));
+  margin-inline: auto;
 }
 
 @media (min-width: 768px) {
   .container {
-    padding-left: var(--space-6);
-    padding-right: var(--space-6);
+    width: min(calc(100% - 48px), var(--content-width));
   }
+}
+
+/* Section Spacing */
+.section {
+  padding-block: clamp(56px, 8vw, 104px);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* =========================================================================
+   BLUEPRINT TECHNICAL DRAFTING SYSTEM
+   ========================================================================= */
+
+/* Drafting-board grid backgrounds */
+.blueprint-grid {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    radial-gradient(ellipse at 78% 20%, var(--grid-glow), transparent 64%);
+  background-size:
+    32px 32px,
+    32px 32px,
+    100% 100%;
+}
+
+.blueprint-grid--fine {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:
+    16px 16px,
+    16px 16px;
+}
+
+/* Structural Blueprint Frame with Architectural Corner Ticks */
+.blueprint-frame {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+}
+
+.blueprint-frame::before,
+.blueprint-frame::after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: '';
+  pointer-events: none;
+}
+
+.blueprint-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--blue);
+  border-left: 2px solid var(--blue);
+}
+
+.blueprint-frame::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+}
+
+/* Technical Eyebrow / Kicker */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blue);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background-color: currentColor;
+}
+
+/* Technical Typography Helpers */
+.display-title {
+  font-size: var(--text-4xl);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 750;
+  color: var(--text);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .display-title {
+    font-size: var(--text-5xl);
+  }
+}
+
+.accent-text {
+  color: var(--text-lime);
+}
+
+.text-lime {
+  color: var(--text-lime);
+}
+
+.text-blue {
+  color: var(--blue);
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Telemetry & Availability Badge */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.status-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+}
+
+/* Button System: Architectural & Restrained */
+.btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast),
+    border-color var(--duration-fast),
+    background-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  color: #071321;
+  background-color: var(--lime-display);
+  border: 1px solid var(--lime-display);
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--lime-display) 88%, white);
+  border-color: color-mix(in srgb, var(--lime-display) 88%, white);
+}
+
+.btn-secondary {
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.btn-outline {
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* Panel Utility */
+.panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: clamp(20px, 3.5vw, 32px);
 }

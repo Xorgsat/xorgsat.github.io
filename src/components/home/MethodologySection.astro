@@ -1,0 +1,260 @@
+---
+// src/components/home/MethodologySection.astro
+const steps = [
+  {
+    step: '01',
+    title: 'Design Testable Systems',
+    subtitle: 'ARCHITECTURAL RESILIENCE',
+    description:
+      'Collaborate early with backend and frontend engineering to establish deterministic interfaces, unique data-testid conventions, hermetic state fixtures, and explicit API contracts.',
+    deliverables: [
+      'Hermetic State Fixtures',
+      'Schema Invariant Contracts',
+      'Deterministic Test Data',
+    ],
+  },
+  {
+    step: '02',
+    title: 'Automate at Scale',
+    subtitle: 'PARALLEL EXECUTION',
+    description:
+      'Build decoupled, modular test harnesses using Component Object models. Shard execution across parallel worker pools with smart auto-waiting and zero arbitrary sleeps.',
+    deliverables: [
+      'Playwright / Appium Harvesters',
+      'Test Sharding & Matrix',
+      'Event-Driven Synchronization',
+    ],
+  },
+  {
+    step: '03',
+    title: 'Measure & Improve',
+    subtitle: 'ROOT-CAUSE REMEDIATION',
+    description:
+      'Treat flaky tests as defects, not inconveniences. Track p95/p99 test execution latency, isolate non-deterministic race conditions, and monitor defect leakage into production.',
+    deliverables: [
+      'Flaky Root-Cause Elimination',
+      'p99 Execution Profiling',
+      'Allure Telemetry Dashboards',
+    ],
+  },
+  {
+    step: '04',
+    title: 'Reliability by Design',
+    subtitle: 'AUTOMATED GOVERNANCE',
+    description:
+      'Enforce automated quality gates in CI/CD pipelines that block broken PRs in under 5 minutes. Audit WCAG 2.2 accessibility, performance budgets, and security posture automatically.',
+    deliverables: [
+      'Immutable PR Gates',
+      'Axe-core WCAG 2.2 Audits',
+      'Zero-Downtime Release Confidence',
+    ],
+  },
+];
+---
+
+<section class="methodology-section section" aria-labelledby="method-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">QUALITY ENGINEERING LIFECYCLE</span>
+      <h2 id="method-heading" class="display-title section-title">
+        Engineering Methodology &amp; Process<span class="accent-text">.</span>
+      </h2>
+      <p class="section-description">
+        A structured, four-phase engineering discipline honed across eight years of building
+        reliable test architectures for enterprise software.
+      </p>
+    </div>
+
+    <!-- 4-Step Horizontal Process Grid -->
+    <div class="methodology-grid">
+      {
+        steps.map((s, index) => (
+          <div class="method-card blueprint-frame">
+            <div class="card-step-bar">
+              <span class="step-num mono">{s.step}</span>
+              <span class="step-badge mono text-xs">{s.subtitle}</span>
+            </div>
+
+            <h3 class="step-title">{s.title}</h3>
+            <p class="step-desc">{s.description}</p>
+
+            <div class="step-deliverables">
+              <span class="deliv-label mono text-xs">KEY ARTIFACTS:</span>
+              <ul class="deliv-list">
+                {s.deliverables.map((item) => (
+                  <li class="mono text-xs">
+                    <span class="deliv-tick" aria-hidden="true">
+                      &bull;
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {index < steps.length - 1 && (
+              <div class="step-connector" aria-hidden="true">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .methodology-section {
+    background-color: var(--bg);
+  }
+
+  .section-header {
+    max-width: 760px;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .methodology-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    position: relative;
+  }
+
+  @media (min-width: 640px) {
+    .methodology-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .methodology-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .method-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--duration-fast),
+      border-color var(--duration-fast);
+  }
+
+  .method-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--blue);
+  }
+
+  .card-step-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+
+  .step-num {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--lime);
+    letter-spacing: -0.04em;
+  }
+
+  .step-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--blue);
+    background-color: var(--surface-soft);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .step-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 var(--space-2) 0;
+    letter-spacing: -0.02em;
+  }
+
+  .step-desc {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-4) 0;
+    flex: 1;
+  }
+
+  .step-deliverables {
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--border);
+  }
+
+  .deliv-label {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .deliv-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .deliv-list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text);
+    font-size: 0.75rem;
+  }
+
+  .deliv-tick {
+    color: var(--lime);
+  }
+
+  .step-connector {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .step-connector {
+      display: none; /* keep layout clean without overlapping lines */
+    }
+  }
+</style>

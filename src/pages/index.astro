@@ -3,21 +3,36 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import HeroSection from '@components/home/HeroSection.astro';
 import ExperienceHighlights from '@components/home/ExperienceHighlights.astro';
-import CapabilitiesSection from '@components/home/CapabilitiesSection.astro';
+import TestExecutionTerminal from '@components/home/TestExecutionTerminal.astro';
 import FeaturedProjects from '@components/home/FeaturedProjects.astro';
-import PhilosophySection from '@components/home/PhilosophySection.astro';
+import SystemArchitectureSection from '@components/home/SystemArchitectureSection.astro';
+import MethodologySection from '@components/home/MethodologySection.astro';
 import ContactCta from '@components/home/ContactCta.astro';
 
 const pageTitle = 'Senior SDET & Quality Engineering Architect';
 const pageDescription =
-  '8 years of experience engineering reliable automation systems across UI, API, mobile, and CI/CD pipelines. Portfolio of 12 test frameworks and architectural case studies.';
+  'Designing scalable test systems, automation frameworks and quality strategies for high-throughput, distributed products. 8 years engineering resilient test automation systems across UI, API, mobile, and CI/CD pipelines.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Section 2: Hero -->
   <HeroSection />
+
+  <!-- Section 3: Engineering Metrics -->
   <ExperienceHighlights />
-  <CapabilitiesSection />
+
+  <!-- Section 4: Test Execution Environment -->
+  <TestExecutionTerminal />
+
+  <!-- Section 5: Featured Case Studies -->
   <FeaturedProjects />
-  <PhilosophySection />
+
+  <!-- Section 6: Engineering Architecture -->
+  <SystemArchitectureSection />
+
+  <!-- Section 7: Engineering Methodology -->
+  <MethodologySection />
+
+  <!-- Section 8: Contact -->
   <ContactCta />
 </BaseLayout>

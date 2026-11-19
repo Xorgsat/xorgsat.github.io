@@ -31,13 +31,15 @@ const engagementTypes = [
   title={`Contact ${profile.name} | Senior SDET & Quality Engineering Architect`}
   description={`Initiate a professional conversation with ${profile.name} regarding international remote SDET roles, framework architecture engagements, and quality engineering consulting.`}
 >
-  <div class="contact-page">
+  <div class="contact-page blueprint-grid">
     <div class="container">
       <header class="page-header">
-        <span class="page-kicker">Professional Inquiries</span>
-        <h1 class="page-title">Initiate a Conversation</h1>
+        <span class="eyebrow">COMMISSION &bull; INQUIRY BOARD</span>
+        <h1 class="display-title page-title">
+          Initiate an Engineering Discussion<span class="accent-text">.</span>
+        </h1>
         <p class="page-lead">
-          I am actively available for international remote positions, high-impact contract
+          Actively available for international remote positions, high-impact framework architecture
           engagements, and quality engineering advisory. Let's discuss how we can engineer reliable
           testing systems for your product.
         </p>
@@ -46,14 +48,14 @@ const engagementTypes = [
       <div class="contact-grid">
         <!-- Direct Channels -->
         <div class="contact-channels">
-          <div class="channel-card primary-channel">
-            <span class="channel-kicker">Primary Contact Channel</span>
+          <div class="channel-card primary-channel blueprint-frame">
+            <span class="mono text-xs text-lime">PRIMARY INQUIRY CHANNEL</span>
             <h2 class="channel-title">Direct Email</h2>
             <p class="channel-description">
               Send a direct message regarding role requirements, framework architecture questions,
               or consulting inquiries.
             </p>
-            <a href={`mailto:${profile.email}`} class="email-btn">
+            <a href={`mailto:${profile.email}`} class="btn btn-primary email-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -75,9 +77,9 @@ const engagementTypes = [
             </a>
           </div>
 
-          <div class="channel-card">
-            <span class="channel-kicker">Professional Profiles &amp; Resume</span>
-            <h2 class="channel-title">Code, Career Network &amp; CV</h2>
+          <div class="channel-card blueprint-frame">
+            <span class="mono text-xs text-blue">VERIFIED PROFILES &amp; RESUME</span>
+            <h2 class="channel-title">Code Repositories &amp; Network</h2>
             <div class="profiles-list">
               <a
                 href={profile.githubUrl}
@@ -184,17 +186,22 @@ const engagementTypes = [
         </div>
 
         <!-- Areas of Engagement -->
-        <div class="engagement-overview">
-          <h2 class="engagement-heading">Engagement Scenarios</h2>
-          <div class="engagement-list">
-            {
-              engagementTypes.map((eng) => (
-                <div class="engagement-item">
-                  <h3 class="engagement-title">{eng.title}</h3>
-                  <p class="engagement-desc">{eng.description}</p>
-                </div>
-              ))
-            }
+        <div class="engagement-overview blueprint-frame">
+          <div class="panel-head-bar">
+            <span class="mono text-xs text-blue">ENGAGEMENT ARCHITECTURE</span>
+          </div>
+          <div class="engagement-inner">
+            <h2 class="engagement-heading">Engagement Scenarios</h2>
+            <div class="engagement-list">
+              {
+                engagementTypes.map((eng) => (
+                  <div class="engagement-item">
+                    <h3 class="engagement-title">{eng.title}</h3>
+                    <p class="engagement-desc">{eng.description}</p>
+                  </div>
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -204,47 +211,35 @@ const engagementTypes = [
 
 <style>
   .contact-page {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-16);
+    padding-top: clamp(48px, 6vw, 80px);
+    padding-bottom: clamp(64px, 8vw, 112px);
   }
 
   .page-header {
-    max-width: 800px;
-    margin-bottom: var(--space-12);
-  }
-
-  .page-kicker {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    margin-bottom: var(--space-2);
+    max-width: 820px;
+    margin-bottom: var(--space-10);
   }
 
   .page-title {
-    margin-top: 0;
+    margin-top: var(--space-2);
     margin-bottom: var(--space-3);
   }
 
   .page-lead {
     font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
-    color: var(--text-secondary);
-    margin: 0;
+    color: var(--text-muted);
   }
 
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-10);
+    gap: var(--space-8);
   }
 
   @media (min-width: 900px) {
     .contact-grid {
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.2fr 0.8fr;
     }
   }
 
@@ -255,65 +250,42 @@ const engagementTypes = [
   }
 
   .channel-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-8);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
   }
 
   .primary-channel {
-    border-color: color-mix(in srgb, var(--accent-primary) 35%, transparent);
-    background-color: var(--bg-surface-elevated);
-  }
-
-  .channel-kicker {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    margin-bottom: var(--space-2);
+    border-color: var(--border-strong);
   }
 
   .channel-title {
     font-size: var(--text-xl);
-    margin-top: 0;
-    margin-bottom: var(--space-3);
+    margin: var(--space-2) 0 var(--space-2) 0;
+    color: var(--text);
   }
 
   .channel-description {
     font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: var(--leading-normal);
-    margin-bottom: var(--space-6);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-5);
   }
 
   .email-btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
-    background-color: var(--accent-primary);
-    color: var(--text-inverse);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-md);
-    font-size: var(--text-base);
+    gap: 8px;
     font-family: var(--font-mono);
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .email-btn:hover {
-    background-color: var(--accent-hover);
-    text-decoration: none;
   }
 
   .profiles-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    margin-top: var(--space-4);
   }
 
   .profile-item {
@@ -321,19 +293,26 @@ const engagementTypes = [
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-3);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
+    background-color: var(--surface-soft);
     text-decoration: none;
-    background-color: var(--bg-primary);
-    transition: border-color var(--transition-fast);
+    color: var(--text);
+    transition:
+      border-color var(--duration-fast),
+      transform var(--duration-fast);
   }
 
   .profile-item:hover {
-    border-color: var(--border-default);
+    border-color: var(--blue);
+    transform: translateX(4px);
   }
 
   .profile-icon {
-    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
   }
 
   .profile-details {
@@ -343,8 +322,7 @@ const engagementTypes = [
 
   .profile-name {
     font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: 700;
   }
 
   .profile-sub {
@@ -352,52 +330,65 @@ const engagementTypes = [
     color: var(--text-muted);
   }
 
-  /* Engagement Overview */
   .engagement-overview {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-8);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    height: fit-content;
+  }
+
+  .panel-head-bar {
+    padding: 10px 18px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .engagement-inner {
+    padding: var(--space-6);
   }
 
   .engagement-heading {
     font-size: var(--text-xl);
-    margin-top: 0;
-    margin-bottom: var(--space-6);
-    padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--border-subtle);
+    margin: 0 0 var(--space-4) 0;
+    color: var(--text);
   }
 
   .engagement-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-4);
+  }
+
+  .engagement-item {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .engagement-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .engagement-title {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 700;
-    color: var(--text-primary);
-    margin-top: 0;
-    margin-bottom: var(--space-1);
+    color: var(--text);
+    margin: 0 0 4px 0;
   }
 
   .engagement-desc {
     font-size: var(--text-xs);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
     margin: 0;
   }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  .text-blue {
+    color: var(--blue);
+  }
+  .text-lime {
+    color: var(--lime);
   }
 </style>

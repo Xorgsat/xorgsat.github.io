@@ -29,27 +29,33 @@ const categories = [
   title="Projects Directory | 12 Test Automation Frameworks"
   description="Explore 12 quality engineering and test automation frameworks across UI, API, Mobile, Performance, and CI/CD test infrastructure."
 >
-  <div class="projects-page">
+  <div class="projects-page blueprint-grid">
     <div class="container">
+      <!-- Page Header -->
       <header class="page-header">
-        <span class="page-kicker">Architecture Portfolio</span>
-        <h1 class="page-title">Engineering Projects &amp; Frameworks</h1>
+        <span class="eyebrow">ARCHITECTURAL BLUEPRINTS // 12 REPOSITORIES</span>
+        <h1 class="display-title page-title">
+          Engineering Projects &amp; Frameworks<span class="accent-text">.</span>
+        </h1>
         <p class="page-description">
-          A comprehensive catalog of 12 test automation frameworks and quality engineering systems.
-          Includes 8 purpose-built demonstration frameworks and 4 commercial enterprise case
-          studies.
+          A catalog of 12 test automation frameworks and quality engineering systems. Includes 8
+          purpose-built demonstration architectures and 4 commercial enterprise case studies across
+          UI, API, Mobile, Performance, and CI/CD gates.
         </p>
       </header>
 
       <!-- Category Filter Controls -->
       <div class="filter-wrapper" role="toolbar" aria-label="Project Category Filters">
-        <span class="filter-label">Filter by Domain:</span>
+        <div class="filter-header">
+          <span class="filter-label mono text-xs">FILTER BY DOMAIN:</span>
+          <span class="mono text-xs text-dim" id="filter-count">SHOWING: 12 OF 12</span>
+        </div>
         <div class="filter-buttons">
           {
             categories.map((cat, index) => (
               <button
                 type="button"
-                class:list={['filter-btn', { active: index === 0 }]}
+                class:list={['filter-btn mono', { active: index === 0 }]}
                 data-category={cat}
               >
                 {cat}
@@ -62,87 +68,92 @@ const categories = [
       <!-- Projects Grid -->
       <div class="projects-grid" id="projects-grid">
         {
-          sortedProjects.map((project) => {
+          sortedProjects.map((project, idx) => {
             const slug = getProjectSlug(project.id);
+            const sheetId = String(idx + 1).padStart(2, '0');
+
             return (
               <article
-                class="project-card"
+                class="project-card blueprint-frame"
                 data-category={project.data.category}
                 data-status={project.data.status}
               >
-                <div class="card-header">
-                  <span class="project-category">{project.data.category}</span>
-                  <span
-                    class:list={[
-                      'status-pill',
-                      project.data.status.toLowerCase().replace(/\s+/g, '-'),
-                    ]}
-                  >
-                    {project.data.status}
+                {/* Top Technical Bar */}
+                <div class="card-tech-bar">
+                  <span class="mono text-xs text-blue">
+                    DWG-{sheetId} // {project.data.projectType.toUpperCase()}
+                  </span>
+                  <span class="card-status-badge">
+                    <span class="status-indicator-dot" aria-hidden="true" />
+                    <span>{project.data.status}</span>
                   </span>
                 </div>
 
-                <h2 class="project-title">
-                  <a href={`/projects/${slug}`}>{project.data.title}</a>
-                </h2>
+                <div class="card-inner-body">
+                  <span class="project-category">{project.data.category}</span>
 
-                <p class="project-description">{project.data.description}</p>
+                  <h2 class="project-title">
+                    <a href={`/projects/${slug}`}>{project.data.title}</a>
+                  </h2>
 
-                <div class="card-focus-block">
-                  <span class="focus-title">Engineering Focus:</span>
-                  <p class="focus-text">{project.data.engineeringFocus}</p>
-                </div>
+                  <p class="project-description">{project.data.description}</p>
 
-                <div class="card-tech">
-                  {project.data.techStack.map((tech) => (
-                    <TechTag label={tech} variant="default" />
-                  ))}
-                </div>
+                  <div class="card-focus-block">
+                    <span class="focus-title mono text-xs">ENGINEERING FOCUS:</span>
+                    <p class="focus-text">{project.data.engineeringFocus}</p>
+                  </div>
 
-                <div class="card-footer">
-                  <a href={`/projects/${slug}`} class="case-study-link">
-                    <span>Inspect Case Study</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
+                  <div class="card-tech">
+                    {project.data.techStack.map((tech) => (
+                      <TechTag label={tech} variant="default" />
+                    ))}
+                  </div>
+
+                  <div class="card-footer">
+                    <a href={`/projects/${slug}`} class="case-study-link">
+                      <span>Inspect Case Study</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </a>
+
+                    <a
+                      href={project.data.repositoryUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="repo-link"
+                      title={`View repository for ${project.data.title}`}
                     >
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </a>
-
-                  <a
-                    href={project.data.repositoryUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="repo-link"
-                    title={`View repository for ${project.data.title}`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                    </svg>
-                    <span>Code</span>
-                    <span class="sr-only"> (opens in new tab)</span>
-                  </a>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                      </svg>
+                      <span>Repository</span>
+                      <span class="sr-only"> (opens in new tab)</span>
+                    </a>
+                  </div>
                 </div>
               </article>
             );
@@ -151,8 +162,8 @@ const categories = [
       </div>
 
       <!-- No Results Message -->
-      <div id="no-results-msg" class="no-results" hidden>
-        <p>No projects match the selected category filter.</p>
+      <div id="no-results-msg" class="no-results blueprint-frame" hidden>
+        <p class="mono text-sm muted m-0">No projects match the selected domain category filter.</p>
       </div>
     </div>
   </div>
@@ -160,34 +171,23 @@ const categories = [
 
 <style>
   .projects-page {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-16);
+    padding-top: clamp(48px, 6vw, 80px);
+    padding-bottom: clamp(64px, 8vw, 112px);
   }
 
   .page-header {
-    max-width: 760px;
+    max-width: 780px;
     margin-bottom: var(--space-8);
   }
 
-  .page-kicker {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    margin-bottom: var(--space-2);
-  }
-
   .page-title {
-    margin-top: 0;
+    margin-top: var(--space-2);
     margin-bottom: var(--space-3);
   }
 
   .page-description {
     font-size: var(--text-base);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
     margin: 0;
   }
@@ -198,15 +198,22 @@ const categories = [
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .filter-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.08em;
   }
 
   .filter-buttons {
@@ -216,28 +223,27 @@ const categories = [
   }
 
   .filter-btn {
-    font-family: var(--font-mono);
     font-size: var(--text-xs);
-    font-weight: 500;
-    padding: var(--space-2) var(--space-3);
+    font-weight: 600;
+    padding: 6px 12px;
     border-radius: var(--radius-sm);
-    border: 1px solid var(--border-subtle);
-    background-color: var(--bg-surface);
-    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    background-color: var(--surface-soft);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--duration-fast);
   }
 
   .filter-btn:hover {
-    border-color: var(--border-default);
-    color: var(--text-primary);
+    border-color: var(--blue);
+    color: var(--text);
   }
 
   .filter-btn.active {
-    background-color: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: var(--text-inverse);
-    font-weight: 600;
+    background-color: var(--blue);
+    border-color: var(--blue);
+    color: #ffffff;
+    font-weight: 700;
   }
 
   /* Projects Grid */
@@ -247,206 +253,213 @@ const categories = [
     gap: var(--space-6);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 800px) {
     .projects-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   .project-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-6);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
     transition:
-      border-color var(--transition-fast),
-      transform var(--transition-fast);
+      border-color var(--duration-fast),
+      transform var(--duration-fast),
+      box-shadow var(--duration-fast);
   }
 
   .project-card:hover {
-    border-color: var(--border-default);
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px var(--grid-glow);
   }
 
   .project-card[hidden] {
     display: none !important;
   }
 
-  .card-header {
+  .card-tech-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--space-3);
+    padding: 8px 16px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .card-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .status-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--lime);
+  }
+
+  .card-inner-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 
   .project-category {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 600;
-    color: var(--accent-primary);
-    text-transform: uppercase;
+    color: var(--blue);
     letter-spacing: 0.05em;
-  }
-
-  .status-pill {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--radius-full);
-  }
-
-  .status-pill.completed {
-    background-color: var(--status-success-bg);
-    color: var(--status-success);
-    border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
-  }
-
-  .status-pill.in-development {
-    background-color: var(--status-warning-bg);
-    color: var(--status-warning);
-    border: 1px solid color-mix(in srgb, var(--status-warning) 30%, transparent);
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
   }
 
   .project-title {
-    font-size: var(--text-xl);
-    margin-top: 0;
-    margin-bottom: var(--space-3);
-    line-height: var(--leading-tight);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 700;
+    margin: 0 0 var(--space-3) 0;
   }
 
   .project-title a {
-    color: var(--text-primary);
+    color: var(--text);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color var(--duration-fast);
   }
 
   .project-title a:hover {
-    color: var(--accent-primary);
+    color: var(--blue);
   }
 
   .project-description {
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-normal);
-    margin-bottom: var(--space-4);
+    margin: 0 0 var(--space-4) 0;
   }
 
   .card-focus-block {
+    background-color: var(--surface-soft);
+    border-left: 3px solid var(--blue);
+    padding: var(--space-3) var(--space-4);
     margin-bottom: var(--space-4);
-    padding: var(--space-3);
-    background-color: var(--bg-code);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
   .focus-title {
     display: block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-1);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 2px;
   }
 
   .focus-text {
     font-size: var(--text-xs);
-    color: var(--text-primary);
-    line-height: var(--leading-normal);
+    color: var(--text);
     margin: 0;
+    line-height: var(--leading-normal);
+    font-weight: 500;
   }
 
   .card-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1);
-    margin-bottom: var(--space-6);
+    gap: 6px;
+    margin-top: auto;
+    margin-bottom: var(--space-5);
   }
 
   .card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: auto;
     padding-top: var(--space-4);
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px dashed var(--border);
   }
 
   .case-study-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 6px;
     font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--accent-primary);
+    font-weight: 650;
+    color: var(--lime);
     text-decoration: none;
+    transition: transform var(--duration-fast);
   }
 
   .case-study-link:hover {
-    text-decoration: underline;
+    transform: translateX(3px);
   }
 
   .repo-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: var(--text-xs);
+    gap: 6px;
     font-family: var(--font-mono);
-    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
     text-decoration: none;
-    padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
-    background-color: var(--bg-code);
+    transition: color var(--duration-fast);
   }
 
   .repo-link:hover {
-    color: var(--text-primary);
-    border-color: var(--border-default);
+    color: var(--blue);
   }
 
   .no-results {
-    padding: var(--space-12);
+    padding: var(--space-8);
     text-align: center;
-    color: var(--text-muted);
-    font-size: var(--text-base);
+    background-color: var(--surface);
+    margin-top: var(--space-6);
   }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  .text-blue {
+    color: var(--blue);
+  }
+  .text-dim {
+    color: var(--text-dim);
+  }
+  .m-0 {
+    margin: 0;
   }
 </style>
 
 <script is:inline>
   function setupProjectFilters() {
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.project-card');
-    const noResults = document.getElementById('no-results-msg');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    const noResultsMsg = document.getElementById('no-results-msg');
+    const filterCountEl = document.getElementById('filter-count');
 
-    if (!buttons.length || !cards.length) return;
+    if (!filterButtons.length || !projectCards.length) return;
 
-    buttons.forEach((btn) => {
+    filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-category');
-
-        buttons.forEach((b) => b.classList.remove('active'));
+        filterButtons.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
 
+        const selectedCategory = btn.getAttribute('data-category');
         let visibleCount = 0;
-        cards.forEach((card) => {
+
+        projectCards.forEach((card) => {
           const cardCategory = card.getAttribute('data-category');
-          if (category === 'All' || cardCategory === category) {
+          if (selectedCategory === 'All' || cardCategory === selectedCategory) {
             card.removeAttribute('hidden');
             visibleCount++;
           } else {
@@ -454,11 +467,15 @@ const categories = [
           }
         });
 
-        if (noResults) {
+        if (filterCountEl) {
+          filterCountEl.textContent = `SHOWING: ${visibleCount} OF ${projectCards.length}`;
+        }
+
+        if (noResultsMsg) {
           if (visibleCount === 0) {
-            noResults.removeAttribute('hidden');
+            noResultsMsg.removeAttribute('hidden');
           } else {
-            noResults.setAttribute('hidden', '');
+            noResultsMsg.setAttribute('hidden', '');
           }
         }
       });

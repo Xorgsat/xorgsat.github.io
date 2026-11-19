@@ -1,13 +1,11 @@
-/* Typography System: Clean Engineering Baseline */
+/* Typography System: Blueprint Engineering Specification */
 
 body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--text);
+  background-color: var(--bg);
 }
 
 h1,
@@ -16,16 +14,18 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--text-primary);
+  color: var(--text);
+  font-family: var(--font-sans);
   font-weight: 700;
   line-height: var(--leading-tight);
   margin-top: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 h1 {
   font-size: var(--text-4xl);
   margin-bottom: var(--space-4);
+  letter-spacing: -0.04em;
 }
 
 @media (min-width: 768px) {
@@ -37,7 +37,8 @@ h1 {
 h2 {
   font-size: var(--text-2xl);
   margin-top: var(--space-8);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.025em;
 }
 
 @media (min-width: 768px) {
@@ -49,26 +50,29 @@ h2 {
 h3 {
   font-size: var(--text-xl);
   margin-top: var(--space-6);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.015em;
 }
 
 p {
   margin-top: 0;
   margin-bottom: var(--space-4);
-  color: var(--text-secondary);
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
 }
 
 a {
-  color: var(--accent-primary);
+  color: var(--blue);
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: color var(--transition-fast);
+  transition: color var(--duration-fast);
 }
 
 a:hover {
-  color: var(--accent-hover);
+  color: var(--lime);
 }
 
+/* Monospace & Engineering Code Elements */
 code,
 pre,
 kbd,
@@ -78,33 +82,38 @@ samp {
 }
 
 code:not(pre code) {
-  background-color: var(--bg-code);
-  color: var(--text-primary);
-  padding: 0.15em 0.4em;
+  background-color: var(--surface-soft);
+  color: var(--blue);
+  padding: 0.2em 0.45em;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
+  font-size: 0.85em;
 }
 
 pre {
-  background-color: var(--bg-code);
-  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: var(--space-4);
   overflow-x: auto;
   margin: var(--space-4) 0;
   line-height: 1.6;
+  color: var(--text);
 }
 
 pre code {
   background: transparent;
   border: none;
   padding: 0;
+  color: inherit;
 }
 
 blockquote {
-  border-left: 3px solid var(--accent-primary);
+  border-left: 3px solid var(--blue);
   margin: var(--space-6) 0;
-  padding-left: var(--space-4);
-  color: var(--text-secondary);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  color: var(--text);
+  background-color: color-mix(in srgb, var(--surface) 60%, transparent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-style: italic;
 }

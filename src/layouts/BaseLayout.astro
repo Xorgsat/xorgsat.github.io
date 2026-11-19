@@ -23,11 +23,11 @@ const {
   publishDate,
 } = Astro.props;
 
-const siteTitle = `${title} | Senior SDET Engineering Portfolio`;
+const siteTitle = `${title} | Senior SDET & Quality Engineering Architect`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,6 +35,14 @@ const siteTitle = `${title} | Senior SDET Engineering Portfolio`;
     <title>{siteTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Google Webfonts: Geist Sans & Geist Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Open Graph Metadata -->
     <meta property="og:type" content="website" />
@@ -63,15 +71,18 @@ const siteTitle = `${title} | Senior SDET Engineering Portfolio`;
         const storedTheme = localStorage.getItem('theme');
         if (storedTheme) {
           document.documentElement.setAttribute('data-theme', storedTheme);
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
+        } else if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches
+        ) {
           document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
   </head>
-  <body>
+  <body class="blueprint-grid">
     <!-- WCAG 2.2 AA Mandatory Skip to Content Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 

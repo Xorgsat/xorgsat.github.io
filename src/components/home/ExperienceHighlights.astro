@@ -3,102 +3,168 @@
 import MetricCard from '@components/ui/MetricCard.astro';
 import { profile } from '../../config/profile';
 
-const metrics = [
+const primaryMetrics = [
   {
+    channel: 'CH-01 // TENURE',
     value: `${profile.experienceYears}+ Years`,
     label: 'QA / SDET Experience',
     context:
-      'Proven track record engineering robust quality architecture across high-velocity teams and distributed systems.',
+      'Proven career track record engineering robust quality architecture across high-velocity teams, fintech, and distributed microservices.',
     verified: true,
   },
   {
+    channel: 'CH-02 // ARCHITECTURE',
     value: `${profile.metrics.frameworksCount}`,
     label: 'Automation Frameworks Built',
     context:
-      'Custom architectures built across UI (Playwright, Puppeteer, Selenium), Mobile (Appium), and API/contracts.',
+      'Production test systems engineered across UI (Playwright, Puppeteer, Selenium), Mobile (Appium), and API/contracts (Python Requests, REST Assured).',
     verified: true,
   },
   {
+    channel: 'CH-03 // SCALE',
     value: profile.metrics.automatedTests,
     label: 'Automated Tests Built',
     context:
-      'Spanning 28,000 lifetime test cases handled, representing a 46.4% career automation share across 4 major frameworks.',
+      'Engineered ~13,000 automated tests across 28,000 lifetime test cases handled, achieving a 46.4% career automation share with 0 tolerance for flaky tests.',
     verified: true,
   },
   {
+    channel: 'CH-04 // EFFICIENCY',
     value: profile.metrics.regressionReduction,
     label: 'Regression Cycle Reduction',
-    context: `Compressed 3-day manual regression runs (${profile.metrics.regressionManualTime}) down to ${profile.metrics.regressionAutomatedTime} automated (${profile.metrics.regressionSpeedup} speedup).`,
+    context: `Compressed 3-day manual regression runs (${profile.metrics.regressionManualTime}) down to ${profile.metrics.regressionAutomatedTime} automated (${profile.metrics.regressionSpeedup} speedup in CI/CD release loops).`,
     verified: true,
   },
 ];
 ---
 
-<section class="highlights-section" aria-labelledby="highlights-heading">
+<section class="highlights-section section" aria-labelledby="highlights-heading">
   <div class="container">
     <div class="section-header">
-      <span class="section-kicker">Verified Track Record</span>
-      <h2 id="highlights-heading" class="section-title">
-        Engineering Metrics &amp; Quality Impact
+      <span class="eyebrow">INSTRUMENTATION &bull; TELEMETRY BOARD</span>
+      <h2 id="highlights-heading" class="display-title section-title">
+        Engineering Metrics &amp; Quality Impact<span class="accent-text">.</span>
       </h2>
       <p class="section-description">
         Evidence-based achievements across eight years of testing distributed enterprise systems,
-        microservices, and web applications.
+        microservices, financial ledgers, and responsive web applications.
       </p>
     </div>
 
+    <!-- 4-Channel Precision Instrumentation Grid -->
     <div class="metrics-grid">
       {
-        metrics.map((m) => (
-          <MetricCard value={m.value} label={m.label} context={m.context} verified={m.verified} />
+        primaryMetrics.map((m) => (
+          <MetricCard
+            channel={m.channel}
+            value={m.value}
+            label={m.label}
+            context={m.context}
+            verified={m.verified}
+          />
         ))
       }
     </div>
 
-    <div class="integrity-disclosure">
-      <p>
-        <strong>Note on Metrics:</strong> All figures represent aggregated experience across commercial
-        engagements and independent framework engineering. Figures strictly distinguish test cases handled
-        (~28,000 total across UI, API, Mobile, Integration, and Load) from tests automated (~13,000).
-        The 89.6% regression cycle reduction compares 24 standard working hours to 2.5 automated hours.
-      </p>
+    <!-- Telemetry Telemetry Breakdown Panel -->
+    <div class="telemetry-panel blueprint-frame">
+      <div class="telemetry-header">
+        <div class="header-left">
+          <span class="mono text-xs text-blue">TELEMETRY STREAM: 28,000 TEST CASES AUDIT</span>
+          <span class="live-dot" aria-hidden="true"></span>
+        </div>
+        <span class="mono text-xs text-dim">AGGREGATED CAREER PRODUCTION LOG</span>
+      </div>
+
+      <div class="telemetry-body">
+        <div class="telemetry-row">
+          <div class="telemetry-col">
+            <span class="mono text-xs muted">LIFETIME TEST CASES:</span>
+            <span class="mono text-sm bold text-text">28,000+ Total</span>
+          </div>
+          <div class="telemetry-col">
+            <span class="mono text-xs muted">AUTOMATED VOLUME:</span>
+            <span class="mono text-sm bold text-lime">~13,000 (46.4% Share)</span>
+          </div>
+          <div class="telemetry-col">
+            <span class="mono text-xs muted">DEFECTS IDENTIFIED:</span>
+            <span class="mono text-sm bold text-blue">1,500 – 2,000 Root-Cause Bugs</span>
+          </div>
+          <div class="telemetry-col">
+            <span class="mono text-xs muted">RELEASE SPEEDUP:</span>
+            <span class="mono text-sm bold text-lime">9.6x Acceleration</span>
+          </div>
+        </div>
+
+        <div class="distribution-bar" aria-label="Test Distribution by Domain">
+          <div
+            class="dist-segment dist-ui"
+            style="width: 39.3%;"
+            title="UI Automation: 39.3% (11,000)"
+          >
+            UI: 39%
+          </div>
+          <div
+            class="dist-segment dist-api"
+            style="width: 17.9%;"
+            title="API Testing: 17.9% (5,000)"
+          >
+            API: 18%
+          </div>
+          <div
+            class="dist-segment dist-mobile"
+            style="width: 17.9%;"
+            title="Mobile Testing: 17.9% (5,000)"
+          >
+            MOBILE: 18%
+          </div>
+          <div
+            class="dist-segment dist-int"
+            style="width: 17.9%;"
+            title="Integration: 17.9% (5,000)"
+          >
+            INT: 18%
+          </div>
+          <div
+            class="dist-segment dist-perf"
+            style="width: 7.0%;"
+            title="Performance & Load: 7.0% (2,000)"
+          >
+            PERF: 7%
+          </div>
+        </div>
+      </div>
+
+      <div class="telemetry-footer">
+        <p class="mono text-xs text-muted m-0">
+          <strong>Engineering Integrity Disclosure:</strong> Metrics strictly distinguish total test cases
+          handled (~28,000 across UI, API, Mobile, Integration, and Load) from tests automated (~13,000).
+          The 89.6% cycle compression represents standard working hours (24 hrs) compressed into deterministic
+          CI parallel execution (2.5 hrs).
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .highlights-section {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-12);
-    border-bottom: 1px solid var(--border-subtle);
+    background-color: color-mix(in srgb, var(--surface) 40%, var(--bg));
   }
 
   .section-header {
-    max-width: 720px;
+    max-width: 760px;
     margin-bottom: var(--space-8);
   }
 
-  .section-kicker {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    margin-bottom: var(--space-2);
-  }
-
   .section-title {
-    margin-top: 0;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-2);
   }
 
   .section-description {
     font-size: var(--text-base);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
-    margin: 0;
   }
 
   .metrics-grid {
@@ -109,28 +175,121 @@ const metrics = [
 
   @media (min-width: 640px) {
     .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1024px) {
     .metrics-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
-  .integrity-disclosure {
+  /* Telemetry Breakdown Panel */
+  .telemetry-panel {
     margin-top: var(--space-6);
-    padding: var(--space-3) var(--space-4);
-    background-color: var(--bg-surface);
-    border-left: 3px solid var(--accent-primary);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background-color: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    overflow: hidden;
   }
 
-  .integrity-disclosure p {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
+  .telemetry-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--lime);
+    box-shadow: 0 0 6px var(--lime);
+  }
+
+  .telemetry-body {
+    padding: 18px;
+  }
+
+  .telemetry-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .telemetry-row {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .telemetry-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .distribution-bar {
+    display: flex;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--surface-soft);
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .dist-ui {
+    background-color: #125c9b;
+  }
+  .dist-api {
+    background-color: #0f6c79;
+  }
+  .dist-mobile {
+    background-color: #13602d;
+  }
+  .dist-int {
+    background-color: #1a4f78;
+  }
+  .dist-perf {
+    background-color: #7c2d12;
+  }
+
+  .telemetry-footer {
+    padding: 12px 18px;
+    background-color: var(--surface-soft);
+    border-top: 1px dashed var(--border);
+  }
+
+  .text-text {
+    color: var(--text);
+  }
+  .text-blue {
+    color: var(--blue);
+  }
+  .text-lime {
+    color: var(--lime);
+  }
+  .bold {
+    font-weight: 700;
+  }
+  .m-0 {
     margin: 0;
-    line-height: var(--leading-normal);
   }
 </style>

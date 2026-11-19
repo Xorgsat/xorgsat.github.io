@@ -1,0 +1,485 @@
+---
+// src/components/home/TestExecutionTerminal.astro
+---
+
+<section class="terminal-section section" aria-labelledby="terminal-heading">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">SYNTHETIC EXECUTION TEST HARNESS</span>
+      <h2 id="terminal-heading" class="display-title section-title">
+        Deterministic Test Execution Harness<span class="accent-text">.</span>
+      </h2>
+      <p class="section-description">
+        Interactive simulation of an enterprise Playwright distributed test run across 6 parallel
+        worker threads. Observe real-time test suite discovery, hermetic browser allocation,
+        assertion telemetry, and automated CI/CD quality gate pass evaluation.
+      </p>
+    </div>
+
+    <!-- Terminal Container -->
+    <div class="terminal-wrapper blueprint-frame" id="terminal-widget">
+      <!-- Title Bar -->
+      <div class="terminal-header">
+        <div class="window-controls" aria-hidden="true">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+
+        <div class="terminal-title mono text-xs">
+          <span>bash // runner@sdet-gateway:~/work/quality-engine</span>
+        </div>
+
+        <div class="terminal-controls">
+          <span class="sim-badge" title="Notice: Synthetic execution demonstration">
+            SIMULATED DEMONSTRATION
+          </span>
+          <button
+            id="btn-replay-exec"
+            class="term-btn"
+            type="button"
+            aria-label="Replay synthetic test execution"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+            <span>Replay</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Execution Progress Bar & Live Stats -->
+      <div class="terminal-stats-strip">
+        <div class="stat-pill">
+          <span class="stat-name">SUITE:</span>
+          <span class="stat-val text-blue">playwright-v1.48</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-name">WORKERS:</span>
+          <span class="stat-val text-lime" id="stat-workers">6 PARALLEL</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-name">DISCOVERED:</span>
+          <span class="stat-val" id="stat-total">423 TESTS</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-name">DURATION:</span>
+          <span class="stat-val text-blue" id="stat-duration">02m 28s</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-name">QUALITY GATE:</span>
+          <span class="stat-val gate-pass" id="stat-gate">PASSED (100%)</span>
+        </div>
+      </div>
+
+      <!-- Real-time Progress Bar -->
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="exec-progress-bar" style="width: 100%;"></div>
+      </div>
+
+      <!-- Terminal Output Screen -->
+      <div
+        class="terminal-screen mono"
+        id="terminal-logs"
+        role="region"
+        aria-live="polite"
+        aria-label="Terminal Test Log Output"
+      >
+        <!-- Lines injected via TypeScript below -->
+      </div>
+
+      <!-- Terminal Footer Bar -->
+      <div class="terminal-footer">
+        <div class="footer-left mono text-xs text-dim">
+          <span
+            >&gt; Node.js v22.11.0 &bull; Chromium 130.0 &bull; Hermetic Storage State: ISOLATED</span
+          >
+        </div>
+        <div class="footer-right mono text-xs text-lime">
+          <span class="indicator-pass">&bull; ALL 423 ASSERTIONS DETERMINISTIC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .terminal-section {
+    background-color: var(--bg);
+  }
+
+  .section-header {
+    max-width: 780px;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Terminal Window */
+  .terminal-wrapper {
+    background-color: #06111e;
+    color: #edf5ff;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background-color: #0b1a2c;
+    border-bottom: 1px solid #1a3249;
+    gap: 12px;
+  }
+
+  .window-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot.red {
+    background-color: #ff5f56;
+  }
+  .dot.yellow {
+    background-color: #ffbd2e;
+  }
+  .dot.green {
+    background-color: #27c93f;
+  }
+
+  .terminal-title {
+    color: #89a8c4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .terminal-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sim-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #b7f36b;
+    background-color: rgba(183, 243, 107, 0.12);
+    border: 1px solid rgba(183, 243, 107, 0.3);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .term-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #11283e;
+    color: #edf5ff;
+    border: 1px solid #284b6d;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast),
+      border-color var(--duration-fast);
+  }
+
+  .term-btn:hover {
+    background-color: #1a3d60;
+    border-color: var(--blue);
+  }
+
+  /* Stats Strip */
+  .terminal-stats-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px clamp(12px, 3vw, 24px);
+    padding: 10px 18px;
+    background-color: #091624;
+    border-bottom: 1px solid #14283d;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stat-name {
+    color: #8ba9c6;
+    font-weight: 600;
+  }
+
+  .stat-val {
+    font-weight: 700;
+  }
+
+  .gate-pass {
+    color: #b7f36b;
+    text-shadow: 0 0 8px rgba(183, 243, 107, 0.4);
+  }
+
+  /* Progress Track */
+  .progress-track {
+    height: 3px;
+    width: 100%;
+    background-color: #14283d;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #55b8ff, #b7f36b);
+    transition: width 150ms linear;
+  }
+
+  /* Terminal Screen */
+  .terminal-screen {
+    padding: 18px;
+    min-height: 280px;
+    max-height: 380px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    background-color: #040c16;
+  }
+
+  :global(.term-line) {
+    display: flex;
+    gap: 10px;
+    word-break: break-all;
+  }
+
+  :global(.term-time) {
+    color: #8da4be;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  :global(.term-tag) {
+    font-weight: 700;
+    padding: 0 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  :global(.term-tag.inf) {
+    color: #55b8ff;
+    background-color: rgba(85, 184, 255, 0.12);
+  }
+
+  :global(.term-tag.run) {
+    color: #ffd16a;
+    background-color: rgba(255, 209, 106, 0.12);
+  }
+
+  :global(.term-tag.pass) {
+    color: #b7f36b;
+    background-color: rgba(183, 243, 107, 0.14);
+  }
+
+  :global(.term-msg) {
+    color: #edf5ff;
+  }
+
+  :global(.term-worker) {
+    color: #75e1ed;
+  }
+
+  :global(.term-dur) {
+    color: #92b0cc;
+  }
+
+  /* Terminal Footer */
+  .terminal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background-color: #091624;
+    border-top: 1px solid #14283d;
+    gap: 8px;
+  }
+
+  .text-blue {
+    color: #55b8ff;
+  }
+  .text-lime {
+    color: #b7f36b;
+  }
+  .text-dim {
+    color: #8db2d9;
+  }
+  .indicator-pass {
+    color: #b7f36b;
+  }
+</style>
+
+<script is:inline>
+  const executionSteps = [
+    {
+      time: '14:27:10',
+      type: 'inf',
+      msg: 'Initializing Playwright test harness (Chromium 130, WebKit 18, Firefox 131)...',
+    },
+    {
+      time: '14:27:12',
+      type: 'inf',
+      msg: 'Spawning 6 parallel worker threads with hermetic browser storage isolation...',
+    },
+    {
+      time: '14:27:14',
+      type: 'inf',
+      msg: 'Discovering test suites: 423 test files indexed across 12 architecture modules...',
+    },
+    {
+      time: '14:27:16',
+      type: 'run',
+      msg: 'Executing parallel test suites across distributed worker pools...',
+    },
+    {
+      time: '14:27:18',
+      type: 'pass',
+      worker: '[worker-1]',
+      msg: 'banking-ledger.spec.ts › invariant double-entry ledger verification',
+      dur: '(42ms)',
+    },
+    {
+      time: '14:27:21',
+      type: 'pass',
+      worker: '[worker-2]',
+      msg: 'brel-dual-harness.spec.ts › cross-browser hydration synchronization',
+      dur: '(118ms)',
+    },
+    {
+      time: '14:27:24',
+      type: 'pass',
+      worker: '[worker-3]',
+      msg: 'auth-oauth2-flow.spec.ts › token rotation & idempotent refresh cycles',
+      dur: '(64ms)',
+    },
+    {
+      time: '14:27:27',
+      type: 'pass',
+      worker: '[worker-4]',
+      msg: 'inventory-checkout.spec.ts › concurrent stock decrement without race conditions',
+      dur: '(82ms)',
+    },
+    {
+      time: '14:27:30',
+      type: 'pass',
+      worker: '[worker-5]',
+      msg: 'wcag-accessibility.spec.ts › 0 axe-core violations across 24 routes',
+      dur: '(95ms)',
+    },
+    {
+      time: '14:27:33',
+      type: 'pass',
+      worker: '[worker-6]',
+      msg: 'k6-load-benchmark.spec.ts › p99 latency < 180ms under 5,000 RPS burst',
+      dur: '(140ms)',
+    },
+    {
+      time: '14:27:38',
+      type: 'inf',
+      msg: 'Aggregating Allure telemetry traces, network HAR captures & screenshots...',
+    },
+    {
+      time: '14:27:40',
+      type: 'pass',
+      msg: 'QUALITY GATE EVALUATION: ALL 423 TEST CHECKS PASSED (0 flakes, 0 retries, exit code 0).',
+    },
+  ];
+
+  function runSimulation() {
+    const container = document.getElementById('terminal-logs');
+    const progressBar = document.getElementById('exec-progress-bar');
+    if (!container) return;
+
+    container.innerHTML = '';
+    let currentStep = 0;
+
+    function renderLine(step) {
+      const line = document.createElement('div');
+      line.className = 'term-line';
+
+      let workerHtml = step.worker ? `<span class="term-worker">${step.worker}</span> ` : '';
+      let durHtml = step.dur ? ` <span class="term-dur">${step.dur}</span>` : '';
+
+      line.innerHTML = `
+        <span class="term-time">[${step.time}]</span>
+        <span class="term-tag ${step.type}">${step.type.toUpperCase()}</span>
+        <span class="term-msg">${workerHtml}${step.msg}${durHtml}</span>
+      `;
+
+      container.appendChild(line);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Render immediately or animate
+    function stepNext() {
+      if (currentStep < executionSteps.length) {
+        renderLine(executionSteps[currentStep]);
+        currentStep++;
+        if (progressBar) {
+          const pct = Math.round((currentStep / executionSteps.length) * 100);
+          progressBar.style.width = pct + '%';
+        }
+        setTimeout(stepNext, 220);
+      }
+    }
+
+    stepNext();
+  }
+
+  function initTerminalWidget() {
+    const replayBtn = document.getElementById('btn-replay-exec');
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        runSimulation();
+      });
+    }
+    runSimulation();
+  }
+
+  initTerminalWidget();
+  document.addEventListener('astro:after-swap', initTerminalWidget);
+</script>

@@ -6,8 +6,8 @@
   id="theme-toggle"
   type="button"
   class="theme-toggle-btn"
-  aria-label="Toggle color theme"
-  title="Toggle dark/light mode"
+  aria-label="Toggle color theme between Dark Blueprint and Light Blueprint"
+  title="Toggle Blueprint Theme"
 >
   <span class="icon-sun" aria-hidden="true">
     <svg
@@ -57,19 +57,22 @@
     width: 2.5rem;
     height: 2.5rem;
     padding: 0;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    background-color: var(--bg-surface);
-    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface);
+    color: var(--text-muted);
     cursor: pointer;
     transition:
-      background-color var(--transition-fast),
-      border-color var(--transition-fast);
+      background-color var(--duration-fast),
+      border-color var(--duration-fast),
+      color var(--duration-fast),
+      transform var(--duration-fast);
   }
 
   .theme-toggle-btn:hover {
-    background-color: var(--bg-subtle);
-    border-color: var(--border-default);
+    color: var(--lime);
+    border-color: var(--blue);
+    transform: translateY(-1px);
   }
 
   /* Show sun in dark mode, moon in light mode */
@@ -94,7 +97,7 @@
     if (!button) return;
 
     button.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);

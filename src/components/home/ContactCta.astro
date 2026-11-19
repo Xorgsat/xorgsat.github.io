@@ -3,22 +3,108 @@
 import { profile } from '../../config/profile';
 ---
 
-<section class="contact-cta-section" aria-labelledby="cta-heading">
+<section class="contact-cta-section section" aria-labelledby="cta-heading">
   <div class="container">
-    <div class="cta-card">
+    <div class="cta-card blueprint-frame">
       <div class="cta-content">
-        <span class="cta-kicker">Professional Inquiries</span>
-        <h2 id="cta-heading" class="cta-title">
-          Looking for a Senior SDET or Quality Engineering Consultant?
+        <span class="eyebrow">COMMISSION // ADVISORY // COLLABORATION</span>
+        <h2 id="cta-heading" class="display-title cta-title">
+          Let's engineer better software<span class="accent-text">.</span>
         </h2>
         <p class="cta-description">
-          Available for international remote positions, automation framework architecture, flaky
-          test elimination, and quality infrastructure advisory.
+          Available for international remote Senior SDET and Quality Engineering Architect roles,
+          flaky test elimination, and automation architecture advisory. Let's discuss designing
+          deterministic quality into your software systems.
         </p>
+
+        <!-- Direct Channels Grid -->
+        <div class="channels-grid">
+          <div class="channel-item">
+            <span class="mono text-xs text-dim">DIRECT INQUIRIES:</span>
+            <a href={`mailto:${profile.email}`} class="channel-link mono">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>{profile.email}</span>
+            </a>
+          </div>
+
+          <div class="channel-item">
+            <span class="mono text-xs text-dim">PROFESSIONAL NETWORK:</span>
+            <a
+              href={profile.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="channel-link mono"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                ></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+              <span>linkedin.com/in/satyam-tiwari</span>
+            </a>
+          </div>
+
+          <div class="channel-item">
+            <span class="mono text-xs text-dim">CODE REPOSITORIES:</span>
+            <a
+              href={profile.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="channel-link mono"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                ></path>
+              </svg>
+              <span>github.com/Xorgsat</span>
+            </a>
+          </div>
+        </div>
 
         <div class="cta-actions">
           <a href="/contact" class="btn btn-primary">
-            <span>Initiate a Conversation</span>
+            <span>Initiate an Engineering Discussion</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -26,7 +112,7 @@ import { profile } from '../../config/profile';
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
+              stroke-width="2.2"
               stroke-linecap="round"
               stroke-linejoin="round"
               aria-hidden="true"
@@ -35,24 +121,14 @@ import { profile } from '../../config/profile';
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
-          <a href={`mailto:${profile.email}`} class="btn btn-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-              ></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <span>{profile.email}</span>
+
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary"
+          >
+            <span>Download Resume PDF</span>
           </a>
         </div>
       </div>
@@ -62,100 +138,76 @@ import { profile } from '../../config/profile';
 
 <style>
   .contact-cta-section {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-16);
+    padding-bottom: clamp(64px, 10vw, 120px);
+    border-bottom: none;
   }
 
   .cta-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: var(--space-8);
-    position: relative;
-    overflow: hidden;
-  }
-
-  @media (min-width: 768px) {
-    .cta-card {
-      padding: var(--space-12);
-    }
+    background-color: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: clamp(24px, 5vw, 56px);
+    box-shadow: var(--shadow-card);
   }
 
   .cta-content {
-    max-width: 720px;
-  }
-
-  .cta-kicker {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    margin-bottom: var(--space-2);
+    max-width: 820px;
   }
 
   .cta-title {
-    font-size: var(--text-2xl);
-    line-height: var(--leading-tight);
-    margin-top: 0;
+    margin-top: var(--space-2);
     margin-bottom: var(--space-4);
   }
 
+  .cta-description {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-8);
+  }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px dashed var(--border);
+  }
+
   @media (min-width: 768px) {
-    .cta-title {
-      font-size: var(--text-3xl);
+    .channels-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .cta-description {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-8);
+  .channel-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .channel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--duration-fast);
+  }
+
+  .channel-link:hover {
+    color: var(--lime);
   }
 
   .cta-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-md);
-    font-size: var(--text-base);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-primary {
-    background-color: var(--accent-primary);
-    color: var(--text-inverse);
-    border: 1px solid var(--accent-primary);
-  }
-
-  .btn-primary:hover {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
-    text-decoration: none;
-  }
-
-  .btn-secondary {
-    background-color: var(--bg-surface-elevated);
-    color: var(--text-primary);
-    border: 1px solid var(--border-default);
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--bg-subtle);
-    border-color: var(--text-secondary);
-    text-decoration: none;
+  .text-dim {
+    color: var(--text-dim);
   }
 </style>

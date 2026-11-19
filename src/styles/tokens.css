@@ -1,13 +1,29 @@
-/* Design Tokens: Senior SDET Engineering Portfolio */
+/* Design Tokens: Blueprint Engineering Portfolio
+   Theme selection: <html data-theme="dark"> or data-theme="light">
+   Preserves compatibility with existing token names while introducing the complete
+   Blueprint Engineering color system, typography, and technical drafting metrics.
+*/
 
 :root {
-  /* Typography Stacks */
-  --font-sans:
-    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    sans-serif;
+  color-scheme: light;
+
+  /* Typography Stacks: Geist Sans & Geist Mono with robust system fallbacks */
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace;
+    'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Spacing Scale (4px baseline) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
 
   /* Type Scale */
   --text-xs: 0.75rem; /* 12px */
@@ -16,108 +32,148 @@
   --text-lg: 1.125rem; /* 18px */
   --text-xl: 1.25rem; /* 20px */
   --text-2xl: 1.5rem; /* 24px */
-  --text-3xl: 1.875rem; /* 30px */
-  --text-4xl: 2.25rem; /* 36px */
-  --text-5xl: 3rem; /* 48px */
+  --text-3xl: clamp(1.875rem, 3.5vw, 2.75rem);
+  --text-4xl: clamp(2.25rem, 5vw, 3.75rem);
+  --text-5xl: clamp(2.75rem, 7vw, 5.25rem);
 
   /* Line Heights */
-  --leading-tight: 1.2;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.7;
-
-  /* Spacing Scale (4px baseline) */
-  --space-1: 0.25rem; /* 4px */
-  --space-2: 0.5rem; /* 8px */
-  --space-3: 0.75rem; /* 12px */
-  --space-4: 1rem; /* 16px */
-  --space-5: 1.25rem; /* 20px */
-  --space-6: 1.5rem; /* 24px */
-  --space-8: 2rem; /* 32px */
-  --space-10: 2.5rem; /* 40px */
-  --space-12: 3rem; /* 48px */
-  --space-16: 4rem; /* 64px */
-  --space-20: 5rem; /* 80px */
+  --leading-tight: 1.15;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.75;
 
   /* Layout Boundaries */
-  --max-width-site: 1160px;
+  --content-width: 1180px;
+  --max-width-site: 1180px;
   --max-width-prose: 760px;
-  --header-height: 4rem;
+  --header-height: 4.5rem;
 
   /* Border Radii */
   --radius-sm: 4px;
   --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-lg: 14px;
   --radius-full: 9999px;
 
-  /* Motion */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animation & Transitions */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 240ms;
+  --transition-fast: 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  --transition-normal: 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  /* Light Theme (Default) */
-  --bg-primary: #ffffff;
-  --bg-surface: #f8fafc;
-  --bg-surface-elevated: #ffffff;
-  --bg-code: #f1f5f9;
-  --bg-subtle: #f1f5f9;
+  /* -------------------------------------------------------------------------
+     LIGHT BLUEPRINT (Drawing Board Theme)
+     ------------------------------------------------------------------------- */
+  --bg: #f3f6f8;
+  --surface: #ffffff;
+  --surface-raised: #f8fbfd;
+  --surface-soft: #eaf1f6;
+  --text: #10243a;
+  --text-muted: #314659; /* WCAG AA: > 7:1 against white */
+  --text-dim: #3a5064; /* WCAG AA: > 5.5:1 against #eaf1f6 and white */
+  --border: #cbd9e5;
+  --border-strong: #8eabc2;
+  --blue: #125c9b; /* WCAG AA: > 5.6:1 against white */
+  --blue-strong: #075ca8;
+  --cyan: #0f6c79; /* WCAG AA: > 5.4:1 against white */
+  --lime: #13602d; /* WCAG AA compliant text on light surfaces: 5.75:1 */
+  --lime-display: #84b726; /* For graphic illustrations & buttons */
+  --text-lime: #13602d; /* WCAG AA text: 5.45:1 against #eaf1f6 and 5.75:1 against white */
+  --success: #15803d;
+  --warning: #92400e;
+  --danger: #b91c1c;
+  --grid-line: rgb(31 100 155 / 8%);
+  --grid-glow: rgb(50 145 210 / 9%);
+  --shadow-card: 0 12px 32px rgb(24 55 80 / 8%);
+  --shadow-sm: 0 1px 3px rgb(24 55 80 / 6%);
+  --shadow-md: 0 4px 12px rgb(24 55 80 / 8%);
 
-  --text-primary: #0f172a; /* Contrast ratio 14.5:1 against white */
-  --text-secondary: #334155; /* Contrast ratio > 8.5:1 against white */
-  --text-muted: #475569; /* Contrast ratio > 5.4:1 against #f1f5f9 and white */
-  --text-inverse: #f8fafc;
+  /* Backward-compatible aliases */
+  --bg-primary: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-surface-elevated: var(--surface-raised);
+  --bg-code: var(--surface-soft);
+  --bg-subtle: var(--surface-soft);
 
-  --border-subtle: #e2e8f0;
-  --border-default: #cbd5e1;
-  --border-focus: #0284c7;
+  --text-primary: var(--text);
+  --text-secondary: var(--text-muted);
+  --text-inverse: #f3f6f8;
 
-  --accent-primary: #0369a1; /* High contrast sky blue: > 4.9:1 against #f1f5f9, > 7.5:1 against white */
-  --accent-hover: #075985;
-  --accent-subtle: #e0f2fe;
+  --border-subtle: var(--border);
+  --border-default: var(--border-strong);
+  --border-focus: var(--blue-strong);
 
-  --status-success: #15803d;
-  --status-success-bg: #f0fdf4;
-  --status-warning: #b45309;
-  --status-warning-bg: #fffbeb;
-  --status-error: #b91c1c;
-  --status-error-bg: #fef2f2;
-  --status-info: #0369a1;
-  --status-info-bg: #f0f9ff;
+  --accent-primary: var(--blue);
+  --accent-hover: var(--blue-strong);
+  --accent-subtle: #e0f0fc;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --status-success: var(--success);
+  --status-success-bg: #eaf8f0;
+  --status-warning: var(--warning);
+  --status-warning-bg: #fff8e8;
+  --status-error: var(--danger);
+  --status-error-bg: #fdebed;
+  --status-info: var(--blue);
+  --status-info-bg: #eef7fc;
 }
 
-/* Dark Theme Overrides */
+/* -------------------------------------------------------------------------
+   DARK BLUEPRINT (Illuminated Engineering Control Room Theme)
+   ------------------------------------------------------------------------- */
+:root[data-theme='dark'],
 [data-theme='dark'] {
-  --bg-primary: #090d16;
-  --bg-surface: #0f172a;
-  --bg-surface-elevated: #1e293b;
-  --bg-code: #162032;
-  --bg-subtle: #1e293b;
+  color-scheme: dark;
 
-  --text-primary: #f8fafc; /* Contrast ratio 16.8:1 against #090d16 */
-  --text-secondary: #cbd5e1; /* Contrast ratio 11.2:1 against #090d16 */
-  --text-muted: #94a3b8; /* Contrast ratio 6.4:1 against #090d16 */
-  --text-inverse: #0f172a;
+  --bg: #071321;
+  --surface: #0b1b2c;
+  --surface-raised: #10243a;
+  --surface-soft: #0d2033;
+  --text: #edf5ff;
+  --text-muted: #a6b8cb;
+  --text-dim: #8ba2b9;
+  --border: #25415b;
+  --border-strong: #3c6385;
+  --blue: #55b8ff;
+  --blue-strong: #268de0;
+  --cyan: #75e1ed;
+  --lime: #b7f36b;
+  --lime-display: #b7f36b;
+  --text-lime: #b7f36b;
+  --success: #72e0a2;
+  --warning: #ffd16a;
+  --danger: #ff7d83;
+  --grid-line: rgb(112 174 220 / 9%);
+  --grid-glow: rgb(34 139 210 / 14%);
+  --shadow-card: 0 16px 44px rgb(0 0 0 / 28%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 30%);
+  --shadow-md: 0 6px 18px rgb(0 0 0 / 35%);
 
-  --border-subtle: #1e293b;
-  --border-default: #334155;
-  --border-focus: #38bdf8;
+  /* Backward-compatible aliases */
+  --bg-primary: var(--bg);
+  --bg-surface: var(--surface);
+  --bg-surface-elevated: var(--surface-raised);
+  --bg-code: var(--surface-soft);
+  --bg-subtle: var(--surface-soft);
 
-  --accent-primary: #38bdf8; /* Cyan/Sky blue for dark mode */
-  --accent-hover: #7dd3fc;
-  --accent-subtle: #0c2b42;
+  --text-primary: var(--text);
+  --text-secondary: var(--text-muted);
+  --text-inverse: #071321;
 
-  --status-success: #4ade80;
-  --status-success-bg: #052e16;
-  --status-warning: #fbbf24;
-  --status-warning-bg: #451a03;
-  --status-error: #f87171;
-  --status-error-bg: #450a0a;
-  --status-info: #38bdf8;
-  --status-info-bg: #082f49;
+  --border-subtle: var(--border);
+  --border-default: var(--border-strong);
+  --border-focus: var(--blue);
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --accent-primary: var(--blue);
+  --accent-hover: #80cbff;
+  --accent-subtle: #0f2c48;
+
+  --status-success: var(--success);
+  --status-success-bg: #0c2b1e;
+  --status-warning: var(--warning);
+  --status-warning-bg: #332408;
+  --status-error: var(--danger);
+  --status-error-bg: #381216;
+  --status-info: var(--blue);
+  --status-info-bg: #0d2740;
 }
 
 /* High Contrast & Reduced Motion Preferences */

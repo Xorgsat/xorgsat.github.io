@@ -3,134 +3,582 @@
 import TechTag from '@components/ui/TechTag.astro';
 import { profile } from '../../config/profile';
 
-const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'Docker', 'CI/CD'];
+const coreTech = [
+  'Playwright',
+  'TypeScript',
+  'Python',
+  'Selenium',
+  'Appium',
+  'Docker',
+  'CI/CD Gates',
+  'k6 Performance',
+];
 ---
 
-<section class="hero-section" aria-labelledby="hero-heading">
+<section class="hero-section blueprint-grid" aria-labelledby="hero-heading">
+  <!-- Architectural Dimension Guidelines -->
+  <div class="dimension-guide dimension-guide-top" aria-hidden="true">
+    <span class="mono text-xs"
+      >SPEC: DWG-SDET-2026 // COORD: 40.7128° N, 74.0060° W // TOLERANCE: ±0.001</span
+    >
+    <span class="dimension-line"></span>
+    <span class="mono text-xs">SHEET 01 / 05</span>
+  </div>
+
   <div class="container hero-container">
-    <div class="hero-content">
-      <div class="hero-badge-group">
-        <span class="status-indicator">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Open for International Remote Roles &amp; Quality Consulting</span>
-        </span>
-      </div>
+    <div class="hero-layout">
+      <!-- Left Editorial Column -->
+      <div class="hero-copy">
+        <div class="hero-badge-group">
+          <span class="eyebrow">BLUEPRINT ENGINEERING // VERIFIED ARCHITECTURE</span>
+        </div>
 
-      <h1 id="hero-heading" class="hero-title">
-        {profile.name} — {profile.role}
-      </h1>
+        <h1 id="hero-heading" class="display-title hero-title">
+          <span class="hero-role-kicker">Senior SDET &amp; Quality Engineering Architect</span>
+          <span class="hero-core-headline">
+            I engineer confidence into software<span class="accent-text">.</span>
+          </span>
+        </h1>
 
-      <p class="hero-lead">
-        <strong>{profile.experienceYears} years of experience</strong> engineering resilient, maintainable
-        test automation systems across UI, API, mobile, and CI/CD pipelines.
-      </p>
+        <p class="hero-lead">
+          Designing scalable test systems, automation frameworks and quality strategies for
+          high-throughput, distributed products.
+        </p>
 
-      <p class="hero-subtext">
-        Specialized in test architecture, deterministic test isolation, flaky test elimination, and
-        building fast, reliable release feedback gates for high-velocity software engineering teams.
-      </p>
+        <p class="hero-subtext">
+          8 years of experience engineering resilient test automation systems across UI, API,
+          mobile, and CI/CD pipelines. Specialized in deterministic test isolation, invariant
+          verification, flaky test elimination, and building high-speed release gates.
+        </p>
 
-      <div class="hero-tech-stack" aria-label="Core Technical Stack">
-        <span class="tech-stack-label">Core Stack:</span>
-        <div class="tech-tags">
-          {coreTech.map((tech) => <TechTag label={tech} variant="accent" />)}
+        <!-- Core Stack Badges -->
+        <div class="hero-tech-stack" aria-label="Core Technical Stack">
+          <span class="tech-stack-label mono">SYSTEM STACK:</span>
+          <div class="tech-tags">
+            {coreTech.map((tech) => <TechTag label={tech} variant="accent" />)}
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="hero-actions">
+          <a href="/projects" class="btn btn-primary">
+            <span>Explore Case Studies</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+
+          <a
+            href={profile.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path>
+            </svg>
+            <span>View GitHub</span>
+            <span class="sr-only"> (opens GitHub in new tab)</span>
+          </a>
+
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Resume</span>
+          </a>
         </div>
       </div>
 
-      <div class="hero-actions">
-        <a href="/projects" class="btn btn-primary">
-          <span>View 12 Engineering Projects</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-        <a
-          href={profile.resumeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-secondary"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span>Download Resume</span>
-          <span class="sr-only"> (opens PDF in new tab)</span>
-        </a>
-        <a href="/contact" class="btn btn-outline">Get in Touch</a>
-      </div>
+      <!-- Right Column: Exploded Isometric Architecture Schematic (Theme-Aware SVG) -->
+      <div class="hero-visual" aria-label="Exploded Isometric Blueprint Architecture Diagram">
+        <div class="blueprint-frame visual-frame">
+          <div class="visual-header">
+            <span class="mono text-xs text-blue">FIG 1.0 — MULTI-TIER QUALITY ARCHITECTURE</span>
+            <span class="blueprint-tag">EXPLODED ISOMETRIC</span>
+          </div>
 
-      <div class="hero-social-links" aria-label="Professional Profiles">
-        <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" class="social-link">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
+            class="architecture-svg"
+            viewBox="0 0 640 580"
             fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path
-              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-            ></path>
-          </svg>
-          <span>GitHub (Xorgsat)</span>
-          <span class="sr-only"> (opens in new tab)</span>
-        </a>
-        <span class="separator" aria-hidden="true">&bull;</span>
-        <a href={profile.linkedinUrl} target="_blank" rel="noopener noreferrer" class="social-link">
-          <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
+            role="img"
+            aria-labelledby="svg-arch-title svg-arch-desc"
           >
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-            ></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
+            <title id="svg-arch-title">Multi-Tier Quality Engineering System Architecture</title>
+            <desc id="svg-arch-desc">
+              Exploded isometric schematic demonstrating five interrelated tiers: Application Layer,
+              Test Automation Layer, Execution and Orchestration, Quality Intelligence, and Product
+              Systems.
+            </desc>
+
+            <defs>
+              <!-- Drafting Grid Pattern inside SVG -->
+              <pattern id="inner-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path
+                  d="M 20 0 L 0 0 0 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-opacity="0.08"
+                  stroke-width="0.75"></path>
+              </pattern>
+
+              <!-- Linear Gradients for Isometric Slabs -->
+              <linearGradient id="slab-grad-top" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--blue)" stop-opacity="0.22"></stop>
+                <stop offset="100%" stop-color="var(--blue-strong)" stop-opacity="0.08"></stop>
+              </linearGradient>
+
+              <linearGradient id="slab-grad-lime" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--lime)" stop-opacity="0.26"></stop>
+                <stop offset="100%" stop-color="var(--lime)" stop-opacity="0.06"></stop>
+              </linearGradient>
+
+              <linearGradient id="slab-grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--cyan)" stop-opacity="0.2"></stop>
+                <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0.06"></stop>
+              </linearGradient>
+
+              <filter id="subtle-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+              </filter>
+            </defs>
+
+            <!-- Background Drafting Box -->
+            <rect width="640" height="580" fill="url(#inner-grid)"></rect>
+
+            <!-- Vertical Alignment Projection Rays (Dashed Architectural Lines) -->
+            <g
+              class="projection-rays"
+              stroke="var(--blue)"
+              stroke-opacity="0.35"
+              stroke-dasharray="3 4"
+            >
+              <!-- Corner Projection Lines -->
+              <line x1="160" y1="120" x2="160" y2="470"></line>
+              <line x1="320" y1="40" x2="320" y2="390"></line>
+              <line x1="480" y1="120" x2="480" y2="470"></line>
+              <line x1="320" y1="200" x2="320" y2="550"></line>
+            </g>
+
+            <!-- ============================================================
+                 LAYER 1 (Top): Application Layer
+                 ============================================================ -->
+            <g class="arch-layer layer-1" transform="translate(0, 0)">
+              <!-- Isometric Slab Top Face -->
+              <polygon
+                points="320,40 480,120 320,200 160,120"
+                fill="url(#slab-grad-lime)"
+                stroke="var(--lime)"
+                stroke-width="1.5"></polygon>
+              <!-- Slab Depth (Side Faces) -->
+              <polygon
+                points="160,120 320,200 320,212 160,132"
+                fill="var(--surface-soft)"
+                stroke="var(--lime)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="480,120 320,200 320,212 480,132"
+                fill="var(--surface-raised)"
+                stroke="var(--lime)"
+                stroke-width="1"></polygon>
+
+              <!-- Interior Sub-systems (Microchips / Components) -->
+              <polygon
+                points="260,95 320,65 380,95 320,125"
+                fill="var(--surface)"
+                stroke="var(--lime)"
+                stroke-width="1.2"></polygon>
+              <polygon
+                points="210,120 250,100 290,120 250,140"
+                fill="var(--surface-raised)"
+                stroke="var(--border-strong)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="350,120 390,100 430,120 390,140"
+                fill="var(--surface-raised)"
+                stroke="var(--border-strong)"
+                stroke-width="1"></polygon>
+
+              <!-- Text Annotation -->
+              <text
+                x="320"
+                y="99"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+                text-anchor="middle"
+                letter-spacing="0.08em"
+              >
+                01. APPLICATION LAYER
+              </text>
+              <text
+                x="250"
+                y="124"
+                fill="var(--text)"
+                font-family="var(--font-mono)"
+                font-size="8"
+                text-anchor="middle">WEB / UI</text
+              >
+              <text
+                x="390"
+                y="124"
+                fill="var(--text)"
+                font-family="var(--font-mono)"
+                font-size="8"
+                text-anchor="middle">REST / API</text
+              >
+
+              <!-- Technical Pin & Leader Line -->
+              <line x1="480" y1="120" x2="560" y2="100" stroke="var(--lime)" stroke-width="1"
+              ></line>
+              <circle cx="560" cy="100" r="3" fill="var(--lime)"></circle>
+              <text
+                x="568"
+                y="103"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="9"
+                font-weight="600">L-01 [APP]</text
+              >
+            </g>
+
+            <!-- ============================================================
+                 LAYER 2: Test Automation Layer
+                 ============================================================ -->
+            <g class="arch-layer layer-2" transform="translate(0, 85)">
+              <polygon
+                points="320,40 480,120 320,200 160,120"
+                fill="url(#slab-grad-top)"
+                stroke="var(--blue)"
+                stroke-width="1.5"></polygon>
+              <polygon
+                points="160,120 320,200 320,212 160,132"
+                fill="var(--surface-soft)"
+                stroke="var(--blue)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="480,120 320,200 320,212 480,132"
+                fill="var(--surface-raised)"
+                stroke="var(--blue)"
+                stroke-width="1"></polygon>
+
+              <!-- Circuit Traces inside Harness -->
+              <path
+                d="M 230 115 L 280 140 L 360 100 L 410 125"
+                fill="none"
+                stroke="var(--blue)"
+                stroke-width="1"
+                stroke-dasharray="2 3"></path>
+              <circle cx="280" cy="140" r="3" fill="var(--blue)"></circle>
+              <circle cx="360" cy="100" r="3" fill="var(--blue)"></circle>
+
+              <text
+                x="320"
+                y="85"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+                text-anchor="middle"
+                letter-spacing="0.08em"
+              >
+                02. TEST AUTOMATION LAYER
+              </text>
+              <text
+                x="320"
+                y="105"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="8.5"
+                text-anchor="middle"
+              >
+                PLAYWRIGHT &bull; APPIUM &bull; CONTRACTS
+              </text>
+
+              <!-- Technical Pin & Leader Line -->
+              <line x1="160" y1="120" x2="80" y2="100" stroke="var(--blue)" stroke-width="1"></line>
+              <circle cx="80" cy="100" r="3" fill="var(--blue)"></circle>
+              <text
+                x="72"
+                y="103"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="9"
+                font-weight="600"
+                text-anchor="end">L-02 [HARNESS]</text
+              >
+            </g>
+
+            <!-- ============================================================
+                 LAYER 3: Execution & Orchestration
+                 ============================================================ -->
+            <g class="arch-layer layer-3" transform="translate(0, 170)">
+              <polygon
+                points="320,40 480,120 320,200 160,120"
+                fill="url(#slab-grad-cyan)"
+                stroke="var(--cyan)"
+                stroke-width="1.5"></polygon>
+              <polygon
+                points="160,120 320,200 320,212 160,132"
+                fill="var(--surface-soft)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="480,120 320,200 320,212 480,132"
+                fill="var(--surface-raised)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+
+              <!-- Parallel Worker Pods (6 isometric nodes) -->
+              <polygon
+                points="230,110 250,100 270,110 250,120"
+                fill="var(--surface)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="290,80 310,70 330,80 310,90"
+                fill="var(--surface)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="350,110 370,100 390,110 370,120"
+                fill="var(--surface)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="260,140 280,130 300,140 280,150"
+                fill="var(--surface)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="320,140 340,130 360,140 340,150"
+                fill="var(--surface)"
+                stroke="var(--cyan)"
+                stroke-width="1"></polygon>
+
+              <text
+                x="320"
+                y="118"
+                fill="var(--cyan)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+                text-anchor="middle"
+                letter-spacing="0.08em"
+              >
+                03. EXECUTION &amp; ORCHESTRATION
+              </text>
+              <text
+                x="320"
+                y="172"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="8"
+                text-anchor="middle"
+              >
+                HERMETIC DOCKER WORKERS [1..6] &bull; SHARDED CI GATES
+              </text>
+
+              <!-- Technical Pin & Leader Line -->
+              <line x1="480" y1="120" x2="560" y2="140" stroke="var(--cyan)" stroke-width="1"
+              ></line>
+              <circle cx="560" cy="140" r="3" fill="var(--cyan)"></circle>
+              <text
+                x="568"
+                y="143"
+                fill="var(--cyan)"
+                font-family="var(--font-mono)"
+                font-size="9"
+                font-weight="600">L-03 [RUNNERS]</text
+              >
+            </g>
+
+            <!-- ============================================================
+                 LAYER 4: Quality Intelligence
+                 ============================================================ -->
+            <g class="arch-layer layer-4" transform="translate(0, 255)">
+              <polygon
+                points="320,40 480,120 320,200 160,120"
+                fill="url(#slab-grad-top)"
+                stroke="var(--blue-strong)"
+                stroke-width="1.5"></polygon>
+              <polygon
+                points="160,120 320,200 320,212 160,132"
+                fill="var(--surface-soft)"
+                stroke="var(--blue-strong)"
+                stroke-width="1"></polygon>
+              <polygon
+                points="480,120 320,200 320,212 480,132"
+                fill="var(--surface-raised)"
+                stroke="var(--blue-strong)"
+                stroke-width="1"></polygon>
+
+              <text
+                x="320"
+                y="95"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="10"
+                font-weight="700"
+                text-anchor="middle"
+                letter-spacing="0.08em"
+              >
+                04. QUALITY INTELLIGENCE
+              </text>
+              <text
+                x="320"
+                y="115"
+                fill="var(--text-muted)"
+                font-family="var(--font-mono)"
+                font-size="8"
+                text-anchor="middle"
+              >
+                HAR TRACING &bull; ALLURE TELEMETRY &bull; DEFECT ANALYTICS
+              </text>
+
+              <!-- Technical Pin & Leader Line -->
+              <line x1="160" y1="120" x2="80" y2="140" stroke="var(--blue)" stroke-width="1"></line>
+              <circle cx="80" cy="140" r="3" fill="var(--blue)"></circle>
+              <text
+                x="72"
+                y="143"
+                fill="var(--blue)"
+                font-family="var(--font-mono)"
+                font-size="9"
+                font-weight="600"
+                text-anchor="end">L-04 [TELEMETRY]</text
+              >
+            </g>
+
+            <!-- ============================================================
+                 LAYER 5 (Base): Product Systems & Invariants
+                 ============================================================ -->
+            <g class="arch-layer layer-5" transform="translate(0, 340)">
+              <polygon
+                points="320,40 480,120 320,200 160,120"
+                fill="url(#slab-grad-lime)"
+                stroke="var(--lime)"
+                stroke-width="1.8"></polygon>
+              <polygon
+                points="160,120 320,200 320,216 160,136"
+                fill="var(--surface-soft)"
+                stroke="var(--lime)"
+                stroke-width="1.2"></polygon>
+              <polygon
+                points="480,120 320,200 320,216 480,136"
+                fill="var(--surface-raised)"
+                stroke="var(--lime)"
+                stroke-width="1.2"></polygon>
+
+              <!-- Heavy System Core (Database / Ledger Grid) -->
+              <path
+                d="M 240 100 L 320 60 L 400 100 L 320 140 Z"
+                fill="var(--surface)"
+                stroke="var(--lime)"
+                stroke-width="1.2"></path>
+              <text
+                x="320"
+                y="96"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="9.5"
+                font-weight="700"
+                text-anchor="middle"
+              >
+                05. PRODUCT SYSTEMS
+              </text>
+              <text
+                x="320"
+                y="114"
+                fill="var(--text)"
+                font-family="var(--font-mono)"
+                font-size="8"
+                text-anchor="middle"
+              >
+                TRANSACTION LEDGERS &bull; EVENT BROKERS &bull; INVARIANTS
+              </text>
+
+              <!-- Technical Pin & Leader Line -->
+              <line x1="480" y1="120" x2="560" y2="180" stroke="var(--lime)" stroke-width="1"
+              ></line>
+              <circle cx="560" cy="180" r="3" fill="var(--lime)"></circle>
+              <text
+                x="568"
+                y="183"
+                fill="var(--lime)"
+                font-family="var(--font-mono)"
+                font-size="9"
+                font-weight="600">L-05 [INVARIANTS]</text
+              >
+            </g>
+
+            <!-- Bottom Isometric Axis Coordinate Marker -->
+            <g class="axis-marker" transform="translate(40, 520)">
+              <line x1="0" y1="20" x2="50" y2="0" stroke="var(--border-strong)" stroke-width="1"
+              ></line>
+              <line x1="0" y1="20" x2="0" y2="-30" stroke="var(--border-strong)" stroke-width="1"
+              ></line>
+              <text x="55" y="3" fill="var(--blue)" font-family="var(--font-mono)" font-size="8"
+                >X-AXIS // DISTRIBUTED</text
+              >
+              <text x="5" y="-32" fill="var(--lime)" font-family="var(--font-mono)" font-size="8"
+                >Z-AXIS // QUALITY DEPTH</text
+              >
+            </g>
           </svg>
-          <span>LinkedIn</span>
-          <span class="sr-only"> (opens in new tab)</span>
-        </a>
-        <span class="separator" aria-hidden="true">&bull;</span>
-        <a href="/about" class="social-link">
-          <span>Read Architecture Philosophy &rarr;</span>
-        </a>
+
+          <div class="visual-footer">
+            <span class="mono text-xs muted">STATUS: DETERMINISTIC &bull; ISOLATION: HERMETIC</span>
+            <span class="mono text-xs text-lime">GATE: PASSED</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -138,203 +586,197 @@ const coreTech = ['Playwright', 'TypeScript', 'Python', 'Selenium', 'Appium', 'D
 
 <style>
   .hero-section {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-12);
-    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+    padding-top: clamp(48px, 7vw, 96px);
+    padding-bottom: clamp(64px, 8vw, 104px);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
   }
 
-  @media (min-width: 768px) {
-    .hero-section {
-      padding-top: var(--space-16);
-      padding-bottom: var(--space-16);
+  /* Dimension Guide Bar */
+  .dimension-guide {
+    display: none;
+    align-items: center;
+    gap: var(--space-4);
+    width: min(calc(100% - 48px), var(--content-width));
+    margin-inline: auto;
+    margin-bottom: var(--space-6);
+    color: var(--text-dim);
+  }
+
+  @media (min-width: 900px) {
+    .dimension-guide {
+      display: flex;
     }
   }
 
-  .hero-container {
-    display: flex;
-    flex-direction: column;
+  .dimension-line {
+    flex: 1;
+    height: 1px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--border),
+      var(--border) 4px,
+      transparent 4px,
+      transparent 8px
+    );
   }
 
-  .hero-content {
-    max-width: 860px;
-  }
-
-  .hero-badge-group {
-    margin-bottom: var(--space-4);
-  }
-
-  .status-indicator {
-    display: inline-flex;
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(36px, 6vw, 64px);
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-1) var(--space-3);
-    background-color: var(--status-success-bg);
-    border: 1px solid var(--status-success);
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
+  }
+
+  @media (min-width: 1024px) {
+    .hero-layout {
+      grid-template-columns: minmax(0, 1.15fr) minmax(420px, 0.85fr);
+    }
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-role-kicker {
+    display: block;
     font-family: var(--font-mono);
-    font-weight: 500;
-    color: var(--status-success);
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
   }
 
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--status-success);
-  }
-
-  .hero-title {
-    font-size: var(--text-3xl);
-    line-height: var(--leading-tight);
-    letter-spacing: -0.03em;
-    margin-bottom: var(--space-4);
+  .hero-core-headline {
+    display: block;
+    font-size: var(--text-4xl);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    font-weight: 750;
+    color: var(--text);
   }
 
   @media (min-width: 768px) {
-    .hero-title {
+    .hero-core-headline {
       font-size: var(--text-5xl);
     }
   }
 
   .hero-lead {
     font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
-    color: var(--text-primary);
+    line-height: 1.5;
+    color: var(--text);
+    font-weight: 500;
+    max-width: 620px;
+    margin-top: var(--space-4);
     margin-bottom: var(--space-3);
-  }
-
-  @media (min-width: 768px) {
-    .hero-lead {
-      font-size: var(--text-xl);
-    }
   }
 
   .hero-subtext {
     font-size: var(--text-base);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
+    max-width: 600px;
     margin-bottom: var(--space-6);
-    max-width: 740px;
   }
 
+  /* Tech Stack Badges */
   .hero-tech-stack {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
     gap: var(--space-2);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-6);
     padding: var(--space-3) var(--space-4);
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    max-width: 640px;
   }
 
   .tech-stack-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--blue);
   }
 
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 6px;
   }
 
+  /* CTAs */
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);
-    border-radius: var(--radius-md);
-    font-size: var(--text-base);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-primary {
-    background-color: var(--accent-primary);
-    color: var(--text-inverse);
-    border: 1px solid var(--accent-primary);
-  }
-
-  .btn-primary:hover {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
-    text-decoration: none;
-  }
-
-  .btn-secondary {
-    background-color: var(--bg-surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border-default);
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--bg-subtle);
-    border-color: var(--text-secondary);
-    text-decoration: none;
-  }
-
-  .btn-outline {
-    background-color: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-default);
-  }
-
-  .btn-outline:hover {
-    background-color: var(--bg-subtle);
-    color: var(--text-primary);
-    text-decoration: none;
-  }
-
-  .hero-social-links {
-    display: flex;
     align-items: center;
     gap: var(--space-3);
-    font-size: var(--text-sm);
   }
 
-  .social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .social-link:hover {
-    color: var(--accent-primary);
-    text-decoration: underline;
-  }
-
-  .separator {
-    color: var(--border-default);
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
+  /* Visual Frame on Right */
+  .visual-frame {
+    background-color: var(--surface);
+    border: 1px solid var(--border-strong);
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+    box-shadow: var(--shadow-card);
+  }
+
+  .visual-header,
+  .visual-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .visual-footer {
+    border-bottom: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .blueprint-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-lime);
+    background-color: var(--surface-soft);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .architecture-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: var(--bg);
+    transition: transform var(--duration-normal) var(--ease-out);
+  }
+
+  .arch-layer {
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      filter var(--duration-normal);
+    cursor: default;
+  }
+
+  .arch-layer:hover {
+    filter: drop-shadow(0 0 10px var(--grid-glow));
+  }
+
+  .text-blue {
+    color: var(--blue);
+  }
+
+  .text-lime {
+    color: var(--lime);
   }
 </style>

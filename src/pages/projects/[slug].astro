@@ -23,24 +23,25 @@ const { Content } = await render(project);
 ---
 
 <BaseLayout title={`${project.data.title} | Case Study`} description={project.data.description}>
-  <div class="case-study-page">
+  <div class="case-study-page blueprint-grid">
     <div class="container">
+      <!-- Breadcrumb Navigation -->
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <a href="/projects" class="back-link">&larr; Back to 12 Projects Directory</a>
+        <a href="/projects" class="back-link mono"> &larr; Back to 12 Projects Directory </a>
       </nav>
 
+      <!-- Case Study Header -->
       <header class="case-study-header">
         <div class="header-badges">
           <span class="project-category">{project.data.category}</span>
-          <span
-            class:list={['status-pill', project.data.status.toLowerCase().replace(/\s+/g, '-')]}
-          >
-            {project.data.status}
+          <span class="status-pill status-completed">
+            <span class="status-dot"></span>
+            <span>{project.data.status}</span>
           </span>
-          <span class="type-pill">{project.data.projectType}</span>
+          <span class="type-pill mono">{project.data.projectType}</span>
         </div>
 
-        <h1 class="project-title">{project.data.title}</h1>
+        <h1 class="project-title display-title">{project.data.title}</h1>
         <p class="project-lead">{project.data.description}</p>
 
         <div class="header-actions">
@@ -85,75 +86,84 @@ const { Content } = await render(project);
         </div>
       </header>
 
-      <!-- Key Metadata Panel -->
-      <section class="metadata-panel" aria-label="Project Engineering Overview">
-        <div class="meta-item">
-          <span class="meta-label">Business Problem</span>
-          <p class="meta-value">{project.data.businessProblem}</p>
+      <!-- Key Metadata Panel (Blueprint Frame) -->
+      <section class="metadata-panel blueprint-frame" aria-label="Project Engineering Overview">
+        <div class="panel-header-bar">
+          <span class="mono text-xs text-blue"
+            >ENGINEERING SPECIFICATION &bull; ARCHITECTURAL PARAMETERS</span
+          >
         </div>
 
-        <div class="meta-item">
-          <span class="meta-label">Engineering Focus</span>
-          <p class="meta-value highlight">{project.data.engineeringFocus}</p>
-        </div>
-
-        <div class="meta-item">
-          <span class="meta-label">Technology Stack</span>
-          <div class="tech-tags">
-            {project.data.techStack.map((t) => <TechTag label={t} variant="accent" />)}
+        <div class="panel-grid">
+          <div class="meta-item">
+            <span class="meta-label mono text-xs">Business Problem</span>
+            <p class="meta-value">{project.data.businessProblem}</p>
           </div>
+
+          <div class="meta-item">
+            <span class="meta-label mono text-xs">Engineering Focus</span>
+            <p class="meta-value highlight">{project.data.engineeringFocus}</p>
+          </div>
+
+          <div class="meta-item full-width">
+            <span class="meta-label mono text-xs">Technology Stack</span>
+            <div class="tech-tags">
+              {project.data.techStack.map((t) => <TechTag label={t} variant="accent" />)}
+            </div>
+          </div>
+
+          {
+            project.data.evidenceReferences && project.data.evidenceReferences.length > 0 && (
+              <div class="meta-item full-width">
+                <span class="meta-label mono text-xs">Execution Evidence</span>
+                <ul class="evidence-list">
+                  {project.data.evidenceReferences.map((e) => (
+                    <li class="mono text-xs">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{e}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+
+          {
+            project.data.limitations && project.data.limitations.length > 0 && (
+              <div class="meta-item full-width">
+                <span class="meta-label mono text-xs">Known Limitations &amp; Scope</span>
+                <ul class="limitations-list mono text-xs">
+                  {project.data.limitations.map((lim) => (
+                    <li>{lim}</li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
         </div>
-
-        {
-          project.data.evidenceReferences && project.data.evidenceReferences.length > 0 && (
-            <div class="meta-item">
-              <span class="meta-label">Execution Evidence</span>
-              <ul class="evidence-list">
-                {project.data.evidenceReferences.map((e) => (
-                  <li>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{e}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        {
-          project.data.limitations && project.data.limitations.length > 0 && (
-            <div class="meta-item">
-              <span class="meta-label">Known Limitations &amp; Scope</span>
-              <ul class="limitations-list">
-                {project.data.limitations.map((lim) => (
-                  <li>{lim}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
       </section>
 
-      <!-- Main Case Study Content -->
+      <!-- Main Case Study Content (Engineering Investigation) -->
       <article class="case-study-content prose">
         <Content />
       </article>
 
+      <!-- Footer Navigation Actions -->
       <div class="case-study-footer">
-        <a href="/projects" class="btn btn-secondary">&larr; Back to All 12 Projects</a>
+        <a href="/projects" class="btn btn-secondary">&larr; Back to Catalog (12 Projects)</a>
         <a href="/contact" class="btn btn-primary">Discuss This Framework</a>
       </div>
     </div>
@@ -162,8 +172,8 @@ const { Content } = await render(project);
 
 <style>
   .case-study-page {
-    padding-top: var(--space-8);
-    padding-bottom: var(--space-16);
+    padding-top: clamp(32px, 5vw, 64px);
+    padding-bottom: clamp(64px, 8vw, 112px);
   }
 
   .breadcrumb-nav {
@@ -171,21 +181,20 @@ const { Content } = await render(project);
   }
 
   .back-link {
-    font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--blue);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color var(--duration-fast);
   }
 
   .back-link:hover {
-    color: var(--accent-primary);
+    color: var(--lime);
     text-decoration: underline;
   }
 
   .case-study-header {
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border);
     padding-bottom: var(--space-8);
     margin-bottom: var(--space-8);
     max-width: 900px;
@@ -203,7 +212,7 @@ const { Content } = await render(project);
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 600;
-    color: var(--accent-primary);
+    color: var(--blue);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -212,35 +221,39 @@ const { Content } = await render(project);
   .type-pill {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    font-weight: 500;
-    padding: 0.15rem 0.5rem;
-    border-radius: var(--radius-full);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
   }
 
-  .status-pill.completed {
-    background-color: var(--status-success-bg);
-    color: var(--status-success);
-    border: 1px solid color-mix(in srgb, var(--status-success) 30%, transparent);
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--surface-soft);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
   }
 
-  .status-pill.in-development {
-    background-color: var(--status-warning-bg);
-    color: var(--status-warning);
-    border: 1px solid color-mix(in srgb, var(--status-warning) 30%, transparent);
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--lime);
   }
 
   .type-pill {
-    background-color: var(--bg-surface);
-    color: var(--text-muted);
-    border: 1px solid var(--border-subtle);
+    background-color: var(--surface-soft);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
   }
 
   .project-title {
     font-size: var(--text-3xl);
-    line-height: var(--leading-tight);
-    letter-spacing: -0.02em;
-    margin-top: 0;
-    margin-bottom: var(--space-4);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
   }
 
   @media (min-width: 768px) {
@@ -251,8 +264,8 @@ const { Content } = await render(project);
 
   .project-lead {
     font-size: var(--text-lg);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
-    color: var(--text-secondary);
     margin-bottom: var(--space-6);
   }
 
@@ -262,92 +275,67 @@ const { Content } = await render(project);
     gap: var(--space-3);
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-primary {
-    background-color: var(--accent-primary);
-    color: var(--text-inverse);
-    border: 1px solid var(--accent-primary);
-  }
-
-  .btn-primary:hover {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
-    text-decoration: none;
-  }
-
-  .btn-secondary {
-    background-color: var(--bg-surface);
-    color: var(--text-primary);
-    border: 1px solid var(--border-default);
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--bg-subtle);
-    border-color: var(--text-secondary);
-    text-decoration: none;
-  }
-
-  /* Metadata Panel */
+  /* Key Metadata Panel */
   .metadata-panel {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-6);
+    overflow: hidden;
     margin-bottom: var(--space-10);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .panel-header-bar {
+    padding: 10px 18px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .panel-grid {
+    padding: var(--space-6);
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
 
   @media (min-width: 768px) {
-    .metadata-panel {
-      grid-template-columns: 1fr 1fr;
+    .panel-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
   .meta-item {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-2);
+  }
+
+  .meta-item.full-width {
+    grid-column: 1 / -1;
   }
 
   .meta-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.08em;
   }
 
   .meta-value {
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
     margin: 0;
-    line-height: var(--leading-normal);
   }
 
   .meta-value.highlight {
-    color: var(--text-primary);
+    color: var(--text);
+    font-weight: 500;
   }
 
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1);
-    margin-top: var(--space-1);
+    gap: 6px;
   }
 
   .evidence-list,
@@ -357,56 +345,84 @@ const { Content } = await render(project);
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: 6px;
   }
 
   .evidence-list li {
-    font-size: var(--text-xs);
-    font-family: var(--font-mono);
-    color: var(--status-success);
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 8px;
+    color: var(--text);
+  }
+
+  .evidence-list svg {
+    color: var(--lime);
+    flex-shrink: 0;
   }
 
   .limitations-list li {
-    font-size: var(--text-xs);
     color: var(--text-muted);
     position: relative;
-    padding-left: var(--space-3);
+    padding-left: 14px;
   }
 
   .limitations-list li::before {
-    content: '•';
+    content: '–';
     position: absolute;
     left: 0;
-    color: var(--status-warning);
+    color: var(--text-dim);
   }
 
-  /* Prose Article */
+  /* Prose Content */
   .case-study-content {
     max-width: var(--max-width-prose);
     margin-bottom: var(--space-12);
   }
 
-  .case-study-footer {
-    border-top: 1px solid var(--border-subtle);
-    padding-top: var(--space-8);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--space-4);
+  :global(.prose h2) {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.025em;
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
   }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  :global(.prose h3) {
+    font-size: var(--text-xl);
+    letter-spacing: -0.015em;
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+    color: var(--text);
+  }
+
+  :global(.prose p) {
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-5);
+  }
+
+  :global(.prose ul, .prose ol) {
+    color: var(--text-muted);
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-5);
+    line-height: var(--leading-relaxed);
+  }
+
+  :global(.prose li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .case-study-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border);
+  }
+
+  .text-blue {
+    color: var(--blue);
   }
 </style>

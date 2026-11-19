@@ -17,32 +17,41 @@ const { label, variant = 'default' } = Astro.props;
     display: inline-flex;
     align-items: center;
     font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    padding: 0.2rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 8px;
     border-radius: var(--radius-sm);
-    border: 1px solid var(--border-subtle);
-    background-color: var(--bg-code);
-    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    background-color: var(--surface-soft);
+    color: var(--text-muted);
     line-height: 1;
     white-space: nowrap;
+    letter-spacing: 0.02em;
+    transition:
+      border-color var(--duration-fast),
+      color var(--duration-fast);
+  }
+
+  .tech-tag:hover {
+    border-color: var(--blue);
+    color: var(--text);
   }
 
   .tech-tag.accent {
-    border-color: color-mix(in srgb, var(--accent-primary) 35%, transparent);
-    color: var(--accent-primary);
-    background-color: var(--accent-subtle);
+    border-color: color-mix(in srgb, var(--blue) 35%, transparent);
+    color: var(--blue);
+    background-color: color-mix(in srgb, var(--blue) 10%, transparent);
   }
 
   .tech-tag.success {
-    border-color: color-mix(in srgb, var(--status-success) 35%, transparent);
-    color: var(--status-success);
-    background-color: var(--status-success-bg);
+    border-color: color-mix(in srgb, var(--lime) 40%, transparent);
+    color: var(--lime);
+    background-color: color-mix(in srgb, var(--lime) 12%, transparent);
   }
 
   .tech-tag.outline {
     background-color: transparent;
-    border-color: var(--border-default);
+    border-color: var(--border);
     color: var(--text-muted);
   }
 </style>

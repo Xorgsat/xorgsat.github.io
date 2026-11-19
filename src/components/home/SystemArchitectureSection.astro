@@ -1,0 +1,611 @@
+---
+// src/components/home/SystemArchitectureSection.astro
+const architectureNodes = [
+  { id: 'app', label: '01. Application Systems', short: '01. APP' },
+  { id: 'frameworks', label: '02. Test Frameworks (BREL)', short: '02. BREL' },
+  { id: 'contracts', label: '03. API & Contracts', short: '03. API' },
+  { id: 'orchestration', label: '04. Execution Orchestration', short: '04. WORKERS' },
+  { id: 'cicd', label: '05. CI/CD Pipelines', short: '05. CI/CD' },
+  { id: 'observability', label: '06. Observability & Gates', short: '06. GATES' },
+];
+---
+
+<section
+  class="architecture-section section blueprint-grid--fine"
+  aria-labelledby="arch-section-heading"
+>
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">DISTRIBUTED QUALITY TOPOLOGY</span>
+      <h2 id="arch-section-heading" class="display-title section-title">
+        Enterprise Quality Engineering Architecture<span class="accent-text">.</span>
+      </h2>
+      <p class="section-description">
+        Comprehensive architectural topology illustrating the relationship between application
+        services, test harnesses, containerized parallel execution, CI/CD gates, and real-time
+        observability telemetry.
+      </p>
+    </div>
+
+    <!-- Interactive Blueprint Architecture Diagram Container -->
+    <div class="blueprint-frame arch-container" id="arch-interactive-diagram">
+      <!-- Diagram Header Toolbar -->
+      <div class="arch-toolbar">
+        <div class="toolbar-left">
+          <span class="mono text-xs text-blue">TOPOLOGY: END-TO-END QUALITY LIFECYCLE</span>
+          <span class="mono text-xs text-dim">// REVISION 4.2</span>
+        </div>
+        <div class="toolbar-right mono text-xs text-lime">
+          <span>INTERACTIVE INSPECTION</span>
+        </div>
+      </div>
+
+      <!-- Accessible Interactive Node Selector Tabs -->
+      <div class="arch-node-selector" role="tablist" aria-label="Architecture Components">
+        {
+          architectureNodes.map((node) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${node.id}`}
+              class:list={[
+                'node-selector-btn mono text-xs',
+                { active: node.id === 'orchestration' },
+              ]}
+              aria-selected={node.id === 'orchestration' ? 'true' : 'false'}
+              aria-controls="arch-telemetry-output"
+              data-id={node.id}
+            >
+              <span>{node.label}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- SVG Topology Flow Diagram (Pure Visual Vector Graphic) -->
+      <div
+        class="svg-diagram-wrapper"
+        tabindex="0"
+        role="region"
+        aria-label="Quality Engineering Interactive Topology Schematic"
+      >
+        <svg
+          class="topology-svg"
+          viewBox="0 0 1000 360"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <!-- Connecting Bus Lines (Backplane) -->
+          <g class="bus-lines" stroke="var(--border-strong)" stroke-width="1.5">
+            <!-- Main Signal Bus -->
+            <line x1="80" y1="180" x2="920" y2="180" stroke-dasharray="4 4"></line>
+            <line x1="200" y1="180" x2="200" y2="90"></line>
+            <line x1="200" y1="180" x2="200" y2="270"></line>
+            <line x1="500" y1="180" x2="500" y2="90"></line>
+            <line x1="500" y1="180" x2="500" y2="270"></line>
+            <line x1="800" y1="180" x2="800" y2="90"></line>
+            <line x1="800" y1="180" x2="800" y2="270"></line>
+          </g>
+
+          <!-- Signal Pulse Particles -->
+          <circle cx="200" cy="180" r="4" fill="var(--blue)"></circle>
+          <circle cx="500" cy="180" r="4" fill="var(--lime)"></circle>
+          <circle cx="800" cy="180" r="4" fill="var(--cyan)"></circle>
+
+          <!-- NODE 01: Application Systems (Top-Left) -->
+          <g class="arch-node" id="node-app" data-id="app">
+            <rect
+              x="110"
+              y="40"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"></rect>
+            <path d="M 110 68 L 290 68" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="125"
+              y="58"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">01. APPLICATION SYSTEMS</text
+            >
+            <text
+              x="125"
+              y="90"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">Microservices &amp; UI</text
+            >
+            <text
+              x="125"
+              y="112"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">REST API &bull; SPA &bull; Mobile App</text
+            >
+          </g>
+
+          <!-- NODE 02: Test Automation Frameworks (Bottom-Left) -->
+          <g class="arch-node" id="node-frameworks" data-id="frameworks">
+            <rect
+              x="110"
+              y="225"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--blue-strong)"
+              stroke-width="1.5"></rect>
+            <path d="M 110 253 L 290 253" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="125"
+              y="243"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">02. TEST FRAMEWORKS</text
+            >
+            <text
+              x="125"
+              y="275"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">BREL &bull; Playwright Core</text
+            >
+            <text
+              x="125"
+              y="297"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">Hermetic Fixtures &bull; POM</text
+            >
+          </g>
+
+          <!-- NODE 03: API & Contract Testing (Top-Center) -->
+          <g class="arch-node" id="node-contracts" data-id="contracts">
+            <rect
+              x="410"
+              y="40"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--cyan)"
+              stroke-width="1.5"></rect>
+            <path d="M 410 68 L 590 68" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="425"
+              y="58"
+              fill="var(--cyan)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">03. API &amp; CONTRACTS</text
+            >
+            <text
+              x="425"
+              y="90"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">Schema Invariants</text
+            >
+            <text
+              x="425"
+              y="112"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">OpenAPI &bull; Pact &bull; Idempotency</text
+            >
+          </g>
+
+          <!-- NODE 04: Execution & Orchestration (Bottom-Center) -->
+          <g class="arch-node active" id="node-orchestration" data-id="orchestration">
+            <rect
+              x="410"
+              y="225"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--lime)"
+              stroke-width="1.8"></rect>
+            <path d="M 410 253 L 590 253" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="425"
+              y="243"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">04. ORCHESTRATION</text
+            >
+            <text
+              x="425"
+              y="275"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">Parallel Worker Matrix</text
+            >
+            <text
+              x="425"
+              y="297"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">Docker &bull; Sharding &bull; Auto-Wait</text
+            >
+          </g>
+
+          <!-- NODE 05: CI/CD Pipeline Gates (Top-Right) -->
+          <g class="arch-node" id="node-cicd" data-id="cicd">
+            <rect
+              x="710"
+              y="40"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--blue)"
+              stroke-width="1.5"></rect>
+            <path d="M 710 68 L 890 68" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="725"
+              y="58"
+              fill="var(--blue)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">05. CI/CD PIPELINES</text
+            >
+            <text
+              x="725"
+              y="90"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">GitHub Actions Gates</text
+            >
+            <text
+              x="725"
+              y="112"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">PR Verification &bull; Fast Feedback</text
+            >
+          </g>
+
+          <!-- NODE 06: Observability & Quality Gates (Bottom-Right) -->
+          <g class="arch-node" id="node-observability" data-id="observability">
+            <rect
+              x="710"
+              y="225"
+              width="180"
+              height="95"
+              rx="6"
+              fill="var(--surface)"
+              stroke="var(--lime)"
+              stroke-width="1.8"></rect>
+            <path d="M 710 253 L 890 253" stroke="var(--border)" stroke-width="1"></path>
+            <text
+              x="725"
+              y="243"
+              fill="var(--lime)"
+              font-family="var(--font-mono)"
+              font-size="9"
+              font-weight="700">06. OBSERVABILITY &amp; GATES</text
+            >
+            <text
+              x="725"
+              y="275"
+              fill="var(--text)"
+              font-family="var(--font-sans)"
+              font-size="11"
+              font-weight="650">Quality Intelligence</text
+            >
+            <text
+              x="725"
+              y="297"
+              fill="var(--text-muted)"
+              font-family="var(--font-mono)"
+              font-size="8.5">Allure &bull; Axe WCAG &bull; Release Pass</text
+            >
+          </g>
+        </svg>
+      </div>
+
+      <!-- Live Inspection Telemetry Card -->
+      <div
+        class="arch-inspection-card"
+        id="arch-telemetry-output"
+        role="region"
+        aria-live="polite"
+        aria-label="Component Telemetry Details"
+      >
+        <div class="card-bar">
+          <span class="mono text-xs text-lime" id="inspect-tag"
+            >INSPECTING: [04. EXECUTION ORCHESTRATION]</span
+          >
+          <span class="mono text-xs text-dim">CLICK ANY COMPONENT TO INSPECT</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">
+            <span class="mono text-xs text-dim">CORE RESPONSIBILITY:</span>
+            <p class="detail-desc" id="inspect-resp">
+              Distributes test execution across 6 concurrent, isolated worker threads running in
+              ephemeral Docker containers. Eliminates test ordering dependencies and state leakages.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <div>
+              <span class="mono text-xs text-dim">ACTIVE PROTOCOLS / ENGINES:</span>
+              <p class="mono text-xs text-blue m-0" id="inspect-tools">
+                Playwright Sharding &bull; Docker Engine &bull; Chromium Isolated Storage
+              </p>
+            </div>
+            <div>
+              <span class="mono text-xs text-dim">FAILURE MODE GUARDED:</span>
+              <p class="mono text-xs text-lime m-0" id="inspect-guard">
+                Flaky Retries &bull; Cascading Failures &bull; Port Contention
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .architecture-section {
+    background-color: color-mix(in srgb, var(--surface) 30%, var(--bg));
+  }
+
+  .section-header {
+    max-width: 760px;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .section-description {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .arch-container {
+    background-color: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  .arch-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background-color: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Node Selector Button Row */
+  .arch-node-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 16px;
+    background-color: var(--surface);
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .node-selector-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background-color: var(--surface-soft);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--duration-fast);
+  }
+
+  .node-selector-btn:hover {
+    border-color: var(--blue);
+    color: var(--text);
+  }
+
+  .node-selector-btn.active,
+  .node-selector-btn[aria-selected='true'] {
+    background-color: var(--blue);
+    border-color: var(--blue);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .svg-diagram-wrapper {
+    padding: 24px;
+    background-color: var(--bg);
+    overflow-x: auto;
+  }
+
+  .topology-svg {
+    width: 100%;
+    min-width: 720px;
+    height: auto;
+    display: block;
+  }
+
+  .arch-node {
+    cursor: pointer;
+    transition:
+      transform var(--duration-fast),
+      filter var(--duration-fast);
+  }
+
+  .arch-node:hover,
+  .arch-node.active {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 10px var(--grid-glow));
+  }
+
+  .arch-node.active rect {
+    stroke-width: 2.2;
+    stroke: var(--lime);
+  }
+
+  /* Telemetry Card */
+  .arch-inspection-card {
+    border-top: 1px solid var(--border);
+    background-color: var(--surface);
+    padding: 16px 20px;
+  }
+
+  .card-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .detail-desc {
+    color: var(--text);
+    font-size: var(--text-sm);
+    margin: 4px 0 0 0;
+    line-height: var(--leading-normal);
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+
+  @media (min-width: 768px) {
+    .detail-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .m-0 {
+    margin: 0;
+  }
+  .text-blue {
+    color: var(--blue);
+  }
+  .text-lime {
+    color: var(--lime);
+  }
+  .text-dim {
+    color: var(--text-dim);
+  }
+</style>
+
+<script is:inline>
+  const nodeData = {
+    app: {
+      tag: 'INSPECTING: [01. APPLICATION SYSTEMS]',
+      resp: 'Provides high-throughput distributed microservices, single-page web applications, and native mobile clients subjected to rigorous continuous regression gates.',
+      tools: 'REST APIs • GraphQL • React/Vue SPAs • iOS/Android Native Clients',
+      guard: 'Interface Drift • Broken Authentication Handshakes • CORS Violations',
+    },
+    frameworks: {
+      tag: 'INSPECTING: [02. TEST FRAMEWORKS (BREL)]',
+      resp: 'Architected with deterministic test isolation, Page & Component Object models, and custom synchronization adapters that eliminate polling and arbitrary sleeps.',
+      tools: 'Playwright Core • TypeScript • Appium 2.x • Requests Engine',
+      guard: 'Flaky Async Synchronization • State Leakage Between Tests',
+    },
+    contracts: {
+      tag: 'INSPECTING: [03. API & CONTRACT TESTING]',
+      resp: 'Validates idempotent RESTful transactions, schema backward-compatibility, and financial ledger balance invariants prior to deployment.',
+      tools: 'Pact • OpenAPI 3.1 Spec Validators • JSON Schema • SuperTest',
+      guard: 'Breaking Backend Schema Changes • Silent Data Inconsistency',
+    },
+    orchestration: {
+      tag: 'INSPECTING: [04. EXECUTION ORCHESTRATION]',
+      resp: 'Distributes test execution across 6 concurrent, isolated worker threads running in ephemeral Docker containers. Eliminates test ordering dependencies and state leakages.',
+      tools: 'Playwright Sharding • Docker Engine • Chromium Isolated Storage',
+      guard: 'Flaky Retries • Cascading Suite Failures • Port Contention',
+    },
+    cicd: {
+      tag: 'INSPECTING: [05. CI/CD PIPELINES]',
+      resp: 'Orchestrates automated PR commit gates, test matrix parallelization, and branch protection checks that block broken builds within minutes of submission.',
+      tools: 'GitHub Actions Workflows • Linux Matrix Runners • Cache Layers',
+      guard: 'Regressions Landing in Main • Slow Developer Feedback Loops',
+    },
+    observability: {
+      tag: 'INSPECTING: [06. OBSERVABILITY & QUALITY GATES]',
+      resp: 'Aggregates Allure test reports, network HAR captures, video artifacts, and Axe-core accessibility compliance checks for actionable engineering triage.',
+      tools: 'Allure Report • Axe-core WCAG 2.2 • Playwright Trace Viewer',
+      guard: 'Unreproducible Production Defects • Accessibility Violations',
+    },
+  };
+
+  function initArchitectureDiagram() {
+    const tabBtns = document.querySelectorAll('.node-selector-btn');
+    const svgNodes = document.querySelectorAll('.arch-node');
+    const tagEl = document.getElementById('inspect-tag');
+    const respEl = document.getElementById('inspect-resp');
+    const toolsEl = document.getElementById('inspect-tools');
+    const guardEl = document.getElementById('inspect-guard');
+
+    if (!tagEl || !respEl) return;
+
+    function selectNode(id) {
+      tabBtns.forEach((b) => {
+        const isTarget = b.getAttribute('data-id') === id;
+        b.classList.toggle('active', isTarget);
+        b.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      });
+
+      svgNodes.forEach((n) => {
+        n.classList.toggle('active', n.getAttribute('data-id') === id);
+      });
+
+      const data = nodeData[id];
+      if (!data) return;
+
+      tagEl.textContent = data.tag;
+      respEl.textContent = data.resp;
+      if (toolsEl) toolsEl.textContent = data.tools;
+      if (guardEl) guardEl.textContent = data.guard;
+    }
+
+    tabBtns.forEach((btn) => {
+      const id = btn.getAttribute('data-id');
+      btn.addEventListener('click', () => selectNode(id));
+    });
+
+    svgNodes.forEach((node) => {
+      const id = node.getAttribute('data-id');
+      node.addEventListener('click', () => selectNode(id));
+    });
+
+    // Default active node
+    selectNode('orchestration');
+  }
+
+  initArchitectureDiagram();
+  document.addEventListener('astro:after-swap', initArchitectureDiagram);
+</script>
