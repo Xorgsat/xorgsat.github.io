@@ -425,6 +425,21 @@ const { Content } = await render(project);
     margin-bottom: var(--space-2);
   }
 
+  :global(.prose pre) {
+    background-color: #081626 !important;
+    color: #edf5ff !important;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    overflow-x: auto;
+  }
+
+  /* Force high contrast on code spans inside case study prose to satisfy WCAG AA */
+  :global(.prose pre span[style*='6A737D']),
+  :global(.prose pre span[style*='6a737d']) {
+    color: #9ab4cc !important;
+  }
+
   .case-study-footer {
     display: flex;
     flex-wrap: wrap;

@@ -16,6 +16,10 @@ function getDomain(slug: string): string {
   if (slug.includes('banking')) return 'banking';
   if (slug.includes('hrm')) return 'hrm';
   if (slug.includes('ecommerce')) return 'ecommerce';
+  if (slug.includes('commercial-web')) return 'web';
+  if (slug.includes('commercial-api')) return 'commercial-api';
+  if (slug.includes('commercial-mobile')) return 'commercial-mobile';
+  if (slug.includes('commercial-performance')) return 'commercial-performance';
   if (slug.includes('playwright') || slug.includes('brel')) return 'playwright';
   if (slug.includes('performance') || slug.includes('pizza')) return 'performance';
   if (slug.includes('mobile')) return 'mobile';
@@ -25,9 +29,460 @@ function getDomain(slug: string): string {
 
 const domain = getDomain(slug);
 const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
+
+// Architectural Node Specifications per Domain
+interface BlueprintDomainSpec {
+  specTitle: string;
+  node1: { tag: string; title: string; line1: string; line2: string };
+  node2: { tag: string; title: string; line1: string; line2: string; line3: string };
+  node3: { tag: string; title: string; line1: string; line2: string; line3: string };
+  node4: { tag: string; title: string; line1: string; line2: string };
+  faultTag: string;
+  harnessTag: string;
+  problemDetail: string;
+  harnessDetail: string;
+}
+
+const domainSpecs: Record<string, BlueprintDomainSpec> = {
+  banking: {
+    specTitle: 'DISTRIBUTED DOUBLE-ENTRY LEDGER & TRANSACTION PIPELINE',
+    node1: {
+      tag: '01 // INGRESS',
+      title: 'Concurrent Clients',
+      line1: 'POST /v1/transfers',
+      line2: 'Idempotency-Key: UUID',
+    },
+    node2: {
+      tag: '02 // CRITICAL RISK',
+      title: 'Double-Spend & Drift',
+      line1: '• Race Condition on Balance',
+      line2: '• Network Retry Duplication',
+      line3: '• Partial Debit Commitment',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'Pytest Concurrency',
+      line1: '• Thread Barrier Dispatcher',
+      line2: '• Synthetic Account Factory',
+      line3: '• WireMock Clearing Stub',
+    },
+    node4: {
+      tag: '04 // INVARIANT GATE',
+      title: 'Zero-Sum Ledger Audit',
+      line1: 'SUM(debit) == SUM(credit)',
+      line2: '✓ 0 Data Drift Verified',
+    },
+    faultTag: 'CONCURRENCY FAULT: Race condition causes unauthorized balance overdraft',
+    harnessTag: 'INVARIANT SHIELD: Direct PostgreSQL zero-sum audit across journal rows',
+    problemDetail:
+      'Concurrent withdrawal requests bypassing non-atomic transaction isolation levels cause balance underflows and reconciliation drift.',
+    harnessDetail:
+      'Synchronized thread barrier dispatching simultaneous API requests paired with direct SQL zero-sum ledger verification.',
+  },
+  hrm: {
+    specTitle: 'MULTI-ACTOR APPROVAL WORKFLOW & RBAC POLICY MATRIX',
+    node1: {
+      tag: '01 // USER SESSION',
+      title: 'Multi-Role Ingress',
+      line1: 'Employee / Manager / HR',
+      line2: 'Bearer Token JWT Scope',
+    },
+    node2: {
+      tag: '02 // PRIVILEGE RISK',
+      title: 'IDOR & State Deadlock',
+      line1: '• Self-Approval Privilege Leak',
+      line2: '• Cross-Department Data Read',
+      line3: '• Orphaned State Machine',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'StorageState Contexts',
+      line1: '• 0ms Instant Context Switch',
+      line2: '• 48-Role Matrix Generator',
+      line3: '• Negative HTTP 403 Fuzzer',
+    },
+    node4: {
+      tag: '04 // SECURITY GATE',
+      title: 'Strict RBAC Barrier',
+      line1: 'HTTP 403 on Unauthorized',
+      line2: '✓ 100% Access Control Verified',
+    },
+    faultTag: 'PRIVILEGE ESCALATION: Subordinate role mutates approval endpoint directly',
+    harnessTag: 'HERMETIC AUTH POOL: Isolated StorageStates with negative assertion barriers',
+    problemDetail:
+      'Nested organizational hierarchies expose direct object references (IDOR) where unauthorized employees can approve financial adjustments.',
+    harnessDetail:
+      'Parameterized 48-role permission matrix generator executing against pre-authenticated browser storage state contexts.',
+  },
+  ecommerce: {
+    specTitle: 'HIGH-CONCURRENCY CART CHECKOUT & INVENTORY RESERVATION',
+    node1: {
+      tag: '01 // CHECKOUT INGRESS',
+      title: 'Flash Sale Bursts',
+      line1: '200+ Parallel Shoppers',
+      line2: 'Limited Single-SKU Stock',
+    },
+    node2: {
+      tag: '02 // INVENTORY RISK',
+      title: 'Phantom Overselling',
+      line1: '• Stock Count Overdraft (-1)',
+      line2: '• Unreleased Abandoned Cart',
+      line3: '• Mid-Payment Timeout Leak',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'Parallel Cart Hammer',
+      line1: '• Multi-Context Browser Mesh',
+      line2: '• Redis Mutex TTL Monitor',
+      line3: '• WireMock Payment Stub',
+    },
+    node4: {
+      tag: '04 // INVENTORY GATE',
+      title: 'Atomic Stock Guard',
+      line1: 'Stock Count == 0 (Never -1)',
+      line2: '✓ Exactly N Orders Committed',
+    },
+    faultTag: 'OVER-ALLOCATION: Multiple concurrent shoppers commit last remaining unit',
+    harnessTag: 'MUTEX BARRIER: Redis distributed reservation lock with atomic stock rollback',
+    problemDetail:
+      'Simultaneous checkout requests for constrained inventory trigger race conditions where multiple orders commit for a single physical SKU.',
+    harnessDetail:
+      'Parallel Playwright browser contexts executing synchronized checkout commits with direct Redis TTL and database stock assertions.',
+  },
+  api: {
+    specTitle: 'MICROSERVICE CONTRACT SPECIFICATION & OPENAPI 3.1 DIFF ENGINE',
+    node1: {
+      tag: '01 // INTERFACE',
+      title: 'API Consumer Ingress',
+      line1: 'Mobile & Web Frontends',
+      line2: 'REST & GraphQL Payloads',
+    },
+    node2: {
+      tag: '02 // CONTRACT RISK',
+      title: 'Silent Schema Drift',
+      line1: '• Unannounced Field Renames',
+      line2: '• Missing Nullable Checks',
+      line3: '• Backward-Incompatible Diffs',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'Schemathesis Fuzzer',
+      line1: '• 5,000+ Property Payloads',
+      line2: '• Pact Consumer Contracts',
+      line3: '• OpenAPI AST Diff Engine',
+    },
+    node4: {
+      tag: '04 // CI/CD GATE',
+      title: 'Contract Certification',
+      line1: 'Automated PR Breaking Block',
+      line2: '✓ 100% Backward Compatible',
+    },
+    faultTag:
+      'SCHEMA MUTATION: Producer microservice renames payload field, crashing mobile clients',
+    harnessTag: 'CONTRACT GUARD: Automated OpenAPI 3.1 semantic diff blocks breaking PRs in CI',
+    problemDetail:
+      'Uncoordinated producer microservice schema alterations introduce breaking JSON payload changes that crash upstream client applications.',
+    harnessDetail:
+      'Shift-left property-based schema fuzzing and automated OpenAPI 3.1 AST comparison blocking backward-incompatible pull requests.',
+  },
+  playwright: {
+    specTitle: 'BROWSER RELIABILITY ENGINEERING LAB (BREL) // ASYNC HYDRATION',
+    node1: {
+      tag: '01 // TEST RUNNER',
+      title: 'Playwright Mesh',
+      line1: 'CDP & BiDi Native IPC',
+      line2: 'Chromium / WebKit / Firefox',
+    },
+    node2: {
+      tag: '02 // FLAKINESS VECTORS',
+      title: 'Asynchronous DOM Races',
+      line1: '• React Hydration Delay',
+      line2: '• Micro-Animation Intercept',
+      line3: '• Stale Element Detachment',
+    },
+    node3: {
+      tag: '03 // HARNESS CORE',
+      title: 'Actionability Engine',
+      line1: '• Auto-Waiting DOM Invariants',
+      line2: '• Networkidle Sync Barrier',
+      line3: '• Full Forensic Trace Capture',
+    },
+    node4: {
+      tag: '04 // RELIABILITY GATE',
+      title: 'Deterministic Pipeline',
+      line1: 'Flakiness Rate: 0.00%',
+      line2: '✓ 0 Masked Blind Retries',
+    },
+    faultTag: 'FLAKY RACE: Automation dispatches click before client-side JavaScript event binds',
+    harnessTag:
+      'ACTIONABILITY SHIELD: Web-first assertions verify attached, visible, stable, enabled',
+    problemDetail:
+      'Asynchronous DOM hydration lag and micro-animations cause intermittent click interception and stale element reference crashes in CI.',
+    harnessDetail:
+      'Web-first auto-waiting primitives and networkidle barriers replacing brittle explicit sleeps with deterministic state synchronization.',
+  },
+  mobile: {
+    specTitle: 'CROSS-PLATFORM MOBILE APPIUM 2.0 & DEVICE CLOUD ORCHESTRATION',
+    node1: {
+      tag: '01 // MOBILE RUNNER',
+      title: 'Appium 2.0 Engine',
+      line1: 'UIAutomator2 & XCUITest',
+      line2: 'Parallel Device Farm',
+    },
+    node2: {
+      tag: '02 // OS INSTABILITY',
+      title: 'Device & Session Faults',
+      line1: '• OS Permission Popups',
+      line2: '• Biometric FaceID Wait',
+      line3: '• Driver Session Starvation',
+    },
+    node3: {
+      tag: '03 // MOBILE HARNESS',
+      title: 'Cross-Platform POM',
+      line1: '• Native accessibility_id',
+      line2: '• ADB/Simulator Bio Hooks',
+      line3: '• Self-Healing Watchdog',
+    },
+    node4: {
+      tag: '04 // RELEASE GATE',
+      title: 'Multi-OS Sign-Off',
+      line1: '12 Real Device Configurations',
+      line2: '✓ 100% App Store Ready',
+    },
+    faultTag: 'SESSION HANG: Asynchronous iOS FaceID prompt blocks automation waiting for touch',
+    harnessTag: 'SIMULATOR BRIDGE: Programmatic biometric bypass via CLI simulator integration',
+    problemDetail:
+      'Fragmented OS versions, permission dialog interruptions, and biometric hardware prompts cause automated mobile sessions to stall.',
+    harnessDetail:
+      'Unified cross-platform Page Object Model utilizing native accessibility identifiers and automated CLI biometric bypass hooks.',
+  },
+  performance: {
+    specTitle: 'HIGH-THROUGHPUT K6 LOAD GENERATION & RESOURCE PROFILING',
+    node1: {
+      tag: '01 // LOAD INGRESS',
+      title: '5,000 RPS Burst Surge',
+      line1: 'Distributed k6 Generators',
+      line2: 'Virtual User Ramp Mesh',
+    },
+    node2: {
+      tag: '02 // SATURATION RISK',
+      title: 'Resource Starvation',
+      line1: '• DB Connection Pool Starvation',
+      line2: '• Memory Leak under Soak',
+      line3: '• Cascading 504 Timeouts',
+    },
+    node3: {
+      tag: '03 // OBSERVABILITY',
+      title: 'Real-Time Telemetry',
+      line1: '• InfluxDB Time-Series Stream',
+      line2: '• Grafana Percentile Mesh',
+      line3: '• Heap Memory Profiler',
+    },
+    node4: {
+      tag: '04 // SLA GATE',
+      title: 'SLA Threshold Guard',
+      line1: 'p99 Latency < 180ms',
+      line2: '✓ Error Rate strictly 0.00%',
+    },
+    faultTag: 'CASCADE FAILURE: Connection pool exhausted, causing thread deadlock and 504s',
+    harnessTag:
+      'SLA THRESHOLD: Automated CI gate terminates pipeline if p95 latency degrades > 15%',
+    problemDetail:
+      'Database connection pool starvation and unindexed query join bottlenecks trigger catastrophic cascading gateway timeouts under peak load.',
+    harnessDetail:
+      'k6 distributed workload profiling streaming real-time metrics to InfluxDB with hard automated pull request threshold gates.',
+  },
+  cicd: {
+    specTitle: 'ENTERPRISE QUALITY CI/CD PLATFORM & SUPPLY CHAIN HARDENING',
+    node1: {
+      tag: '01 // CODE INGRESS',
+      title: 'Developer Pull Request',
+      line1: 'Git Branch Push',
+      line2: 'GitHub Actions Webhook',
+    },
+    node2: {
+      tag: '02 // PIPELINE RISK',
+      title: 'Vulnerabilities & Lag',
+      line1: '• Unpinned Action Tampering',
+      line2: '• Monolithic 45m Build Times',
+      line3: '• Flaky Soft Gate Bypasses',
+    },
+    node3: {
+      tag: '03 // DEFENSE PLATFORM',
+      title: 'Hardened Delivery',
+      line1: '• Ephemeral Docker Runners',
+      line2: '• SHA-256 Pinned Actions',
+      line3: '• Trivy Security Scanner',
+    },
+    node4: {
+      tag: '04 // DEPLOY GATE',
+      title: 'Zero-Defect Release',
+      line1: 'WCAG 2.2 AA Certified',
+      line2: '✓ 0 CVEs & 100% Tests Pass',
+    },
+    faultTag: 'SUPPLY CHAIN EXPLOIT: Unpinned third-party action compromises CI runner environment',
+    harnessTag:
+      'HARDENED RUNNER: Ephemeral Docker sandboxes with cryptographic commit-hash action pinning',
+    problemDetail:
+      'Slow monolithic build chains and unpinned third-party GitHub Actions introduce security vulnerabilities and pipeline bottlenecks.',
+    harnessDetail:
+      'Fanned-out parallel matrix pipelines with commit-hash pinning, Trivy CVE scanning, and axe-core accessibility gates.',
+  },
+  web: {
+    specTitle: 'COMMERCIAL ENTERPRISE WEB AUTOMATION & SHADOW DOM PIERCING',
+    node1: {
+      tag: '01 // TEST INGRESS',
+      title: 'Commercial Web Client',
+      line1: 'TypeScript & Playwright',
+      line2: 'Multi-Tenant Enterprise',
+    },
+    node2: {
+      tag: '02 // ENCAPSULATION RISK',
+      title: 'Shadow DOM & CLS',
+      line1: '• Inaccessible Shadow Root',
+      line2: '• Third-Party Ad Interference',
+      line3: '• CSS Design Token Drift',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'Component Object Model',
+      line1: '• Native Shadow DOM Piercing',
+      line2: '• Route Abort Tracker Stub',
+      line3: '• Pixelmatch Visual Engine',
+    },
+    node4: {
+      tag: '04 // VISUAL GATE',
+      title: 'Pixel-Perfect Layout',
+      line1: 'Diff Threshold <= 0.01%',
+      line2: '✓ Zero Layout Shift (CLS)',
+    },
+    faultTag:
+      'ENCAPSULATION BLINDSPOT: Web Component Shadow Root blocks standard automation selectors',
+    harnessTag:
+      'SHADOW PIERCING: Native CSS engine traverses open Shadow Roots with visual diff validation',
+    problemDetail:
+      'Encapsulated Web Component Shadow DOM trees prevent standard selectors from reaching critical checkout and payment elements.',
+    harnessDetail:
+      'Component Object Model with native shadow-piercing locators, network route interception, and automated visual regression diffing.',
+  },
+  'commercial-api': {
+    specTitle: 'B2B PARTNER MUTUAL TLS (mTLS) & CRYPTOGRAPHIC HMAC ENGINE',
+    node1: {
+      tag: '01 // B2B INGRESS',
+      title: 'Partner Stream',
+      line1: 'Institutional Clearing House',
+      line2: 'High-Volume Settlement',
+    },
+    node2: {
+      tag: '02 // ZERO-TRUST RISK',
+      title: 'Replay & Cert Flaws',
+      line1: '• Expired / Self-Signed Cert',
+      line2: '• HMAC Signature Tampering',
+      line3: '• Replayed Transferred Nonce',
+    },
+    node3: {
+      tag: '03 // SECURITY HARNESS',
+      title: 'Cryptographic Mesh',
+      line1: '• Dynamic X.509 Cert Factory',
+      line2: '• Sub-Second Nonce Fuzzer',
+      line3: '• WireMock Backoff Stub',
+    },
+    node4: {
+      tag: '04 // SECURITY GATE',
+      title: 'mTLS & Nonce Barrier',
+      line1: 'HTTP 401 on Replayed Nonce',
+      line2: '✓ 100% Cryptographic Audit',
+    },
+    faultTag: 'REPLAY ATTACK: Captured transaction payload replayed to issue duplicate payment',
+    harnessTag: 'CRYPTOGRAPHIC SHIELD: Enforces HMAC-SHA256 signature and 300-second timestamp TTL',
+    problemDetail:
+      'Missing nonce validation and loose timestamp verification on partner B2B transaction APIs expose gateways to replay attacks.',
+    harnessDetail:
+      'Automated Mutual TLS client certificate verification harness coupled with cryptographic HMAC payload and replay fuzzing.',
+  },
+  'commercial-mobile': {
+    specTitle: 'COMMERCIAL HYBRID MOBILE AUTOMATION & OFFLINE SQLITE SYNC',
+    node1: {
+      tag: '01 // FIELD WORKER',
+      title: 'Hybrid Mobile App',
+      line1: 'React Native / Flutter',
+      line2: 'Local SQLite DB Storage',
+    },
+    node2: {
+      tag: '02 // DATA LOSS RISK',
+      title: 'Offline Sync Conflicts',
+      line1: '• Silent Record Overwrite',
+      line2: '• Mid-Sync Packet Drop',
+      line3: '• Expired Offline OAuth Token',
+    },
+    node3: {
+      tag: '03 // TEST HARNESS',
+      title: 'On-Device SQLite Mesh',
+      line1: '• Network Airplane Toggler',
+      line2: '• ADB SQLite Table Auditor',
+      line3: '• Version Vector Conflict Sim',
+    },
+    node4: {
+      tag: '04 // SYNC GATE',
+      title: 'Data Integrity Shield',
+      line1: '0 Lost Inspection Records',
+      line2: '✓ Deterministic Vector Merge',
+    },
+    faultTag:
+      'DATA LOSS FAULT: Reconnected mobile client overwrites cloud edits without version checks',
+    harnessTag:
+      'SQLITE FORENSICS: Directly audits on-device mutation queue state before and after sync',
+    problemDetail:
+      'Network dropouts mid-batch upload and unhandled version vector conflicts during offline sync cause permanent data loss.',
+    harnessDetail:
+      'Automated network condition toggling paired with direct on-device SQLite database inspection and conflict merge assertions.',
+  },
+  'commercial-performance': {
+    specTitle: 'COMMERCIAL DISTRIBUTED KAFKA STREAM & CACHE STAMPEDE SUITE',
+    node1: {
+      tag: '01 // EVENT INGRESS',
+      title: '10,000 Events/Second',
+      line1: 'Kafka Stream Producers',
+      line2: '16-Partition Topic Cluster',
+    },
+    node2: {
+      tag: '02 // QUEUE RISK',
+      title: 'Lag & Stampede',
+      line1: '• Consumer Thread Starvation',
+      line2: '• Cache Thundering Herd',
+      line3: '• Partition Rebalance Storm',
+    },
+    node3: {
+      tag: '03 // LOAD HARNESS',
+      title: 'Distributed k6 & Chaos',
+      line1: '• High-Cardinality Key Mesh',
+      line2: '• Toxiproxy Network Latency',
+      line3: '• Prometheus JMX Lag Tracker',
+    },
+    node4: {
+      tag: '04 // EVENT GATE',
+      title: 'Sub-50ms Transit SLA',
+      line1: 'Consumer Lag == 0 Backlog',
+      line2: '✓ p99 Transit Latency < 45ms',
+    },
+    faultTag: 'BACKPRESSURE SURGE: Consumer thread starvation triggers partition rebalance storm',
+    harnessTag:
+      'LAG GUARDIAN: Real-time Prometheus JMX telemetry asserts consumer lag recovers in < 15s',
+    problemDetail:
+      'Partition hot-spotting, consumer thread starvation, and cache stampedes under 10k events/sec cause message queue backlogs to explode.',
+    harnessDetail:
+      'Distributed k6 Kafka event streaming with Toxiproxy chaos injection and automated consumer lag recovery gates.',
+  },
+};
+
+const spec = domainSpecs[domain] || domainSpecs.api;
 ---
 
-<div class="blueprint-schematic-component blueprint-frame" id="project-blueprint-schematic">
+<div
+  class="blueprint-schematic-component blueprint-frame"
+  id="project-blueprint-schematic"
+  data-active-mode="system"
+>
   <!-- Blueprint Title Block Bar -->
   <div class="schematic-title-block">
     <div class="title-block-main">
@@ -43,7 +498,7 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
     <div class="title-block-status mono text-xs">
       <span class="status-indicator-live">
         <span class="pulse-dot"></span>
-        <span>VERIFIED ARCHITECTURE</span>
+        <span id="spec-status-indicator">VERIFIED ARCHITECTURE</span>
       </span>
       <span class="text-dim">SCALE: 1:1 // SHEET 01</span>
     </div>
@@ -97,1333 +552,346 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
     role="region"
     aria-label={`${title} Architectural Blueprint Diagram`}
   >
-    <div class="grid-watermark" aria-hidden="true">ENGINEERING BLUEPRINT &bull; {dwgId}</div>
+    <div class="grid-watermark" aria-hidden="true">{spec.specTitle} &bull; {dwgId}</div>
 
-    <!-- BANKING / FINANCIAL SYSTEM BLUEPRINT -->
-    {
-      domain === 'banking' && (
-        <svg
-          class="blueprint-svg"
-          viewBox="0 0 940 340"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+    <!-- Architectural SVG Blueprint Diagram -->
+    <svg
+      class="blueprint-svg"
+      viewBox="0 0 940 340"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <!-- Base Grid / Construction Backplane -->
+      <line
+        x1="40"
+        y1="170"
+        x2="900"
+        y2="170"
+        stroke="var(--border-strong)"
+        stroke-width="1.5"
+        stroke-dasharray="4 4"
+        class="bus-line"></line>
+
+      <!-- Connecting Data Channels -->
+      <path
+        d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
+        stroke="var(--border-strong)"
+        stroke-width="2"
+        class="signal-connector"></path>
+
+      <!-- Dynamic Fault Vector Path (Illuminates in Problem Mode) -->
+      <path
+        d="M 260 140 C 210 90, 470 70, 420 140"
+        stroke="#ef4444"
+        stroke-width="2.5"
+        stroke-dasharray="6 4"
+        class="fault-vector-path"></path>
+
+      <!-- Dynamic Test Harness Verification Feedback Loop (Illuminates in Harness Mode) -->
+      <path
+        d="M 180 170 L 180 270 L 580 270 L 580 215"
+        stroke="var(--blue)"
+        stroke-width="2"
+        stroke-dasharray="4 3"
+        class="harness-path"></path>
+
+      <!-- NODE 1: Ingress / Client / Runner -->
+      <g class="bp-node node-ingress" transform="translate(40, 110)">
+        <rect
+          width="140"
+          height="120"
+          rx="4"
+          fill="var(--surface)"
+          stroke="var(--border-strong)"
+          stroke-width="1.5"
+          class="node-box"></rect>
+        <rect width="140" height="24" rx="4" fill="var(--surface-soft)"></rect>
+        <text
+          x="12"
+          y="16"
+          fill="var(--blue)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          font-weight="700"
         >
-          {/* Signal Bus Backplanes */}
-          <line
-            x1="40"
-            y1="170"
-            x2="900"
-            y2="170"
-            stroke="var(--border-strong)"
-            stroke-width="1.5"
-            stroke-dasharray="4 4"
-          />
-
-          {/* Connectors */}
-          <path
-            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
-            stroke="var(--border-strong)"
-            stroke-width="2"
-          />
-          <path
-            d="M 180 170 L 180 270 L 580 270 L 580 215"
-            stroke="var(--blue)"
-            stroke-width="1.5"
-            stroke-dasharray="3 3"
-            class="harness-path"
-          />
-
-          {/* Node 1: Client Ingress */}
-          <g class="bp-node node-client" transform="translate(40, 115)">
-            <rect
-              width="140"
-              height="110"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              01 // CLIENT INGRESS
-            </text>
-            <text
-              x="12"
-              y="50"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Concurrent Requests
-            </text>
-            <text
-              x="12"
-              y="70"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              POST /v1/transfers
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-dim)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Idempotency-Key: UUID
-            </text>
-            <circle cx="140" cy="55" r="4" fill="var(--lime)" />
-          </g>
-
-          {/* Node 2: Problem Zone - Race Conditions */}
-          <g class="bp-node node-problem" transform="translate(260, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-              class="problem-box"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              02 // CRITICAL RISK ZONE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Concurrent Transfers
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Double-Spend Risk
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Network Retry Drift
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Account Balance Race
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
-          </g>
-
-          {/* Node 3: Test Engine & Harness */}
-          <g class="bp-node node-engine" transform="translate(500, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--blue)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              03 // QUALITY ENGINE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Pytest Invariant Suite
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Replay Fuzzing
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Synthetic Factory
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Multithread Workers
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
-          </g>
-
-          {/* Node 4: Invariant Assertion & DB Gate */}
-          <g class="bp-node node-gate" transform="translate(740, 115)">
-            <rect
-              width="160"
-              height="110"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              04 // LEDGER GATE
-            </text>
-            <text
-              x="12"
-              y="50"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Zero-Sum Audit
-            </text>
-            <text
-              x="12"
-              y="70"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              SUM(debit) == SUM(credit)
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="600"
-            >
-              &check; 0 Data Drift Verified
-            </text>
-          </g>
-
-          {/* Lower Test Harness Injection Overlay */}
-          <g class="bp-annotation" transform="translate(260, 260)">
-            <rect
-              width="320"
-              height="36"
-              rx="2"
-              fill="var(--surface-soft)"
-              stroke="var(--border)"
-            />
-            <text
-              x="12"
-              y="22"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="11"
-            >
-              HARNESS INJECTION: Isolated Tenant Schemas per Test Worker
-            </text>
-          </g>
-        </svg>
-      )
-    }
-
-    <!-- ENTERPRISE HRM / RBAC BLUEPRINT -->
-    {
-      domain === 'hrm' && (
-        <svg
-          class="blueprint-svg"
-          viewBox="0 0 940 340"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+          {spec.node1.tag}
+        </text>
+        <text
+          x="12"
+          y="48"
+          fill="var(--text)"
+          font-family="var(--font-sans)"
+          font-size="12"
+          font-weight="600"
         >
-          <line
-            x1="40"
-            y1="170"
-            x2="900"
-            y2="170"
-            stroke="var(--border-strong)"
-            stroke-width="1.5"
-            stroke-dasharray="4 4"
-          />
-          <path
-            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
-            stroke="var(--border-strong)"
-            stroke-width="2"
-          />
+          {spec.node1.title}
+        </text>
+        <text x="12" y="68" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">
+          {spec.node1.line1}
+        </text>
+        <text x="12" y="86" fill="var(--text-dim)" font-family="var(--font-mono)" font-size="10">
+          {spec.node1.line2}
+        </text>
+        <circle cx="140" cy="60" r="4" fill="var(--lime)"></circle>
+      </g>
 
-          <g class="bp-node" transform="translate(40, 105)">
-            <rect
-              width="140"
-              height="130"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              01 // ACTOR ROLES
-            </text>
-            <text
-              x="12"
-              y="46"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Multi-Role Session
-            </text>
-            <text
-              x="12"
-              y="66"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Employee (Submit)
-            </text>
-            <text
-              x="12"
-              y="82"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Manager (Approve)
-            </text>
-            <text
-              x="12"
-              y="98"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; HR Admin (Audit)
-            </text>
-            <circle cx="140" cy="65" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node node-problem" transform="translate(260, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-              class="problem-box"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              02 // FAILURE VECTORS
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              State Deadlocks
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Self-Approval Leak
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Direct URL Bypass
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Stale Session Reuse
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
-          </g>
-
-          <g class="bp-node node-engine" transform="translate(500, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--blue)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              03 // TEST HARNESS
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              State Machine Runner
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; StorageState Switch
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; 48 RBAC Combinations
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; 0 Re-login Latency
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node" transform="translate(740, 110)">
-            <rect
-              width="160"
-              height="120"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              04 // SECURITY GATE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              HTTP 403 Forbidden
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Non-Admin direct routes
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="600"
-            >
-              &check; 68% Faster Cycle Time
-            </text>
-          </g>
-        </svg>
-      )
-    }
-
-    <!-- PLAYWRIGHT / BREL BROWSER ENGINE BLUEPRINT -->
-    {
-      domain === 'playwright' && (
-        <svg
-          class="blueprint-svg"
-          viewBox="0 0 940 340"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+      <!-- NODE 2: Critical Risk & Problem Zone -->
+      <g class="bp-node node-problem" transform="translate(260, 95)">
+        <rect
+          width="160"
+          height="145"
+          rx="4"
+          fill="var(--surface)"
+          stroke="var(--border-strong)"
+          stroke-width="1.5"
+          class="problem-box"></rect>
+        <rect width="160" height="24" rx="4" fill="var(--surface-soft)" class="problem-header-rect"
+        ></rect>
+        <text
+          x="12"
+          y="16"
+          fill="var(--lime)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          font-weight="700"
+          class="problem-tag-text"
         >
-          <line
-            x1="40"
-            y1="170"
-            x2="900"
-            y2="170"
-            stroke="var(--border-strong)"
-            stroke-width="1.5"
-            stroke-dasharray="4 4"
-          />
-          <path
-            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
-            stroke="var(--border-strong)"
-            stroke-width="2"
-          />
-
-          <g class="bp-node" transform="translate(40, 110)">
-            <rect
-              width="140"
-              height="120"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              01 // ORCHESTRATION
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Parallel Workers
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              6 Workers Sharded
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-dim)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Docker Ephemeral Pool
-            </text>
-            <circle cx="140" cy="60" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node node-problem" transform="translate(260, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-              class="problem-box"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              02 // FLAKY TEST HAZARDS
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              UI Asynchrony
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; DOM Hydration Race
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Leaky Fragile CSS
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Hardcoded Sleep()
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
-          </g>
-
-          <g class="bp-node node-engine" transform="translate(500, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--blue)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              03 // BREL ARCHITECTURE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Hermetic Test Context
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Component Objects
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Auto-Wait Primitives
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Network Mock Routing
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node" transform="translate(740, 110)">
-            <rect
-              width="160"
-              height="120"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              04 // TELEMETRY GATE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Zero Retries Policy
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Full Playwright Tracing
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="600"
-            >
-              &check; 100% Deterministic Runs
-            </text>
-          </g>
-        </svg>
-      )
-    }
-
-    <!-- PERFORMANCE / LOAD GENERATOR BLUEPRINT (k6, QuickPizza) -->
-    {
-      domain === 'performance' && (
-        <svg
-          class="blueprint-svg"
-          viewBox="0 0 940 340"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+          {spec.node2.tag}
+        </text>
+        <text
+          x="12"
+          y="46"
+          fill="var(--text)"
+          font-family="var(--font-sans)"
+          font-size="12"
+          font-weight="600"
         >
-          <line
-            x1="40"
-            y1="170"
-            x2="900"
-            y2="170"
-            stroke="var(--border-strong)"
-            stroke-width="1.5"
-            stroke-dasharray="4 4"
-          />
-          <path
-            d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
-            stroke="var(--border-strong)"
-            stroke-width="2"
-          />
+          {spec.node2.title}
+        </text>
+        <text
+          x="12"
+          y="68"
+          fill="var(--text-muted)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          class="prob-line-1"
+        >
+          {spec.node2.line1}
+        </text>
+        <text
+          x="12"
+          y="86"
+          fill="var(--text-muted)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          class="prob-line-2"
+        >
+          {spec.node2.line2}
+        </text>
+        <text
+          x="12"
+          y="104"
+          fill="var(--text-muted)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          class="prob-line-3"
+        >
+          {spec.node2.line3}
+        </text>
+        <circle cx="160" cy="72" r="4" fill="#ef4444" class="hazard-dot"></circle>
 
-          <g class="bp-node" transform="translate(40, 110)">
-            <rect
-              width="140"
-              height="120"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              01 // LOAD GENERATOR
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              k6 Virtual Users
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Up to 5,000 VUs
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-dim)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              Ramping Spike Profiles
-            </text>
-            <circle cx="140" cy="60" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node node-problem" transform="translate(260, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-              class="problem-box"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              02 // BOTTLENECK RISKS
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Degradation Under Load
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; DB Connection Starvation
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; p99 Latency &gt; 180ms
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Cascading 504 Gateway
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--blue)" />
-          </g>
-
-          <g class="bp-node node-engine" transform="translate(500, 100)">
-            <rect
-              width="160"
-              height="140"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--blue)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--blue)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              03 // TELEMETRY MESH
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Grafana &amp; InfluxDB
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Real-time RPS Metric
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Distributed Tracing
-            </text>
-            <text
-              x="12"
-              y="104"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              &bull; Heap Memory Profiling
-            </text>
-            <circle cx="160" cy="70" r="4" fill="var(--lime)" />
-          </g>
-
-          <g class="bp-node" transform="translate(740, 110)">
-            <rect
-              width="160"
-              height="120"
-              rx="4"
-              fill="var(--surface)"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-            />
-            <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-            <text
-              x="12"
-              y="16"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="700"
-            >
-              04 // SLA GATE
-            </text>
-            <text
-              x="12"
-              y="48"
-              fill="var(--text)"
-              font-family="var(--font-sans)"
-              font-size="12"
-              font-weight="600"
-            >
-              Budget Verification
-            </text>
-            <text
-              x="12"
-              y="68"
-              fill="var(--text-muted)"
-              font-family="var(--font-mono)"
-              font-size="10"
-            >
-              p95 &lt; 120ms, p99 &lt; 180ms
-            </text>
-            <text
-              x="12"
-              y="86"
-              fill="var(--lime)"
-              font-family="var(--font-mono)"
-              font-size="10"
-              font-weight="600"
-            >
-              &check; 0.00% Error Threshold
-            </text>
-          </g>
-        </svg>
-      )
-    }
-
-    <!-- GENERAL / API / CONTRACT TESTING BLUEPRINT (Default fallback) -->
-    {
-      domain !== 'banking' &&
-        domain !== 'hrm' &&
-        domain !== 'playwright' &&
-        domain !== 'performance' && (
-          <svg
-            class="blueprint-svg"
-            viewBox="0 0 940 340"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
+        <!-- Warning Callout Badge (Illuminates in Problem Mode) -->
+        <g class="fault-callout-badge" transform="translate(10, 118)">
+          <rect width="140" height="20" rx="3" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444"
+          ></rect>
+          <text
+            x="6"
+            y="14"
+            fill="#ff7b72"
+            font-family="var(--font-mono)"
+            font-size="9"
+            font-weight="700"
           >
-            <line
-              x1="40"
-              y1="170"
-              x2="900"
-              y2="170"
-              stroke="var(--border-strong)"
-              stroke-width="1.5"
-              stroke-dasharray="4 4"
-            />
-            <path
-              d="M 180 170 L 260 170 M 420 170 L 500 170 M 660 170 L 740 170"
-              stroke="var(--border-strong)"
-              stroke-width="2"
-            />
+            ! FAILURE VECTOR DETECTED
+          </text>
+        </g>
+      </g>
 
-            <g class="bp-node" transform="translate(40, 110)">
-              <rect
-                width="140"
-                height="120"
-                rx="4"
-                fill="var(--surface)"
-                stroke="var(--border-strong)"
-                stroke-width="1.5"
-              />
-              <rect width="140" height="24" rx="4" fill="var(--surface-soft)" />
-              <text
-                x="12"
-                y="16"
-                fill="var(--blue)"
-                font-family="var(--font-mono)"
-                font-size="10"
-                font-weight="700"
-              >
-                01 // INTERFACE
-              </text>
-              <text
-                x="12"
-                y="48"
-                fill="var(--text)"
-                font-family="var(--font-sans)"
-                font-size="12"
-                font-weight="600"
-              >
-                Contract Specification
-              </text>
-              <text
-                x="12"
-                y="68"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                OpenAPI 3.1 &bull; REST
-              </text>
-              <text
-                x="12"
-                y="86"
-                fill="var(--text-dim)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                Consumer Expectations
-              </text>
-              <circle cx="140" cy="60" r="4" fill="var(--lime)" />
-            </g>
+      <!-- NODE 3: Test Engine & Defensive Quality Harness -->
+      <g class="bp-node node-engine" transform="translate(500, 95)">
+        <rect
+          width="160"
+          height="145"
+          rx="4"
+          fill="var(--surface)"
+          stroke="var(--blue)"
+          stroke-width="1.5"
+          class="harness-box"></rect>
+        <rect width="160" height="24" rx="4" fill="var(--surface-soft)"></rect>
+        <text
+          x="12"
+          y="16"
+          fill="var(--blue)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          font-weight="700"
+          class="harness-tag-text"
+        >
+          {spec.node3.tag}
+        </text>
+        <text
+          x="12"
+          y="46"
+          fill="var(--text)"
+          font-family="var(--font-sans)"
+          font-size="12"
+          font-weight="600"
+        >
+          {spec.node3.title}
+        </text>
+        <text x="12" y="68" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">
+          {spec.node3.line1}
+        </text>
+        <text x="12" y="86" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">
+          {spec.node3.line2}
+        </text>
+        <text x="12" y="104" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">
+          {spec.node3.line3}
+        </text>
+        <circle cx="160" cy="72" r="4" fill="var(--lime)"></circle>
 
-            <g class="bp-node node-problem" transform="translate(260, 100)">
-              <rect
-                width="160"
-                height="140"
-                rx="4"
-                fill="var(--surface)"
-                stroke="var(--border-strong)"
-                stroke-width="1.5"
-                class="problem-box"
-              />
-              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-              <text
-                x="12"
-                y="16"
-                fill="var(--lime)"
-                font-family="var(--font-mono)"
-                font-size="10"
-                font-weight="700"
-              >
-                02 // DRIFT RISKS
-              </text>
-              <text
-                x="12"
-                y="48"
-                fill="var(--text)"
-                font-family="var(--font-sans)"
-                font-size="12"
-                font-weight="600"
-              >
-                Silent Schema Drift
-              </text>
-              <text
-                x="12"
-                y="68"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Unannounced Field Renames
-              </text>
-              <text
-                x="12"
-                y="86"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Missing Nullable Checks
-              </text>
-              <text
-                x="12"
-                y="104"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Payload Breaking Changes
-              </text>
-              <circle cx="160" cy="70" r="4" fill="var(--blue)" />
-            </g>
+        <!-- Defensive Invariant Badge (Illuminates in Harness Mode) -->
+        <g class="harness-callout-badge" transform="translate(10, 118)">
+          <rect
+            width="140"
+            height="20"
+            rx="3"
+            fill="var(--lime)"
+            fill-opacity="0.15"
+            stroke="var(--lime)"></rect>
+          <text
+            x="6"
+            y="14"
+            fill="var(--lime)"
+            font-family="var(--font-mono)"
+            font-size="9"
+            font-weight="700"
+          >
+            ✓ INVARIANT ENFORCED
+          </text>
+        </g>
+      </g>
 
-            <g class="bp-node node-engine" transform="translate(500, 100)">
-              <rect
-                width="160"
-                height="140"
-                rx="4"
-                fill="var(--surface)"
-                stroke="var(--blue)"
-                stroke-width="1.5"
-              />
-              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-              <text
-                x="12"
-                y="16"
-                fill="var(--blue)"
-                font-family="var(--font-mono)"
-                font-size="10"
-                font-weight="700"
-              >
-                03 // TEST HARNESS
-              </text>
-              <text
-                x="12"
-                y="48"
-                fill="var(--text)"
-                font-family="var(--font-sans)"
-                font-size="12"
-                font-weight="600"
-              >
-                Contract Assertions
-              </text>
-              <text
-                x="12"
-                y="68"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Schema Diff Engine
-              </text>
-              <text
-                x="12"
-                y="86"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Boundary Value Fuzzing
-              </text>
-              <text
-                x="12"
-                y="104"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                &bull; Isolated WireMock Stubs
-              </text>
-              <circle cx="160" cy="70" r="4" fill="var(--lime)" />
-            </g>
+      <!-- NODE 4: Quality Gate & Invariant Storage -->
+      <g class="bp-node node-gate" transform="translate(740, 110)">
+        <rect
+          width="160"
+          height="120"
+          rx="4"
+          fill="var(--surface)"
+          stroke="var(--border-strong)"
+          stroke-width="1.5"
+          class="gate-box"></rect>
+        <rect width="160" height="24" rx="4" fill="var(--surface-soft)"></rect>
+        <text
+          x="12"
+          y="16"
+          fill="var(--lime)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          font-weight="700"
+        >
+          {spec.node4.tag}
+        </text>
+        <text
+          x="12"
+          y="48"
+          fill="var(--text)"
+          font-family="var(--font-sans)"
+          font-size="12"
+          font-weight="600"
+        >
+          {spec.node4.title}
+        </text>
+        <text x="12" y="68" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="10">
+          {spec.node4.line1}
+        </text>
+        <text
+          x="12"
+          y="86"
+          fill="var(--lime)"
+          font-family="var(--font-mono)"
+          font-size="10"
+          font-weight="600"
+        >
+          {spec.node4.line2}
+        </text>
+        <circle cx="160" cy="60" r="4" fill="var(--lime)"></circle>
+      </g>
 
-            <g class="bp-node" transform="translate(740, 110)">
-              <rect
-                width="160"
-                height="120"
-                rx="4"
-                fill="var(--surface)"
-                stroke="var(--border-strong)"
-                stroke-width="1.5"
-              />
-              <rect width="160" height="24" rx="4" fill="var(--surface-soft)" />
-              <text
-                x="12"
-                y="16"
-                fill="var(--lime)"
-                font-family="var(--font-mono)"
-                font-size="10"
-                font-weight="700"
-              >
-                04 // CI/CD GATE
-              </text>
-              <text
-                x="12"
-                y="48"
-                fill="var(--text)"
-                font-family="var(--font-sans)"
-                font-size="12"
-                font-weight="600"
-              >
-                Deployment Certification
-              </text>
-              <text
-                x="12"
-                y="68"
-                fill="var(--text-muted)"
-                font-family="var(--font-mono)"
-                font-size="10"
-              >
-                Automated Breaking PR Block
-              </text>
-              <text
-                x="12"
-                y="86"
-                fill="var(--lime)"
-                font-family="var(--font-mono)"
-                font-size="10"
-                font-weight="600"
-              >
-                &check; Zero Regressions in Prod
-              </text>
-            </g>
-          </svg>
-        )
-    }
+      <!-- Lower Annotation Label Bar -->
+      <g class="bp-annotation" transform="translate(260, 260)">
+        <rect
+          width="400"
+          height="36"
+          rx="2"
+          fill="var(--surface-soft)"
+          stroke="var(--border)"
+          class="annotation-rect"></rect>
+        <text
+          x="14"
+          y="22"
+          fill="var(--text-muted)"
+          font-family="var(--font-mono)"
+          font-size="11"
+          id="blueprint-annotation-text"
+        >
+          {spec.harnessTag}
+        </text>
+      </g>
+    </svg>
   </div>
 
   <!-- Dynamic Technical Telemetry Callout Box -->
   <div class="schematic-footer-telemetry" id="schematic-telemetry-text">
-    <div class="telemetry-item">
-      <span class="telemetry-label mono text-xs">PROBLEM STATEMENT &bull; RISK VECTOR:</span>
-      <p class="telemetry-desc">{businessProblem}</p>
+    <div class="telemetry-item" id="telemetry-problem-container">
+      <span class="telemetry-label mono text-xs" id="telemetry-problem-header"
+        >PROBLEM STATEMENT &bull; RISK VECTOR:</span
+      >
+      <p class="telemetry-desc" id="telemetry-problem-body">{businessProblem}</p>
     </div>
-    <div class="telemetry-item">
-      <span class="telemetry-label mono text-xs text-blue"
+    <div class="telemetry-item" id="telemetry-harness-container">
+      <span class="telemetry-label mono text-xs text-blue" id="telemetry-harness-header"
         >ENGINEERING DEFENSE &bull; TEST HARNESS:</span
       >
-      <p class="telemetry-desc">{engineeringFocus}</p>
+      <p class="telemetry-desc" id="telemetry-harness-body">{engineeringFocus}</p>
     </div>
   </div>
 </div>
 
-<script>
+<script
+  define:vars={{
+    specTitle: spec.specTitle,
+    faultTag: spec.faultTag,
+    harnessTag: spec.harnessTag,
+    problemDetail: spec.problemDetail,
+    harnessDetail: spec.harnessDetail,
+    businessProblem,
+    engineeringFocus,
+  }}
+>
   function setupBlueprintSchematic() {
     const component = document.getElementById('project-blueprint-schematic');
     if (!component) return;
 
-    const tabs = component.querySelectorAll<HTMLButtonElement>('.mode-btn');
-    const problemBox = component.querySelector<SVGRectElement>('.problem-box');
-    const harnessNodes = component.querySelectorAll<SVGElement>('.node-engine, .harness-path');
+    const tabs = component.querySelectorAll('.mode-btn');
+    const annotationText = document.getElementById('blueprint-annotation-text');
+    const problemHeader = document.getElementById('telemetry-problem-header');
+    const problemBody = document.getElementById('telemetry-problem-body');
+    const harnessHeader = document.getElementById('telemetry-harness-header');
+    const harnessBody = document.getElementById('telemetry-harness-body');
+    const statusIndicator = document.getElementById('spec-status-indicator');
 
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
@@ -1434,33 +902,40 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
 
-        const mode = tab.getAttribute('data-mode');
+        const mode = tab.getAttribute('data-mode') || 'system';
+        component.setAttribute('data-active-mode', mode);
 
         if (mode === 'problem') {
-          if (problemBox) {
-            problemBox.style.stroke = 'var(--lime)';
-            problemBox.style.strokeWidth = '2.5px';
-          }
-          harnessNodes.forEach((el) => {
-            el.style.opacity = '0.4';
-          });
+          if (annotationText) annotationText.textContent = faultTag;
+          if (problemHeader)
+            problemHeader.innerHTML =
+              'PROBLEM STATEMENT &bull; <span class="highlight-warn">CRITICAL FAILURE VECTORS:</span>';
+          if (problemBody)
+            problemBody.textContent = `${problemDetail} Blast radius affects data consistency, system linearizability, and business operations under concurrent load.`;
+          if (harnessHeader)
+            harnessHeader.innerHTML = 'ENGINEERING DEFENSE &bull; TARGET FAILURE IMPACT:';
+          if (harnessBody)
+            harnessBody.textContent = `Without defensive invariants, this vulnerability triggers silent data corruption, customer churn, and SEV-1 production incidents.`;
+          if (statusIndicator) statusIndicator.textContent = 'FAILURE VECTOR SIMULATION';
         } else if (mode === 'harness') {
-          if (problemBox) {
-            problemBox.style.stroke = 'var(--border-strong)';
-            problemBox.style.strokeWidth = '1.5px';
-          }
-          harnessNodes.forEach((el) => {
-            el.style.opacity = '1';
-          });
+          if (annotationText) annotationText.textContent = harnessTag;
+          if (problemHeader)
+            problemHeader.innerHTML = 'PROBLEM STATEMENT &bull; SYSTEM RISK ADDRESSED:';
+          if (problemBody) problemBody.textContent = businessProblem;
+          if (harnessHeader)
+            harnessHeader.innerHTML =
+              'ENGINEERING DEFENSE &bull; <span class="highlight-pass">TEST HARNESS & INVARIANTS:</span>';
+          if (harnessBody)
+            harnessBody.textContent = `${harnessDetail} Quality gates strictly enforce 0 flakes, 0 unhandled retries, and exit code 0.`;
+          if (statusIndicator) statusIndicator.textContent = 'QUALITY GATES ENFORCED';
         } else {
           // System Overview
-          if (problemBox) {
-            problemBox.style.stroke = 'var(--border-strong)';
-            problemBox.style.strokeWidth = '1.5px';
-          }
-          harnessNodes.forEach((el) => {
-            el.style.opacity = '1';
-          });
+          if (annotationText) annotationText.textContent = harnessTag;
+          if (problemHeader) problemHeader.innerHTML = 'PROBLEM STATEMENT &bull; RISK VECTOR:';
+          if (problemBody) problemBody.textContent = businessProblem;
+          if (harnessHeader) harnessHeader.innerHTML = 'ENGINEERING DEFENSE &bull; TEST HARNESS:';
+          if (harnessBody) harnessBody.textContent = engineeringFocus;
+          if (statusIndicator) statusIndicator.textContent = 'VERIFIED ARCHITECTURE';
         }
       });
     });
@@ -1552,6 +1027,7 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
     height: 6px;
     border-radius: 50%;
     background-color: var(--lime);
+    box-shadow: 0 0 6px var(--lime);
   }
 
   /* Mode Selector Tabs */
@@ -1614,7 +1090,7 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
 
   .blueprint-svg {
     width: 100%;
-    min-width: 720px;
+    min-width: 760px;
     height: auto;
     display: block;
   }
@@ -1626,6 +1102,100 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
 
   .bp-node:hover rect {
     filter: brightness(1.1);
+  }
+
+  /* Fault & Harness Path Visibilities */
+  .fault-vector-path {
+    opacity: 0;
+    transition: opacity var(--duration-normal);
+  }
+
+  .fault-callout-badge {
+    opacity: 0;
+    transition: opacity var(--duration-normal);
+  }
+
+  .harness-callout-badge {
+    opacity: 0;
+    transition: opacity var(--duration-normal);
+  }
+
+  /* ACTIVE MODE: PROBLEM & FAILURE VECTORS */
+  [data-active-mode='problem'] .node-problem rect.problem-box {
+    stroke: #ef4444;
+    stroke-width: 2.5px;
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
+  }
+
+  [data-active-mode='problem'] .problem-tag-text {
+    fill: #ef4444;
+  }
+
+  [data-active-mode='problem'] .fault-vector-path {
+    opacity: 1;
+    animation: dash-flow 1.5s linear infinite;
+  }
+
+  [data-active-mode='problem'] .fault-callout-badge {
+    opacity: 1;
+  }
+
+  [data-active-mode='problem'] .node-ingress,
+  [data-active-mode='problem'] .node-engine {
+    opacity: 0.4;
+    transition: opacity var(--duration-normal);
+  }
+
+  [data-active-mode='problem'] .hazard-dot {
+    animation: pulse-warn 1s ease-in-out infinite;
+  }
+
+  /* ACTIVE MODE: TEST HARNESS & INVARIANTS */
+  [data-active-mode='harness'] .node-engine rect.harness-box {
+    stroke: var(--lime);
+    stroke-width: 2.5px;
+    filter: drop-shadow(0 0 8px rgba(183, 243, 107, 0.4));
+  }
+
+  [data-active-mode='harness'] .harness-tag-text {
+    fill: var(--lime);
+  }
+
+  [data-active-mode='harness'] .harness-callout-badge {
+    opacity: 1;
+  }
+
+  [data-active-mode='harness'] .harness-path {
+    stroke: var(--lime);
+    stroke-width: 2.5px;
+    animation: dash-flow 1.2s linear infinite;
+  }
+
+  [data-active-mode='harness'] .node-problem rect.problem-box {
+    stroke: var(--blue);
+    stroke-width: 1.5px;
+  }
+
+  /* Keyframe Animations */
+  @keyframes dash-flow {
+    from {
+      stroke-dashoffset: 20;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes pulse-warn {
+    0%,
+    100% {
+      r: 4;
+      opacity: 1;
+    }
+    50% {
+      r: 7;
+      opacity: 0.6;
+    }
   }
 
   /* Footer Telemetry Callout */
@@ -1661,6 +1231,14 @@ const dwgId = `DWG-SPEC-${slug.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()}`;
     font-size: var(--text-xs);
     color: var(--text-muted);
     line-height: var(--leading-relaxed);
+  }
+
+  .highlight-warn {
+    color: #ef4444;
+  }
+
+  .highlight-pass {
+    color: var(--lime);
   }
 
   .text-blue {
